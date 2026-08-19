@@ -21,7 +21,7 @@ export default function Footer() {
       id="contact"
       className="border-t border-white/10 bg-[#160405]"
     >
-      <div className="mx-auto grid max-w-[1200px] gap-12 px-6 py-14 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:px-0">
+      <div className="mx-auto grid max-w-[1200px] gap-12 px-6 py-14 lg:grid-cols-[1.2fr_1fr_1fr_1fr] ">
         <div>
           <img
             src={logo}

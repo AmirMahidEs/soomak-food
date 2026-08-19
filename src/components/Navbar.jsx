@@ -12,7 +12,7 @@ const links = [
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-[#170405]/95 backdrop-blur-xl">
-      <div className="mx-auto flex h-[94px] max-w-[1200px] items-center justify-between px-6 lg:px-0">
+      <div className="mx-auto flex h-[94px] max-w-[1200px] items-center justify-between px-6 ">
         <Link
           to="/"
           className="shrink-0"
