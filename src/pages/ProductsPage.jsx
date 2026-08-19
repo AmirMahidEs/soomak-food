@@ -26,9 +26,8 @@ export default function ProductsPage() {
 
   return (
     <PageMotion>
-      {/* Hero */}
       <section className="border-b border-[#67201f] bg-[#230709]">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-8 px-6 py-8 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-8 px-6 py-8 lg:grid-cols-2 ">
           <div className="order-2 lg:order-1">
             <img
               src={products[1].image}
@@ -54,9 +53,8 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Products */}
-      <section className="mx-auto max-w-[1200px] px-6 py-8">
-        {/* Toolbar */}
+      <section className="mx-auto max-w-[1200px] px-6 py-8 ">
+        {/* Toolbar - خارج از Grid اصلی */}
         <div className="mb-5 flex items-center justify-between gap-3">
           <span className="text-sm text-somak-muted">
             نمایش {filtered.length.toLocaleString("fa-IR")} غذا
@@ -64,8 +62,7 @@ export default function ProductsPage() {
 
           <div className="flex items-center gap-3">
             <button className="flex items-center gap-2 rounded-full border border-somak-gold/60 px-5 py-2 text-xs text-white">
-              مرتب‌سازی پیش‌فرض
-              <ChevronDown size={16} />
+              مرتب‌سازی پیش‌فرض <ChevronDown size={16} />
             </button>
 
             <div className="hidden rounded-xl border border-[#6d2724] p-1 sm:flex">
@@ -94,9 +91,8 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        {/* Main Grid */}
-        <div className="grid items-start gap-5 lg:grid-cols-[190px_1fr]">
-          {/* Aside */}
+        {/* Grid اصلی - فقط Aside و Products */}
+        <div className="grid gap-5 lg:grid-cols-[190px_1fr]">
           <aside className="h-fit rounded-2xl border border-[#6d2724] bg-[#28090c]/75 p-4 lg:sticky lg:top-28">
             <div className="flex items-center gap-2 px-2 pb-4 text-somak-gold2">
               <SlidersHorizontal size={18} />
@@ -149,7 +145,6 @@ export default function ProductsPage() {
             </button>
           </aside>
 
-          {/* Products */}
           <div>
             <motion.div
               layout
@@ -166,29 +161,27 @@ export default function ProductsPage() {
                 />
               ))}
             </motion.div>
-          </div>
-        </div>
 
-        {/* Pagination - خارج از Grid */}
-        <div className="mt-7 flex items-center justify-center gap-2">
-          {["‹", "۱", "۲", "۳", "›"].map((n, i) => (
-            <button
-              key={i}
-              className={`grid h-10 min-w-10 place-items-center rounded-lg border border-[#6d2724] text-sm ${
-                n === "۱" ? "bg-somak-gold text-somak-950" : "text-white/70"
-              }`}
-            >
-              {n}
-            </button>
-          ))}
+            <div className="mt-7 flex items-center justify-center gap-2">
+              {["‹", "۱", "۲", "۳", "›"].map((n, i) => (
+                <button
+                  key={i}
+                  className={`grid h-10 min-w-10 place-items-center rounded-lg border border-[#6d2724] text-sm ${
+                    n === "۱" ? "bg-somak-gold text-somak-950" : "text-white/70"
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Corporate Banner */}
-      <div className="px-6 pb-12">
+      <div className="mx-auto max-w-[1200px] px-6 pb-12">
         <Link
           to="/products"
-          className="mx-auto flex max-w-[1200px] items-center justify-between rounded-2xl border border-[#6d2724] bg-[#320b0e]/70 px-8 py-7"
+          className="flex items-center justify-between rounded-2xl border border-[#6d2724] bg-[#320b0e]/70 px-8 py-7"
         >
           <span className="rounded-full bg-[#6d1d1c] px-6 py-3 text-sm">
             سفارش سازمانی ←
