@@ -1,5 +1,5 @@
 import { Instagram, MapPin, MessageCircle, Phone, Send } from "lucide-react";
-import logo from "../assets/logo-placeholder.png";
+import logo from "../assets/logo-placeholder.svg";
 import { Link } from "react-router-dom";
 export default function Footer() {
   const social = [
