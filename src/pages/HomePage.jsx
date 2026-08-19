@@ -22,7 +22,7 @@ export default function HomePage() {
         className="relative overflow-hidden border-b border-white/5"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_35%,rgba(110,20,18,.25),transparent_42%)]" />
-        <div className="relative z-10 mx-auto grid min-h-[590px] max-w-[1200px] items-center gap-4 px-6 py-12 lg:grid-cols-[1.02fr_.98fr] lg:px-0">
+        <div className="relative z-10 mx-auto grid min-h-[590px] max-w-[1200px] items-center gap-4 px-6 py-12 lg:grid-cols-[1.02fr_.98fr] ">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -86,7 +86,7 @@ export default function HomePage() {
       </section>
       <section
         id="menu"
-        className="mx-auto max-w-[1200px] px-6 py-16 lg:px-0"
+        className="mx-auto max-w-[1200px] px-6 py-16 "
       >
         <SectionTitle>محبوب‌ترین غذاها</SectionTitle>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
@@ -107,7 +107,7 @@ export default function HomePage() {
         </div>
       </section>
       <CorporateBanner />
-      <section className="mx-auto grid max-w-[1200px] gap-5 px-6 py-12 md:grid-cols-3 lg:px-0">
+      <section className="mx-auto grid max-w-[1200px] gap-5 px-6 py-12 md:grid-cols-3 ">
         <Service
           icon={Trophy}
           title="کیفیت تضمینی"
