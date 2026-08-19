@@ -22,7 +22,7 @@ export default function HomePage() {
         className="relative overflow-hidden border-b border-white/5"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_35%,rgba(110,20,18,.25),transparent_42%)]" />
-        <div className="mx-auto grid min-h-[590px] max-w-[1200px] items-center gap-4 px-6 py-12 lg:grid-cols-[1.02fr_.98fr] lg:px-0">
+        <div className="relative z-10 mx-auto grid min-h-[590px] max-w-[1200px] items-center gap-4 px-6 py-12 lg:grid-cols-[1.02fr_.98fr] lg:px-0">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -56,7 +56,7 @@ export default function HomePage() {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 to="/products"
-                className="flex items-center gap-3 rounded-full bg-gradient-to-r from-[#f5d26b] to-[#d9931e] px-7 py-3.5 font-semibold text-somak-950"
+                className="flex items-center gap-3 rounded-full bg-gradient-to-r from-[#f5d26b] to-[#d9931e] px-7 py-3.5 font-semibold text-somak-950 transition-all duration-300 hover:-translate-y-1 hover:from-[#ffe28a] hover:to-[#e6a52e] hover:shadow-[0_8px_25px_rgba(217,147,30,0.3)]"
               >
                 سفارش آنلاین <ArrowLeft size={18} />
               </Link>
