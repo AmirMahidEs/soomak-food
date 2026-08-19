@@ -18,7 +18,7 @@ export default function ProductDetailsPage() {
   const related = products.filter((x) => x.id !== product.id).slice(0, 4);
   return (
     <PageMotion>
-      <section className="mx-auto max-w-[1200px] px-6 py-8 lg:px-0">
+      <section className="mx-auto max-w-[1200px] px-6 py-8 ">
         <p className="mb-7 text-xs text-somak-muted">
           صفحه اصلی <span className="mx-2">‹</span> محصولات{" "}
           <span className="mx-2">‹</span>
