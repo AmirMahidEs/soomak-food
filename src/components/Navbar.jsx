@@ -2,7 +2,7 @@ import { ShoppingBag } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import logo from "../assets/logo-placeholder.png";
+import logo from "../assets/logo-placeholder.svg";
 
 const links = [
   ["/", "صفحه اصلی"],
