@@ -48,7 +48,7 @@ export default function Navbar() {
           : "border-white/5"
       }`}
     >
-      <div className="mx-auto flex h-[94px] max-w-[1200px] items-center justify-between px-6">
+      <div className="mx-auto flex h-[74px] max-w-[1200px] items-center justify-between px-6">
 
         {/* Logo */}
         <Link

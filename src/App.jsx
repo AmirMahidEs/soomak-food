@@ -23,7 +23,7 @@ export default function App() {
 
   return (
     <Layout>
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="popLayout">
         <div key={location.pathname}>{element}</div>
       </AnimatePresence>
     </Layout>
