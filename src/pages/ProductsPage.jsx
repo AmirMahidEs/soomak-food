@@ -6,7 +6,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -18,15 +18,14 @@ import { categories, products } from "../data/products";
 export default function ProductsPage() {
   const [category, setCategory] = useState("همه محصولات");
   const [view, setView] = useState("grid");
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const filtered = useMemo(
     () =>
       category === "همه محصولات"
         ? products
-        : products.filter(
-            (p) => p.category === category
-          ),
-    [category]
+        : products.filter((p) => p.category === category),
+    [category],
   );
 
   return (
@@ -51,25 +50,16 @@ export default function ProductsPage() {
 
           <div className="order-1 text-right lg:order-2">
             <p className="text-xs text-somak-muted">
-              صفحه اصلی{" "}
-              <span className="mx-2">
-                ‹
-              </span>{" "}
-              محصولات
+              صفحه اصلی <span className="mx-2">‹</span> محصولات
             </p>
 
-            <span className="mt-8 block text-somak-gold2">
-              ❧
-            </span>
+            <span className="mt-8 block text-somak-gold2">❧</span>
 
-            <h1 className="mt-2 text-4xl font-bold text-white">
-              محصولات
-            </h1>
+            <h1 className="mt-2 text-4xl font-bold text-white">محصولات</h1>
 
             <p className="mt-5 max-w-xl text-sm leading-8 text-somak-muted">
-              مجموعه‌ای از غذاهای اصیل ایرانی با
-              مواد اولیه تازه و طبع روزانه، آماده
-              سفارش برای شما.
+              مجموعه‌ای از غذاهای اصیل ایرانی با مواد اولیه تازه و طبع روزانه،
+              آماده سفارش برای شما.
             </p>
           </div>
         </div>
@@ -86,9 +76,7 @@ export default function ProductsPage() {
 
         <div className="mb-5 flex items-center justify-between gap-3">
           <span className="text-sm text-somak-muted">
-            نمایش{" "}
-            {filtered.length.toLocaleString("fa-IR")}{" "}
-            غذا
+            نمایش {filtered.length.toLocaleString("fa-IR")} غذا
           </span>
 
           <div className="flex items-center gap-3">
@@ -128,24 +116,125 @@ export default function ProductsPage() {
         </div>
 
         {/* =================================================
+    MOBILE / TABLET FILTER DROPDOWN
+================================================== */}
+
+        <div className="mb-5 lg:hidden">
+          <motion.div
+            initial={false}
+            animate={{
+              height: filtersOpen ? "auto" : "56px",
+            }}
+            transition={{
+              duration: 0.25,
+              ease: "easeOut",
+            }}
+            className="overflow-hidden rounded-2xl border border-[#6d2724] bg-[#28090c]/75"
+          >
+            {/* Dropdown Header */}
+
+            <button
+              onClick={() => setFiltersOpen((prev) => !prev)}
+              className="flex h-[56px] w-full shrink-0 items-center justify-between px-4 text-right"
+            >
+              <div className="flex items-center gap-2 text-somak-gold2">
+                <SlidersHorizontal size={18} />
+
+                <span className="font-semibold">دسته‌بندی‌ها</span>
+              </div>
+
+              <ChevronDown
+                size={18}
+                className={`text-somak-gold2 transition-transform duration-200 ${
+                  filtersOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {/* Dropdown Content */}
+
+            <div className="border-t border-[#6d2724] p-4">
+              {/* Categories Header */}
+
+              <div className="flex items-center gap-2 px-2 pb-4 text-somak-gold2">
+                <SlidersHorizontal size={18} />
+
+                <h2 className="font-semibold">دسته‌بندی‌ها</h2>
+              </div>
+
+              {/* Categories */}
+
+              <div className="space-y-1">
+                {categories.map(([name, count]) => (
+                  <button
+                    key={name}
+                    onClick={() => setCategory(name)}
+                    className={`flex w-full items-center justify-between rounded-xl px-3 py-3 text-xs transition ${
+                      category === name
+                        ? "bg-[#542018] text-somak-gold2"
+                        : "text-white/80 hover:bg-white/5"
+                    }`}
+                  >
+                    <span>{name}</span>
+
+                    <span>({count.toLocaleString("fa-IR")})</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Divider */}
+
+              <div className="my-5 h-px bg-[#6d2724]" />
+
+              {/* Price Filter */}
+
+              <h3 className="mb-4 px-2 text-sm font-semibold text-somak-gold2">
+                فیلتر بر اساس
+              </h3>
+
+              <label className="mb-3 block text-xs text-white">قیمت</label>
+
+              <input
+                type="range"
+                min="0"
+                max="500000"
+                defaultValue="500000"
+                className="w-full accent-[#e6a62e]"
+              />
+
+              <div className="mt-2 flex justify-between text-[10px] text-somak-muted">
+                <span>۰ تومان</span>
+
+                <span>۵۰۰,۰۰۰ تومان</span>
+              </div>
+
+              {/* Reset */}
+
+              <button className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2">
+                <RotateCcw size={14} />
+                پاک کردن فیلترها
+              </button>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* =================================================
             MAIN GRID
-            فقط Aside + Products
         ================================================== */}
 
         <div className="grid gap-5 lg:grid-cols-[190px_1fr]">
           {/* =================================================
-              SIDEBAR
+              DESKTOP SIDEBAR
+              دقیقاً همان استایل قبلی
           ================================================== */}
 
-          <aside className="h-fit rounded-2xl border border-[#6d2724] bg-[#28090c]/75 p-4 lg:sticky lg:top-28">
+          <aside className="hidden h-fit rounded-2xl border border-[#6d2724] bg-[#28090c]/75 p-4 lg:sticky lg:top-28 lg:block">
             {/* Categories Header */}
 
             <div className="flex items-center gap-2 px-2 pb-4 text-somak-gold2">
               <SlidersHorizontal size={18} />
 
-              <h2 className="font-semibold">
-                دسته‌بندی‌ها
-              </h2>
+              <h2 className="font-semibold">دسته‌بندی‌ها</h2>
             </div>
 
             {/* Categories */}
@@ -154,9 +243,7 @@ export default function ProductsPage() {
               {categories.map(([name, count]) => (
                 <button
                   key={name}
-                  onClick={() =>
-                    setCategory(name)
-                  }
+                  onClick={() => setCategory(name)}
                   className={`flex w-full items-center justify-between rounded-xl px-3 py-3 text-xs transition ${
                     category === name
                       ? "bg-[#542018] text-somak-gold2"
@@ -165,13 +252,7 @@ export default function ProductsPage() {
                 >
                   <span>{name}</span>
 
-                  <span>
-                    (
-                    {count.toLocaleString(
-                      "fa-IR"
-                    )}
-                    )
-                  </span>
+                  <span>({count.toLocaleString("fa-IR")})</span>
                 </button>
               ))}
             </div>
@@ -186,9 +267,7 @@ export default function ProductsPage() {
               فیلتر بر اساس
             </h3>
 
-            <label className="mb-3 block text-xs text-white">
-              قیمت
-            </label>
+            <label className="mb-3 block text-xs text-white">قیمت</label>
 
             <input
               type="range"
@@ -201,16 +280,13 @@ export default function ProductsPage() {
             <div className="mt-2 flex justify-between text-[10px] text-somak-muted">
               <span>۰ تومان</span>
 
-              <span>
-                ۵۰۰,۰۰۰ تومان
-              </span>
+              <span>۵۰۰,۰۰۰ تومان</span>
             </div>
 
             {/* Reset */}
 
             <button className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2">
               <RotateCcw size={14} />
-
               پاک کردن فیلترها
             </button>
           </aside>
@@ -240,24 +316,19 @@ export default function ProductsPage() {
 
         {/* =================================================
             PAGINATION
-            خارج از Grid اصلی
         ================================================== */}
 
         <div className="mt-7 flex items-center justify-center gap-2">
-          {["‹", "۱", "۲", "۳", "›"].map(
-            (n, i) => (
-              <button
-                key={i}
-                className={`grid h-10 min-w-10 place-items-center rounded-lg border border-[#6d2724] text-sm ${
-                  n === "۱"
-                    ? "bg-somak-gold text-somak-950"
-                    : "text-white/70"
-                }`}
-              >
-                {n}
-              </button>
-            )
-          )}
+          {["‹", "۱", "۲", "۳", "›"].map((n, i) => (
+            <button
+              key={i}
+              className={`grid h-10 min-w-10 place-items-center rounded-lg border border-[#6d2724] text-sm ${
+                n === "۱" ? "bg-somak-gold text-somak-950" : "text-white/70"
+              }`}
+            >
+              {n}
+            </button>
+          ))}
         </div>
       </section>
 
@@ -280,8 +351,7 @@ export default function ProductsPage() {
             </h2>
 
             <p className="mt-2 text-sm text-somak-muted">
-              ارائه خدمات ویژه برای شرکت‌ها، ادارات
-              و مجالس شما
+              ارائه خدمات ویژه برای شرکت‌ها، ادارات و مجالس شما
             </p>
           </div>
         </Link>
