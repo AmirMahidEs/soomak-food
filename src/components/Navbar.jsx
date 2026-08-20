@@ -43,24 +43,23 @@ export default function Navbar() {
         ease: "easeOut",
       }}
       className={`sticky top-0 z-50 border-b transition-colors ${
-        scrolled
-          ? "border-white/10"
-          : "border-white/5"
+        scrolled ? "border-white/10" : "border-white/5"
       }`}
     >
-      <div className="mx-auto flex h-[74px] max-w-[1200px] items-center justify-between px-6">
-
-        {/* Logo */}
-        <Link
-          to="/"
-          className="shrink-0"
-        >
-          <img
-            src={logo}
-            alt="سومک فود"
-            className="h-16 w-auto object-contain"
-          />
-        </Link>
+      <div className="relative mx-auto flex h-[74px] max-w-[1200px] items-center justify-between px-6">
+        <div className="sm:static absolute left-1/2 -translate-x-1/2 sm:translate-x-0">
+          {/* Logo */}
+          <Link
+            to="/"
+            className="shrink-0"
+          >
+            <img
+              src={logo}
+              alt="سومک فود"
+              className="h-16 w-auto object-contain"
+            />
+          </Link>
+        </div>
 
         {/* Navigation */}
         <nav className="hidden items-center gap-10 text-[15px] font-medium text-white/90 lg:flex">
@@ -93,6 +92,7 @@ export default function Navbar() {
         <motion.div
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
+          className="hidden sm:block"
         >
           <Link
             to="/products"
@@ -102,7 +102,6 @@ export default function Navbar() {
               size={18}
               strokeWidth={1.6}
             />
-
             سفارش آنلاین
           </Link>
         </motion.div>
