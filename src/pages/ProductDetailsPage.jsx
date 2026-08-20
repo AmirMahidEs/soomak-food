@@ -55,7 +55,7 @@ export default function ProductDetailsPage() {
           </div>
           <div className="pt-2 text-right">
             <p className="text-sm text-somak-muted">غذای اصلی</p>
-            <span className="mt-3 block text-somak-gold2">❧</span>
+            
             <h1 className="mt-1 text-4xl font-bold text-white">
               {product.title}
             </h1>

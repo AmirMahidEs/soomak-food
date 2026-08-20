@@ -43,7 +43,7 @@ export default function HomePage() {
             transition={{ duration: 0.75, delay: 0.08 }}
             className="order-1 pr-0 text-right lg:order-2 lg:pr-8"
           >
-            <span className="mb-5 block text-sm text-somak-gold2">❧</span>
+            
             <h1 className="text-4xl font-bold leading-[1.55] text-white sm:text-5xl">
               <span className="text-somak-gold2">طعم</span> اصیل ایرانی
               <br />
