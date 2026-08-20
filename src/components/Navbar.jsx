@@ -1,6 +1,6 @@
 import { Menu, X, ShoppingBag } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 import logo from "../assets/logo-placeholder.svg";
@@ -54,43 +54,50 @@ export default function Navbar() {
         }}
         className={`sticky top-0 z-50 border-b ${
           scrolled
-            ? "border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
+            ? "border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
             : "border-white/5 shadow-[0_6px_20px_rgba(0,0,0,0.10)]"
         }`}
       >
-        <div className="relative mx-auto flex h-[74px] max-w-[1200px] items-center justify-between px-6">
-          {/* =========================================
-              Mobile Menu Button
-          ========================================== */}
+        <div
+          dir="rtl"
+          className="relative mx-auto flex h-[74px] max-w-[1200px] items-center px-3 md:px-6"
+        >
+          {/* =================================================
+              MOBILE / TABLET
+              Hamburger - Right
+          ================================================== */}
 
-          <button
-            onClick={() => setMenuOpen((prev) => !prev)}
-            className="flex items-center justify-center rounded-full p-2 text-white transition hover:bg-white/10 lg:hidden"
-            aria-label={menuOpen ? "بستن منو" : "باز کردن منو"}
-          >
-            {menuOpen ? (
-              <X
-                size={25}
-                strokeWidth={1.7}
-                className="text-somak-gold2"
-              />
-            ) : (
-              <Menu
-                size={25}
-                strokeWidth={1.7}
-                className="text-somak-gold2"
-              />
-            )}
-          </button>
+          <div className="flex items-center lg:hidden">
+            <button
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className="flex items-center justify-center rounded-full p-2 text-white transition hover:bg-white/10"
+              aria-label={menuOpen ? "بستن منو" : "باز کردن منو"}
+            >
+              {menuOpen ? (
+                <X
+                  size={25}
+                  strokeWidth={1.7}
+                  className="text-somak-gold2"
+                />
+              ) : (
+                <Menu
+                  size={25}
+                  strokeWidth={1.7}
+                  className="text-somak-gold2"
+                />
+              )}
+            </button>
+          </div>
 
-          {/* =========================================
-              Logo
-          ========================================== */}
+          {/* =================================================
+              MOBILE / TABLET LOGO
+              Always Center
+          ================================================== */}
 
-          <div className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:hidden">
             <Link
               to="/"
-              className="shrink-0"
+              className="block shrink-0"
             >
               <img
                 src={logo}
@@ -100,48 +107,19 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* =========================================
-              Desktop Navigation
-          ========================================== */}
-
-          <nav className="hidden items-center gap-10 text-[15px] font-medium text-white/90 lg:flex">
-            {links.map(([to, label]) =>
-              to.startsWith("#") ? (
-                <a
-                  key={label}
-                  href={to}
-                  className="transition hover:text-somak-gold2"
-                >
-                  {label}
-                </a>
-              ) : (
-                <NavLink
-                  key={label}
-                  to={to}
-                  className={({ isActive }) =>
-                    `transition hover:text-somak-gold2 ${
-                      isActive ? "text-somak-gold2" : ""
-                    }`
-                  }
-                >
-                  {label}
-                </NavLink>
-              ),
-            )}
-          </nav>
-
-          {/* =========================================
-              Desktop Order Button
-          ========================================== */}
+          {/* =================================================
+              MOBILE / TABLET ORDER BUTTON
+              Left
+          ================================================== */}
 
           <motion.div
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="hidden sm:block"
+            className="mr-auto hidden sm:block lg:hidden"
           >
             <Link
               to="/products"
-              className="flex items-center gap-2 rounded-full border border-somak-gold/70 px-5 py-3 text-sm font-medium text-white transition hover:bg-somak-gold hover:text-somak-950"
+              className="flex items-center gap-2 rounded-full border border-somak-gold/70 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-somak-gold hover:text-somak-950"
             >
               <ShoppingBag
                 size={18}
@@ -150,82 +128,181 @@ export default function Navbar() {
               سفارش آنلاین
             </Link>
           </motion.div>
+
+          {/* =================================================
+              DESKTOP NAVBAR
+              
+              RTL:
+              Right  -> Logo
+              Center -> Navigation
+              Left   -> Order Button
+          ================================================== */}
+
+          <div className="hidden w-full items-center lg:flex">
+            {/* Logo - Right */}
+
+            <div className="shrink-0">
+              <Link
+                to="/"
+                className="block shrink-0"
+              >
+                <img
+                  src={logo}
+                  alt="سومک فود"
+                  className="h-16 w-auto object-contain"
+                />
+              </Link>
+            </div>
+
+            {/* Navigation - Center */}
+
+            <nav className="mx-auto flex items-center gap-10 text-[15px] font-medium text-white/90">
+              {links.map(([to, label]) =>
+                to.startsWith("#") ? (
+                  <a
+                    key={label}
+                    href={to}
+                    className="transition hover:text-somak-gold2"
+                  >
+                    {label}
+                  </a>
+                ) : (
+                  <NavLink
+                    key={label}
+                    to={to}
+                    className={({ isActive }) =>
+                      `transition hover:text-somak-gold2 ${
+                        isActive ? "text-somak-gold2" : ""
+                      }`
+                    }
+                  >
+                    {label}
+                  </NavLink>
+                ),
+              )}
+            </nav>
+
+            {/* Order Button - Left */}
+
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="shrink-0"
+            >
+              <Link
+                to="/products"
+                className="flex items-center gap-2 rounded-full border border-somak-gold/70 px-5 py-3 text-sm font-medium text-white transition hover:bg-somak-gold hover:text-somak-950"
+              >
+                <ShoppingBag
+                  size={18}
+                  strokeWidth={1.6}
+                />
+                سفارش آنلاین
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </motion.header>
 
       {/* =================================================
-          MOBILE MENU
-
-          کاملاً خارج از Header
-          بنابراین هیچ layout shift ندارد
+          MOBILE / TABLET MENU
       ================================================== */}
 
-      <motion.div
-        initial={false}
-        animate={{
-          height: menuOpen ? "auto" : 0,
-        }}
-        transition={{
-          duration: 0.25,
-          ease: "easeOut",
-        }}
-        className="
-          fixed
-          left-0
-          right-0
-          top-[74px]
-          z-40
-          overflow-hidden
-          lg:hidden
-        "
-        style={{
-          backgroundColor: "rgba(23, 4, 5, 0.5)",
-          backdropFilter: "blur(18px)",
-          WebkitBackdropFilter: "blur(18px)",
-        }}
-      >
-        <nav className="border-t border-white/10 px-6 py-5 text-right text-sm font-medium text-white/90">
-          {links.map(([to, label]) =>
-            to.startsWith("#") ? (
-              <a
-                key={label}
-                href={to}
-                onClick={() => setMenuOpen(false)}
-                className="block border-b border-white/10 py-4 transition hover:text-somak-gold2"
-              >
-                {label}
-              </a>
-            ) : (
-              <NavLink
-                key={label}
-                to={to}
-                onClick={() => setMenuOpen(false)}
-                className={({ isActive }) =>
-                  `block border-b border-white/10 py-4 transition hover:text-somak-gold2 ${
-                    isActive ? "text-somak-gold2" : ""
-                  }`
-                }
-              >
-                {label}
-              </NavLink>
-            ),
-          )}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            {/* Overlay */}
 
-          {/* Mobile Order Button */}
-
-          <Link
-            to="/products"
-            onClick={() => setMenuOpen(false)}
-            className="mt-5 flex items-center justify-center gap-2 rounded-full border border-somak-gold/70 px-5 py-3 text-sm font-medium text-white transition hover:bg-somak-gold hover:text-somak-950"
-          >
-            <ShoppingBag
-              size={18}
-              strokeWidth={1.6}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: 0.25,
+              }}
+              onClick={() => setMenuOpen(false)}
+              className="fixed inset-0 z-40 lg:hidden"
             />
-            سفارش آنلاین
-          </Link>
-        </nav>
-      </motion.div>
+
+            {/* Glass Menu */}
+
+            <motion.div
+              initial={{
+                height: 0,
+              }}
+              animate={{
+                height: "auto",
+              }}
+              exit={{
+                height: 0,
+              }}
+              transition={{
+                duration: 0.25,
+                ease: "easeOut",
+              }}
+              className="
+                fixed
+                left-0
+                right-0
+                top-[74px]
+                z-50
+                overflow-hidden
+                lg:hidden
+              "
+              style={{
+                backgroundColor: "rgba(23, 4, 5, 0.5)",
+                backdropFilter: "blur(18px)",
+                WebkitBackdropFilter: "blur(18px)",
+              }}
+            >
+              <nav
+                dir="rtl"
+                className="border-t border-white/10 px-6 py-5 text-right text-sm font-medium text-white/90"
+              >
+                {links.map(([to, label]) =>
+                  to.startsWith("#") ? (
+                    <a
+                      key={label}
+                      href={to}
+                      onClick={() => setMenuOpen(false)}
+                      className="block border-b border-white/10 py-4 transition hover:text-somak-gold2"
+                    >
+                      {label}
+                    </a>
+                  ) : (
+                    <NavLink
+                      key={label}
+                      to={to}
+                      onClick={() => setMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `block border-b border-white/10 py-4 transition hover:text-somak-gold2 ${
+                          isActive ? "text-somak-gold2" : ""
+                        }`
+                      }
+                    >
+                      {label}
+                    </NavLink>
+                  ),
+                )}
+
+                {/* Mobile Order Button */}
+
+                <Link
+                  to="/products"
+                  onClick={() => setMenuOpen(false)}
+                  className="mt-5 flex items-center justify-center gap-2 rounded-full border border-somak-gold/70 px-5 py-3 text-sm font-medium text-white transition hover:bg-somak-gold hover:text-somak-950"
+                >
+                  <ShoppingBag
+                    size={18}
+                    strokeWidth={1.6}
+                  />
+                  سفارش آنلاین
+                </Link>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
