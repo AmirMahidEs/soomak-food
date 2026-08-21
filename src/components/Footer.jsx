@@ -66,19 +66,19 @@ export default function Footer() {
                   size={17}
                   className="text-somak-gold"
                 />
-                ۰۲۱-۱۲۳۴۵۶۷۸
+                ۰۲۱-۱۲۳۴۵۶۷
               </a>
             </li>
             <li className="flex items-center gap-3">
               <a
-                href="tel:02112345678"
+                href="tel:09121112345"
                 className="flex items-center gap-3 transition hover:text-somak-gold"
               >
                 <Phone
                   size={17}
                   className="text-somak-gold"
                 />
-                ۰۹۱۲-۱۱۱۲۳۴۵۶
+                ۰۹۱۲-۱۱۱۲۳۴۵
               </a>
             </li>
             <li className="flex items-start gap-3">
