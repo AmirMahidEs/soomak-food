@@ -1,32 +1,59 @@
 @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
   font-family: "Vazirmatn", Tahoma, Arial, sans-serif;
   color-scheme: dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
+
 html {
   scroll-behavior: smooth;
+
+  /* scrollbar همیشه وجود داشته باشد */
+  overflow-y: scroll;
+
+  /* عرض scrollbar در باز و بسته شدن تغییر نکند */
+  scrollbar-gutter: stable;
 }
+
 body {
   margin: 0;
   min-width: 320px;
   background: #120304;
 }
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
 }
+
 button {
   font: inherit;
 }
-::selection {
+
+*::selection {
   background: rgba(230, 166, 46, 0.28);
   color: #fff5df;
 }
+
 input[type="range"] {
   direction: ltr;
+}
+
+html::-webkit-scrollbar {
+  width: 7px;
+}
+
+html::-webkit-scrollbar-track {
+  background: #120304;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #652522;
+  border-radius: 999px;
 }
