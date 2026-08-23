@@ -436,9 +436,8 @@ export default function CartModal({ open, onClose }) {
                     type="button"
                     className="mt-[15px] flex h-[45px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient text-[13px] font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105"
                   >
-                    <ArrowLeft size={18} strokeWidth={1.6} />
-
                     <span>تکمیل سفارش</span>
+                    <ArrowLeft size={18} strokeWidth={1.6} />
                   </button>
 
                   {/* VIEW CART */}
