@@ -232,7 +232,7 @@ export default function CartModal({ open, onClose }) {
               initial={{
                 opacity: 0,
                 scale: 0.96,
-                y: 12,
+                y: 8,
               }}
               animate={{
                 opacity: 1,
@@ -242,14 +242,14 @@ export default function CartModal({ open, onClose }) {
               exit={{
                 opacity: 0,
                 scale: 0.96,
-                y: 12,
+                y: 8,
               }}
               transition={{
-                duration: 0.28,
+                duration: 0.35,
                 ease: [0.22, 1, 0.36, 1],
               }}
               onClick={(event) => event.stopPropagation()}
-              className="flex max-h-[calc(100vh-48px)] w-[398px] flex-col overflow-hidden rounded-[15px] border border-[#6f2826] bg-[#27090c] shadow-[0_18px_55px_rgba(0,0,0,0.42)] max-md:max-h-[calc(100vh-32px)] max-md:w-full max-md:max-w-[398px]"
+              className="flex max-h-[calc(100vh-48px)] w-[398px] transform-gpu flex-col overflow-hidden rounded-[15px] border border-[#6f2826] bg-[#27090c] shadow-[0_18px_55px_rgba(0,0,0,0.42)] will-change-transform max-md:max-h-[calc(100vh-32px)] max-md:w-full max-md:max-w-[398px]"
             >
               {/* =================================================
                   HEADER
