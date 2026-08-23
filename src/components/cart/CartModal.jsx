@@ -218,7 +218,7 @@ export default function CartModal({ open, onClose }) {
                 ITEMS AREA
             ================================================== */}
 
-            <div className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#652522] min-h-0 flex-1 overflow-y-auto px-[18px] py-[14px]">
+           <div className="min-h-0 flex-1 overflow-y-auto px-[18px] py-[14px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {cartItems.length === 0 ? (
                 /* =================================================
                     EMPTY
