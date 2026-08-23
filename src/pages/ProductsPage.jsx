@@ -53,8 +53,6 @@ export default function ProductsPage() {
               صفحه اصلی <span className="mx-2">‹</span> محصولات
             </p>
 
-            <span className="mt-8 block text-somak-gold2">❧</span>
-
             <h1 className="mt-2 text-4xl font-bold text-white">محصولات</h1>
 
             <p className="mt-5 max-w-xl text-sm leading-8 text-somak-muted">
