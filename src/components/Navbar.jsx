@@ -1,4 +1,4 @@
-import { Menu, X, ShoppingBag } from "lucide-react";
+import { Menu, X, ShoppingCart, UserRound } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -13,7 +13,9 @@ const links = [
   ["#contact", "تماس با ما"],
 ];
 
-export default function Navbar() {
+const CART_COUNT = 1;
+
+export default function Navbar({ isAuthenticated = false, userName = "امیر" }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -30,6 +32,77 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  /* =====================================================
+     AUTH BUTTON
+  ====================================================== */
+
+  const renderAuthAction = (mobile = false) => {
+    if (isAuthenticated) {
+      return (
+        <Link
+          to="/profile"
+          onClick={() => {
+            if (mobile) {
+              setMenuOpen(false);
+            }
+          }}
+          className={`flex items-center justify-center gap-2 rounded-full border border-somak-gold/30 bg-somak-900/55 text-white transition hover:border-somak-gold/60 hover:bg-somak-900/80 ${
+            mobile ? "px-4 py-2.5 text-xs" : "h-9 px-3.5 text-xs"
+          }`}
+        >
+          <UserRound
+            size={17}
+            strokeWidth={1.5}
+            className="shrink-0 text-somak-cream"
+          />
+
+          <span>{userName}</span>
+        </Link>
+      );
+    }
+
+    return (
+      <Link
+        to="/login"
+        onClick={() => {
+          if (mobile) {
+            setMenuOpen(false);
+          }
+        }}
+        className={`flex items-center justify-center rounded-full bg-gold-gradient font-medium text-somak-950 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105 ${
+          mobile ? "px-4 py-2.5 text-xs" : "h-9 px-5 text-sm"
+        }`}
+      >
+        ورود / ثبت نام
+      </Link>
+    );
+  };
+
+  /* =====================================================
+     CART BUTTON
+  ====================================================== */
+
+  const renderCartButton = (mobile = false) => (
+    <Link
+      to="/cart"
+      aria-label="سبد خرید"
+      className={`relative flex shrink-0 items-center justify-center text-somak-cream transition hover:text-somak-gold2 ${
+        mobile ? "h-10 w-10" : "h-9 w-9"
+      }`}
+    >
+      <ShoppingCart
+        size={mobile ? 21 : 22}
+        strokeWidth={1.5}
+      />
+
+      {CART_COUNT > 0 && (
+        <span className="absolute right-0 top-0 flex h-[15px] min-w-[15px] items-center justify-center rounded-full bg-somak-gold px-[3px] text-[9px] font-bold leading-none text-somak-950">
+          {CART_COUNT}
+        </span>
+      )}
+    </Link>
+  );
 
   return (
     <>
@@ -64,14 +137,16 @@ export default function Navbar() {
         >
           {/* =================================================
               MOBILE / TABLET
-              Hamburger - Right
+              HAMBURGER - RIGHT
           ================================================== */}
 
           <div className="flex items-center lg:hidden">
             <button
+              type="button"
               onClick={() => setMenuOpen((prev) => !prev)}
               className="flex items-center justify-center rounded-full p-2 text-white transition hover:bg-white/10"
               aria-label={menuOpen ? "بستن منو" : "باز کردن منو"}
+              aria-expanded={menuOpen}
             >
               {menuOpen ? (
                 <X
@@ -90,8 +165,8 @@ export default function Navbar() {
           </div>
 
           {/* =================================================
-              MOBILE / TABLET LOGO
-              Always Center
+              MOBILE / TABLET
+              LOGO - EXACT CENTER
           ================================================== */}
 
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:hidden">
@@ -108,38 +183,39 @@ export default function Navbar() {
           </div>
 
           {/* =================================================
-              MOBILE / TABLET ORDER BUTTON
-              Left
+              MOBILE / TABLET
+              CART - LEFT
+
+              Login/Register is intentionally NOT here.
+              It lives inside the hamburger menu.
           ================================================== */}
 
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="mr-auto hidden sm:block lg:hidden"
-          >
-            <Link
-              to="/products"
-              className="flex items-center gap-2 rounded-full border border-somak-gold/70 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-somak-gold hover:text-somak-950"
-            >
-              <ShoppingBag
-                size={18}
-                strokeWidth={1.6}
-              />
-              سفارش آنلاین
-            </Link>
-          </motion.div>
+          <div className="mr-auto flex items-center lg:hidden">
+            {renderCartButton(true)}
+          </div>
 
           {/* =================================================
               DESKTOP NAVBAR
-              
-              RTL:
-              Right  -> Logo
-              Center -> Navigation
-              Left   -> Order Button
+
+              RTL visual order:
+
+              RIGHT
+              Logo
+
+              Center
+              Navigation
+
+              LEFT
+              Auth + Cart
           ================================================== */}
 
-          <div className="hidden w-full items-center lg:flex">
-            {/* Logo - Right */}
+          <div
+            dir="rtl"
+            className="hidden w-full items-center lg:flex"
+          >
+            {/* =================================================
+                LOGO - RIGHT
+            ================================================== */}
 
             <div className="shrink-0">
               <Link
@@ -154,15 +230,20 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Navigation - Center */}
+            {/* =================================================
+                NAVIGATION - CENTER
+            ================================================== */}
 
-            <nav className="mx-auto flex items-center gap-10 text-[15px] font-medium text-white/90">
+            <nav
+              dir="rtl"
+              className="mx-auto flex items-center gap-10 text-[15px] font-medium text-white/90"
+            >
               {links.map(([to, label]) =>
                 to.startsWith("#") ? (
                   <a
                     key={label}
                     href={to}
-                    className="transition hover:text-somak-gold2"
+                    className="whitespace-nowrap transition hover:text-somak-gold2"
                   >
                     {label}
                   </a>
@@ -171,7 +252,7 @@ export default function Navbar() {
                     key={label}
                     to={to}
                     className={({ isActive }) =>
-                      `transition hover:text-somak-gold2 ${
+                      `whitespace-nowrap transition hover:text-somak-gold2 ${
                         isActive ? "text-somak-gold2" : ""
                       }`
                     }
@@ -182,24 +263,14 @@ export default function Navbar() {
               )}
             </nav>
 
-            {/* Order Button - Left */}
+            {/* =================================================
+                AUTH + CART - LEFT
+            ================================================== */}
 
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="shrink-0"
-            >
-              <Link
-                to="/products"
-                className="flex items-center gap-2 rounded-full border border-somak-gold/70 px-5 py-3 text-sm font-medium text-white transition hover:bg-somak-gold hover:text-somak-950"
-              >
-                <ShoppingBag
-                  size={18}
-                  strokeWidth={1.6}
-                />
-                سفارش آنلاین
-              </Link>
-            </motion.div>
+            <div className="flex shrink-0 items-center gap-2">
+              {renderAuthAction()}
+              {renderCartButton()}
+            </div>
           </div>
         </div>
       </motion.header>
@@ -211,12 +282,20 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <>
-            {/* Overlay */}
+            {/* =================================================
+                OVERLAY
+            ================================================== */}
 
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{
+                opacity: 0,
+              }}
+              animate={{
+                opacity: 1,
+              }}
+              exit={{
+                opacity: 0,
+              }}
               transition={{
                 duration: 0.25,
               }}
@@ -224,7 +303,9 @@ export default function Navbar() {
               className="fixed inset-0 z-40 lg:hidden"
             />
 
-            {/* Glass Menu */}
+            {/* =================================================
+                GLASS MENU
+            ================================================== */}
 
             <motion.div
               initial={{
@@ -240,18 +321,12 @@ export default function Navbar() {
                 duration: 0.25,
                 ease: "easeOut",
               }}
-              className="
-                fixed
-                left-0
-                right-0
-                top-[74px]
-                z-50
-                overflow-hidden
-                lg:hidden
-              "
+              className="fixed left-0 right-0 top-[74px] z-50 overflow-hidden lg:hidden"
               style={{
                 backgroundColor: "rgba(23, 4, 5, 0.5)",
+
                 backdropFilter: "blur(18px)",
+
                 WebkitBackdropFilter: "blur(18px)",
               }}
             >
@@ -259,6 +334,10 @@ export default function Navbar() {
                 dir="rtl"
                 className="border-t border-white/10 px-6 py-5 text-right text-sm font-medium text-white/90"
               >
+                {/* =================================================
+                    NAVIGATION LINKS
+                ================================================== */}
+
                 {links.map(([to, label]) =>
                   to.startsWith("#") ? (
                     <a
@@ -285,19 +364,12 @@ export default function Navbar() {
                   ),
                 )}
 
-                {/* Mobile Order Button */}
+                {/* =================================================
+                    LOGIN / REGISTER
+                    ONLY INSIDE MOBILE MENU
+                ================================================== */}
 
-                <Link
-                  to="/products"
-                  onClick={() => setMenuOpen(false)}
-                  className="mt-5 flex items-center justify-center gap-2 rounded-full border border-somak-gold/70 px-5 py-3 text-sm font-medium text-white transition hover:bg-somak-gold hover:text-somak-950"
-                >
-                  <ShoppingBag
-                    size={18}
-                    strokeWidth={1.6}
-                  />
-                  سفارش آنلاین
-                </Link>
+                <div className="mt-5">{renderAuthAction(true)}</div>
               </nav>
             </motion.div>
           </>
