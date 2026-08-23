@@ -161,7 +161,7 @@ export default function CartModal({ open, onClose }) {
               duration: 0.2,
             }}
             onClick={onClose}
-            className="fixed inset-0 z-[90] bg-black/30 backdrop-blur-[1px]"
+            className="fixed inset-0 z-[90] bg-black/30 backdrop-blur-[1.5px]"
           />
 
           {/* =================================================
