@@ -3,6 +3,9 @@ import { Minus, Plus, ShoppingBag, Trash2, X, ArrowLeft } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
+import zereshpolo from "../../assets/zereshk-polo-card.jpg";
+import ghormesabzi from "../../assets/ghorme-sabzi.jpg";
+
 /* =========================================================
    STATIC CART DATA
 
@@ -15,14 +18,14 @@ const INITIAL_CART = [
     id: 1,
     title: "زرشک پلو با مرغ",
     price: 260000,
-    image: "../../assets/zereshk-polo-card.jpg",
+    image: zereshpolo,
     quantity: 1,
   },
   {
     id: 2,
     title: "قورمه سبزی",
     price: 280000,
-    image: "../../assets/ghorme-sabzi.jpg",
+    image: ghormesabzi,
     quantity: 1,
   },
 ];
