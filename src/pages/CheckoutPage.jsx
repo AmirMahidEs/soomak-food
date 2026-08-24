@@ -48,6 +48,19 @@ const shipping = 30000;
 const total = subtotal + shipping;
 
 /* =========================================================
+   STATIC CUSTOMER DATA
+
+   فعلاً هاردکد شده.
+   بعداً از Redux گرفته خواهد شد.
+========================================================= */
+
+const customerInfo = {
+  name: "امیر مهدی اسلامی",
+  phone: "0912 345 6789",
+  address: "تهران، خیابان ولیعصر، کوچه نمونه، پلاک ۱۲، واحد ۴",
+};
+
+/* =========================================================
    INPUT
 ========================================================= */
 
@@ -60,13 +73,13 @@ function Input({ label, placeholder, icon: Icon, type = "text" }) {
         <Icon
           size={17}
           strokeWidth={1.4}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-somak-gold2"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-[#e9a92f]"
         />
 
         <input
           type={type}
           placeholder={placeholder}
-          className="h-[48px] w-full rounded-[11px] border border-[#63221f] bg-[#1a0507] pl-4 pr-11 text-sm text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold/60 focus:ring-1 focus:ring-somak-gold/20"
+          className="h-[48px] w-full rounded-[11px] border border-[#63221f] bg-somak-850 pl-4 pr-11 text-sm text-white outline-none transition placeholder:text-white/25 focus:border-[#e9a92f]/60 focus:ring-1 focus:ring-[#e9a92f]/20"
         />
       </div>
     </label>
@@ -125,13 +138,13 @@ function ShippingStep({ onNext }) {
             <MapPin
               size={17}
               strokeWidth={1.4}
-              className="absolute right-4 top-4 text-somak-gold2"
+              className="absolute right-4 top-4 text-[#e9a92f]"
             />
 
             <textarea
               rows={4}
               placeholder="آدرس کامل خود را وارد کنید..."
-              className="w-full resize-none rounded-[11px] border border-[#63221f] bg-[#1a0507] px-4 py-3 pr-11 text-sm leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold/60 focus:ring-1 focus:ring-somak-gold/20"
+              className="w-full resize-none rounded-[11px] border border-[#63221f] bg-somak-850 px-4 py-3 pr-11 text-sm leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-[#e9a92f]/60 focus:ring-1 focus:ring-[#e9a92f]/20"
             />
           </div>
         </label>
@@ -140,7 +153,7 @@ function ShippingStep({ onNext }) {
       <button
         type="button"
         onClick={onNext}
-        className="mt-7 flex h-[48px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 transition hover:brightness-105"
+        className="mt-7 flex h-[48px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105"
       >
         ادامه
         <ArrowLeft size={18} strokeWidth={1.7} />
@@ -190,16 +203,16 @@ function PaymentStep({ onNext, onBack }) {
           onClick={() => setPaymentMethod("online")}
           className={`flex w-full items-center gap-4 rounded-[13px] border p-4 text-right transition ${
             paymentMethod === "online"
-              ? "border-somak-gold/70 bg-somak-gold/5"
-              : "border-[#63221f] bg-[#1a0507]"
-          } `}
+              ? "border-[#e9a92f]/60 bg-[#e9a92f]/5"
+              : "border-[#63221f] bg-[#25080b]"
+          }`}
         >
           <span
             className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${
               paymentMethod === "online"
-                ? "bg-somak-gold text-somak-950"
-                : "bg-somak-900 text-somak-gold2"
-            } `}
+                ? "bg-[#e9a92f] text-somak-950"
+                : "bg-[#180507] text-[#e9a92f]"
+            }`}
           >
             <CreditCard size={20} strokeWidth={1.4} />
           </span>
@@ -215,9 +228,9 @@ function PaymentStep({ onNext, onBack }) {
           <span
             className={`h-4 w-4 rounded-full border ${
               paymentMethod === "online"
-                ? "border-somak-gold bg-somak-gold"
+                ? "border-[#e9a92f] bg-[#e9a92f]"
                 : "border-white/20"
-            } `}
+            }`}
           />
         </button>
 
@@ -228,16 +241,16 @@ function PaymentStep({ onNext, onBack }) {
           onClick={() => setPaymentMethod("cash")}
           className={`flex w-full items-center gap-4 rounded-[13px] border p-4 text-right transition ${
             paymentMethod === "cash"
-              ? "border-somak-gold/70 bg-somak-gold/5"
-              : "border-[#63221f] bg-[#1a0507]"
-          } `}
+              ? "border-[#e9a92f]/60 bg-[#e9a92f]/5"
+              : "border-[#63221f] bg-[#25080b]"
+          }`}
         >
           <span
             className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${
               paymentMethod === "cash"
-                ? "bg-somak-gold text-somak-950"
-                : "bg-somak-900 text-somak-gold2"
-            } `}
+                ? "bg-[#e9a92f] text-somak-950"
+                : "bg-[#180507] text-[#e9a92f]"
+            }`}
           >
             <WalletCards size={20} strokeWidth={1.4} />
           </span>
@@ -253,9 +266,9 @@ function PaymentStep({ onNext, onBack }) {
           <span
             className={`h-4 w-4 rounded-full border ${
               paymentMethod === "cash"
-                ? "border-somak-gold bg-somak-gold"
+                ? "border-[#e9a92f] bg-[#e9a92f]"
                 : "border-white/20"
-            } `}
+            }`}
           />
         </button>
       </div>
@@ -264,7 +277,7 @@ function PaymentStep({ onNext, onBack }) {
         <button
           type="button"
           onClick={onBack}
-          className="flex h-[48px] flex-1 items-center justify-center gap-2 rounded-full border border-[#63221f] text-sm text-white/70 transition hover:border-[#8a322d] hover:text-white"
+          className="flex h-[48px] flex-1 items-center justify-center gap-2 rounded-full border border-[#642421] text-sm text-white/70 transition hover:border-[#8a322d] hover:bg-[#421014] hover:text-white"
         >
           <ArrowRight size={17} strokeWidth={1.6} />
           بازگشت
@@ -273,7 +286,7 @@ function PaymentStep({ onNext, onBack }) {
         <button
           type="button"
           onClick={onNext}
-          className="flex h-[48px] flex-[1.7] items-center justify-center gap-2 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 transition hover:brightness-105"
+          className="flex h-[48px] flex-[1.7] items-center justify-center gap-2 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105"
         >
           ادامه
           <ArrowLeft size={18} strokeWidth={1.7} />
@@ -307,7 +320,7 @@ function ConfirmationStep({ onBack }) {
       }}
     >
       <div className="mb-7">
-        <div className="mx-auto flex h-[58px] w-[58px] items-center justify-center rounded-full border border-somak-gold/40 bg-somak-gold/10 text-somak-gold">
+        <div className="mx-auto flex h-[58px] w-[58px] items-center justify-center rounded-full border border-[#e9a92f]/40 bg-[#e9a92f]/10 text-[#e9a92f]">
           <Check size={27} strokeWidth={1.6} />
         </div>
 
@@ -320,22 +333,93 @@ function ConfirmationStep({ onBack }) {
         </p>
       </div>
 
-      {/* ORDER ITEMS */}
+      {/* =====================================================
+          CUSTOMER INFO
+      ====================================================== */}
 
-      <div className="rounded-[13px] border border-[#63221f] bg-[#1a0507] p-4">
+      <div className="mb-5 rounded-[13px] border border-[#63221f] bg-[#25080b] p-4">
+        <h2 className="mb-4 text-xs font-medium text-white">
+          اطلاعات دریافت سفارش
+        </h2>
+
+        <div className="space-y-4">
+          {/* NAME */}
+
+          <div className="flex items-start gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#180507] text-[#e9a92f]">
+              <UserRound size={16} strokeWidth={1.4} />
+            </div>
+
+            <div className="min-w-0">
+              <span className="block text-[10px] text-white/35">
+                نام و نام خانوادگی
+              </span>
+
+              <span className="mt-1 block text-xs text-white/75">
+                {customerInfo.name}
+              </span>
+            </div>
+          </div>
+
+          {/* PHONE */}
+
+          <div className="flex items-start gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#180507] text-[#e9a92f]">
+              <Phone size={16} strokeWidth={1.4} />
+            </div>
+
+            <div className="min-w-0">
+              <span className="block text-[10px] text-white/35">
+                شماره تماس
+              </span>
+
+              <span
+                dir="ltr"
+                className="mt-1 block text-left text-xs text-white/75"
+              >
+                {customerInfo.phone}
+              </span>
+            </div>
+          </div>
+
+          {/* ADDRESS */}
+
+          <div className="flex items-start gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#180507] text-[#e9a92f]">
+              <MapPin size={16} strokeWidth={1.4} />
+            </div>
+
+            <div className="min-w-0">
+              <span className="block text-[10px] text-white/35">
+                آدرس تحویل
+              </span>
+
+              <span className="mt-1 block text-xs leading-6 text-white/75">
+                {customerInfo.address}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* =====================================================
+          ORDER ITEMS
+      ====================================================== */}
+
+      <div className="rounded-[13px] border border-[#63221f] bg-[#25080b] p-4">
         <h2 className="mb-4 text-xs font-medium text-white">خلاصه سفارش</h2>
 
         <div className="space-y-3">
           {orderItems.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between text-xs"
+              className="flex items-center justify-between gap-3 text-xs"
             >
               <span className="text-white/60">
                 {item.title} × {item.quantity.toLocaleString("fa-IR")}
               </span>
 
-              <span className="text-white">
+              <span className="shrink-0 text-white">
                 {formatPrice(item.price * item.quantity)} تومان
               </span>
             </div>
@@ -363,17 +447,19 @@ function ConfirmationStep({ onBack }) {
             مبلغ قابل پرداخت
           </span>
 
-          <span className="text-lg font-bold text-somak-gold2">
+          <span className="text-lg font-bold text-[#e9a92f]">
             {formatPrice(total)} تومان
           </span>
         </div>
       </div>
 
-      {/* FINAL BUTTON */}
+      {/* =====================================================
+          FINAL BUTTON
+      ====================================================== */}
 
       <button
         type="button"
-        className="mt-6 flex h-[49px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 transition hover:brightness-105"
+        className="mt-6 flex h-[49px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105"
       >
         <Check size={18} strokeWidth={1.7} />
         ثبت نهایی سفارش
@@ -382,7 +468,7 @@ function ConfirmationStep({ onBack }) {
       <button
         type="button"
         onClick={onBack}
-        className="mx-auto mt-4 flex items-center gap-2 text-xs text-white/45 transition hover:text-white"
+        className="mx-auto mt-4 flex items-center gap-2 text-xs text-[#e9a92f] transition hover:text-[#f2bd4a]"
       >
         <ArrowRight size={15} strokeWidth={1.5} />
         بازگشت به مرحله پرداخت
@@ -416,32 +502,26 @@ export default function CheckoutPage() {
       ====================================================== */}
 
       <div className="mx-auto mb-10 max-w-[900px]">
-        <div className="mb-3 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <Link
             to="/products"
-            className="flex items-center gap-2 text-[11px] text-white/40 transition hover:text-somak-gold2"
+            className="flex items-center gap-2 text-[11px] text-white/40 transition hover:text-[#e9a92f]"
           >
             بازگشت به منو
             <ArrowLeft size={15} strokeWidth={1.5} />
           </Link>
-
-          <span className="text-[11px] text-white/30">تکمیل سفارش</span>
         </div>
 
         <h1 className="text-center text-2xl font-medium text-white sm:text-[27px]">
           تکمیل سفارش
         </h1>
-
-        <p className="mt-2 text-center text-xs text-white/40">
-          سفارش خود را در چند مرحله ساده تکمیل کنید.
-        </p>
       </div>
 
       {/* =====================================================
           TIMELINE
       ====================================================== */}
 
-      <div className="mb-12">
+      <div className="mb-10">
         <CheckoutTimeline currentStep={currentStep} />
       </div>
 
@@ -449,12 +529,30 @@ export default function CheckoutPage() {
           CONTENT
       ====================================================== */}
 
-      <div className="mx-auto grid w-full max-w-[900px] grid-cols-1 gap-6 lg:grid-cols-[1fr_300px]">
+      <motion.div
+        layout
+        transition={{
+          layout: {
+            duration: 0.4,
+            ease: [0.22, 1, 0.36, 1],
+          },
+        }}
+        className="mx-auto grid w-full max-w-[900px] grid-cols-1 gap-6 lg:grid-cols-[1fr_300px]"
+      >
         {/* ===================================================
             MAIN FORM
         ==================================================== */}
 
-        <section className="rounded-[16px] border border-[#63221f] bg-[#180507] p-5 sm:p-7">
+        <motion.section
+          layout
+          transition={{
+            layout: {
+              duration: 0.4,
+              ease: [0.22, 1, 0.36, 1],
+            },
+          }}
+          className="order-2 rounded-[16px] border border-[#6f2826] bg-[#27090c] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.18)] sm:p-7 lg:order-1"
+        >
           <AnimatePresence mode="wait" initial={false}>
             {currentStep === 1 && (
               <ShippingStep key="shipping" onNext={goNext} />
@@ -468,13 +566,22 @@ export default function CheckoutPage() {
               <ConfirmationStep key="confirmation" onBack={goBack} />
             )}
           </AnimatePresence>
-        </section>
+        </motion.section>
 
         {/* ===================================================
             ORDER SUMMARY
         ==================================================== */}
 
-        <aside className="h-fit rounded-[16px] border border-[#63221f] bg-[#180507] p-5 lg:sticky lg:top-[95px]">
+        <motion.aside
+          layout
+          transition={{
+            layout: {
+              duration: 0.4,
+              ease: [0.22, 1, 0.36, 1],
+            },
+          }}
+          className="order-1 h-fit rounded-[16px] border border-[#6f2826] bg-[#27090c] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.18)] lg:sticky lg:top-[95px] lg:order-2"
+        >
           <h2 className="text-sm font-medium text-white">خلاصه سفارش</h2>
 
           <div className="mt-5 space-y-3">
@@ -517,12 +624,12 @@ export default function CheckoutPage() {
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-white">مجموع</span>
 
-            <span className="text-[16px] font-bold text-somak-gold2">
+            <span className="text-[16px] font-bold text-[#e9a92f]">
               {formatPrice(total)} تومان
             </span>
           </div>
-        </aside>
-      </div>
+        </motion.aside>
+      </motion.div>
     </main>
   );
 }
