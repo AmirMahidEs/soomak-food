@@ -338,24 +338,24 @@ function ConfirmationStep({ onBack }) {
       ====================================================== */}
 
       <div className="mb-5 rounded-[13px] border border-[#63221f] bg-[#25080b] p-4">
-        <h2 className="mb-4 text-xs font-medium text-white">
+        <h2 className="mb-4 text-xs font-bold text-white">
           اطلاعات دریافت سفارش
         </h2>
 
         <div className="space-y-4">
           {/* NAME */}
 
-          <div className="flex items-start gap-3">
+          <div className="flex justify-items-center items-start gap-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#180507] text-[#e9a92f]">
               <UserRound size={16} strokeWidth={1.4} />
             </div>
 
-            <div className="min-w-0">
-              <span className="block text-[10px] text-white/35">
+            <div className="flex h-9 min-w-0 items-center gap-3">
+              <span className="text-[10px] text-white/35">
                 نام و نام خانوادگی
-              </span>
+              </span>   
 
-              <span className="mt-1 block text-xs text-white/75">
+              <span className="block text-xs text-white/75">
                 {customerInfo.name}
               </span>
             </div>
@@ -368,7 +368,7 @@ function ConfirmationStep({ onBack }) {
               <Phone size={16} strokeWidth={1.4} />
             </div>
 
-            <div className="min-w-0">
+            <div className="flex h-9 min-w-0 items-center gap-3">
               <span className="block text-[10px] text-white/35">
                 شماره تماس
               </span>
@@ -389,12 +389,12 @@ function ConfirmationStep({ onBack }) {
               <MapPin size={16} strokeWidth={1.4} />
             </div>
 
-            <div className="min-w-0">
+            <div className="flex h-9 min-w-0 items-center gap-3">
               <span className="block text-[10px] text-white/35">
                 آدرس تحویل
               </span>
 
-              <span className="mt-1 block text-xs leading-6 text-white/75">
+              <span className="block text-xs leading-6 text-white/75">
                 {customerInfo.address}
               </span>
             </div>
