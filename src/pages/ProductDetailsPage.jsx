@@ -7,7 +7,7 @@ import {
   Weight,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PageMotion from "../components/PageMotion";
 import ProductCard from "../components/ProductCard";
 import { products } from "../data/products";
@@ -18,12 +18,29 @@ export default function ProductDetailsPage() {
   const related = products.filter((x) => x.id !== product.id).slice(0, 4);
   return (
     <PageMotion>
-      <section className="mx-auto max-w-[1200px] px-6 py-8 ">
-        <p className="mb-7 text-xs text-somak-muted">
+      <section className="mx-auto max-w-[1200px] px-6 py-8">
+        {/* <p className="mb-7 text-xs text-somak-muted">
           صفحه اصلی <span className="mx-2">‹</span> محصولات{" "}
           <span className="mx-2">‹</span>
           {product.title}
-        </p>
+        </p> */}
+        <div className="flex">
+          <Link
+            to={"/"}
+            className="mb-7 text-xs text-somak-muted hover:text-somak-gold2"
+          >
+            صفحه اصلی
+          </Link>
+          <span className="mx-2">‹</span>
+          <Link
+            to={"/products"}
+            className="mb-7 text-xs text-somak-muted hover:text-somak-gold2"
+          >
+            محصولات
+          </Link>
+          <span className="mx-2">‹</span>
+          <p className="mb-7 text-xs text-somak-muted">{product.title}</p>
+        </div>
         <div className="grid gap-10 lg:grid-cols-[1.05fr_.95fr]">
           <div>
             <motion.div
@@ -49,13 +66,13 @@ export default function ProductDetailsPage() {
                       className="aspect-square w-full object-cover"
                     />
                   </button>
-                ),
+                ),  
               )}
             </div>
           </div>
           <div className="pt-2 text-right">
             <p className="text-sm text-somak-muted">غذای اصلی</p>
-            
+
             <h1 className="mt-1 text-4xl font-bold text-white">
               {product.title}
             </h1>
@@ -68,16 +85,8 @@ export default function ProductDetailsPage() {
                 title="زمان آماده‌سازی"
                 value={product.prep}
               />
-              <Meta
-                icon={Weight}
-                title="وزن هر پرس"
-                value={product.weight}
-              />
-              <Meta
-                icon={Users}
-                title="مناسب برای"
-                value={product.servings}
-              />
+              <Meta icon={Weight} title="وزن هر پرس" value={product.weight} />
+              <Meta icon={Users} title="مناسب برای" value={product.servings} />
             </div>
             <div className="text-2xl font-bold text-somak-gold2">
               {money(product.price)} تومان
@@ -112,14 +121,8 @@ export default function ProductDetailsPage() {
           <InfoColumn title="مواد تشکیل‌دهنده">
             <ul className="space-y-3 text-sm text-somak-muted">
               {product.ingredients.map((x) => (
-                <li
-                  key={x}
-                  className="flex items-center gap-2"
-                >
-                  <CheckCircle2
-                    size={15}
-                    className="text-somak-gold"
-                  />
+                <li key={x} className="flex items-center gap-2">
+                  <CheckCircle2 size={15} className="text-somak-gold" />
                   {x}
                 </li>
               ))}
@@ -133,14 +136,8 @@ export default function ProductDetailsPage() {
                 "استفاده از مواد اولیه درجه یک",
                 "پخت با دستور اصیل ایرانی",
               ].map((x) => (
-                <li
-                  key={x}
-                  className="flex items-center gap-2"
-                >
-                  <CheckCircle2
-                    size={15}
-                    className="text-somak-gold"
-                  />
+                <li key={x} className="flex items-center gap-2">
+                  <CheckCircle2 size={15} className="text-somak-gold" />
                   {x}
                 </li>
               ))}
@@ -180,11 +177,7 @@ export default function ProductDetailsPage() {
           </h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {related.map((p) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                compact
-              />
+              <ProductCard key={p.id} product={p} compact />
             ))}
           </div>
         </section>
@@ -195,11 +188,7 @@ export default function ProductDetailsPage() {
 function Meta({ icon: Icon, title, value }) {
   return (
     <div className="flex items-center justify-center gap-3 text-center">
-      <Icon
-        size={28}
-        className="text-somak-gold"
-        strokeWidth={1.4}
-      />
+      <Icon size={28} className="text-somak-gold" strokeWidth={1.4} />
       <div>
         <p className="text-xs text-somak-muted">{title}</p>
         <p className="mt-1 text-sm text-white">{value}</p>
