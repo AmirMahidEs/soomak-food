@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 export default function App() {
   const location = useLocation();
@@ -15,6 +16,7 @@ export default function App() {
     { path: "/products", element: <ProductsPage /> },
     { path: "/products/:id", element: <ProductDetailsPage /> },
     { path: "*", element: <NotFoundPage /> },
+    { path: "/checkout", element: <CheckoutPage /> },
   ]);
 
   useLayoutEffect(() => {

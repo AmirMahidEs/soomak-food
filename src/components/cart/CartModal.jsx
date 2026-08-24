@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import zereshpolo from "../../assets/zereshk-polo-card.jpg";
 import ghormesabzi from "../../assets/ghorme-sabzi.jpg";
 
+import { Link } from "react-router-dom";
+
 /* =========================================================
    STATIC CART DATA
 
@@ -432,13 +434,15 @@ export default function CartModal({ open, onClose }) {
 
                   {/* CHECKOUT */}
 
-                  <button
-                    type="button"
+                  <Link
+                    to="/checkout"
+                    onClick={onClose}
                     className="mt-[15px] flex h-[45px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient text-[13px] font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105"
                   >
                     <span>تکمیل سفارش</span>
+
                     <ArrowLeft size={18} strokeWidth={1.6} />
-                  </button>
+                  </Link>
 
                   {/* VIEW CART */}
 
