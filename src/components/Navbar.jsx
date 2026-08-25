@@ -67,19 +67,34 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
     }
 
     return (
-      <Link
-        to="/login"
-        onClick={() => {
-          if (mobile) {
-            setMenuOpen(false);
-          }
-        }}
-        className={`flex items-center justify-center rounded-full bg-gold-gradient font-medium text-somak-950 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105 ${
-          mobile ? "px-4 py-2.5 text-xs" : "h-9 px-5 text-sm"
-        }`}
-      >
-        ورود / ثبت نام
-      </Link>
+      <>
+        <Link
+          to="/signup"
+          onClick={() => {
+            if (mobile) {
+              setMenuOpen(false);
+            }
+          }}
+          className={`flex items-center justify-center rounded-full bg-gold-gradient font-medium text-somak-950 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105 ${
+            mobile ? "px-4 py-2.5 text-xs" : "h-9 px-5 text-sm"
+          }`}
+        >
+          ثبت نام
+        </Link>
+        <Link
+          to="/login"
+          onClick={() => {
+            if (mobile) {
+              setMenuOpen(false);
+            }
+          }}
+          className={`flex items-center justify-center rounded-full border border-somak-gold/70 py-3.5 text-white transition hover:bg-somak-gold hover:text-somak-950 ${
+            mobile ? "px-4 py-2.5 text-xs" : "h-9 px-5 text-sm"
+          }`}
+        >
+          ورود
+        </Link>
+      </>
     );
   };
 
@@ -96,10 +111,7 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
         mobile ? "h-10 w-10" : "h-9 w-9"
       }`}
     >
-      <ShoppingCart
-        size={mobile ? 21 : 22}
-        strokeWidth={1.5}
-      />
+      <ShoppingCart size={mobile ? 21 : 22} strokeWidth={1.5} />
 
       {CART_COUNT > 0 && (
         <span className="absolute right-0 top-0 flex h-[15px] min-w-[15px] items-center justify-center rounded-full bg-somak-gold px-[3px] text-[9px] font-bold leading-none text-somak-950">
@@ -154,11 +166,7 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
               aria-expanded={menuOpen}
             >
               {menuOpen ? (
-                <X
-                  size={25}
-                  strokeWidth={1.7}
-                  className="text-somak-gold2"
-                />
+                <X size={25} strokeWidth={1.7} className="text-somak-gold2" />
               ) : (
                 <Menu
                   size={25}
@@ -175,10 +183,7 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
           ================================================== */}
 
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:hidden">
-            <Link
-              to="/"
-              className="block shrink-0"
-            >
+            <Link to="/" className="block shrink-0">
               <img
                 src={logo}
                 alt="سومک فود"
@@ -214,19 +219,13 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
               Auth + Cart
           ================================================== */}
 
-          <div
-            dir="rtl"
-            className="hidden w-full items-center lg:flex"
-          >
+          <div dir="rtl" className="hidden w-full items-center lg:flex">
             {/* =================================================
                 LOGO - RIGHT
             ================================================== */}
 
             <div className="shrink-0">
-              <Link
-                to="/"
-                className="block shrink-0"
-              >
+              <Link to="/" className="block shrink-0">
                 <img
                   src={logo}
                   alt="سومک فود"
@@ -380,10 +379,7 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
           </>
         )}
       </AnimatePresence>
-      <CartModal
-        open={cartOpen}
-        onClose={() => setCartOpen(false)}
-      />
+      <CartModal open={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 }
