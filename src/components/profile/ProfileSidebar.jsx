@@ -50,7 +50,6 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
               }`}
             >
               {/* ACTIVE BACKGROUND */}
-
               {isActive && (
                 <motion.span
                   layoutId="profile-sidebar-active"
@@ -60,12 +59,27 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
                     damping: 32,
                     mass: 0.7,
                   }}
-                  className="absolute inset-0 rounded-[11px] bg-[#e9a92f]/10"
+                  className="absolute inset-0 rounded-[11px] bg-[#e9a92f]/10 shadow-[0_0_8px_rgba(233,169,47,0.35),0_0_20px_rgba(233,169,47,0.18)]"
                 />
               )}
 
-              {/* CONTENT */}
+              {/* NEON LINE */}
+              {isActive && (
+                <span className="absolute inset-y-0 right-0 z-20 flex items-center">
+                  <motion.span
+                    layoutId="profile-sidebar-neon-line"
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 35,
+                      mass: 0.6,
+                    }}
+                    className="h-7 w-[2px] rounded-full bg-[#e9a92f] shadow-[0_0_6px_#e9a92f,0_0_12px_#e9a92f,0_0_22px_rgba(233,169,47,0.7)]"
+                  />
+                </span>
+              )}
 
+              {/* CONTENT */}
               <span className="relative z-10 flex items-center gap-2.5">
                 <Icon
                   size={17}
@@ -80,11 +94,9 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
         })}
 
         {/* DIVIDER */}
-
         <div className="my-2 h-px bg-[#61221f]/70" />
 
         {/* LOGOUT */}
-
         <button
           type="button"
           className="flex w-full items-center gap-2.5 rounded-[11px] px-3 py-3 text-right text-[11px] text-white/55 transition hover:bg-[#421014] hover:text-white"
