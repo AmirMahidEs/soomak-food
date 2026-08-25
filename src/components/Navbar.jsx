@@ -51,7 +51,7 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
               setMenuOpen(false);
             }
           }}
-          className={`flex items-center justify-center gap-2 rounded-full border border-somak-gold/30 bg-somak-900/55 text-white transition hover:border-somak-gold/60 hover:bg-somak-900/80 ${
+          className={`flex items-center justify-center gap-2 rounded-full border border-somak-gold/30 bg-somak-800 text-white transition hover:border-somak-gold/60 hover:bg-somak-900/80 ${
             mobile ? "px-4 py-2.5 text-xs" : "h-9 px-3.5 text-xs"
           }`}
         >
@@ -61,7 +61,7 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
             className="shrink-0 text-somak-cream"
           />
 
-          <span>{userName}</span>
+          <span>سلام ، {userName}</span>
         </Link>
       );
     }
