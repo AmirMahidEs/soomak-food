@@ -84,7 +84,7 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
                 <Icon
                   size={17}
                   strokeWidth={1.45}
-                  className={isActive ? "text-[#e9a92f]" : "text-[#e9a92f]/75"}
+                  className={isActive ? "text-somak-gold" : "text-[#debc6c]"}
                 />
 
                 <span>{item.label}</span>
