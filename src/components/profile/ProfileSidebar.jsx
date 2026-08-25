@@ -1,5 +1,7 @@
 import { Heart, Home, LogOut, MapPin, Package, UserRound } from "lucide-react";
 
+import { motion } from "framer-motion";
+
 const menuItems = [
   {
     id: "dashboard",
@@ -41,19 +43,34 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
               key={item.id}
               type="button"
               onClick={() => onTabChange(item.id)}
-              className={`group flex w-full items-center justify-between rounded-[11px] px-3 py-3 text-right text-[11px] transition ${
+              className={`group relative flex w-full items-center justify-between rounded-[11px] px-3 py-3 text-right text-[11px] transition-colors duration-200 ${
                 isActive
-                  ? "bg-[#e9a92f]/10 text-[#e9a92f]"
-                  : "text-white/55 hover:bg-somak-700 hover:text-white"
+                  ? "text-[#e9a92f]"
+                  : "text-white/55 hover:bg-[#421014] hover:text-white"
               }`}
             >
-              <span className="flex items-center gap-2.5">
+              {/* ACTIVE BACKGROUND */}
+
+              {isActive && (
+                <motion.span
+                  layoutId="profile-sidebar-active"
+                  transition={{
+                    type: "spring",
+                    stiffness: 420,
+                    damping: 32,
+                    mass: 0.7,
+                  }}
+                  className="absolute inset-0 rounded-[11px] bg-[#e9a92f]/10"
+                />
+              )}
+
+              {/* CONTENT */}
+
+              <span className="relative z-10 flex items-center gap-2.5">
                 <Icon
                   size={17}
                   strokeWidth={1.45}
-                  className={
-                    isActive ? "text-somak-gold2" : "text-somak-gold/75"
-                  }
+                  className={isActive ? "text-[#e9a92f]" : "text-[#e9a92f]/75"}
                 />
 
                 <span>{item.label}</span>
@@ -62,13 +79,17 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
           );
         })}
 
-        <div className="my-2 h-px bg-[#63221f]/70" />
+        {/* DIVIDER */}
+
+        <div className="my-2 h-px bg-[#61221f]/70" />
+
+        {/* LOGOUT */}
 
         <button
           type="button"
-          className="flex w-full items-center gap-2.5 rounded-[11px] px-3 py-3 text-right text-[11px] text-white/55 transition hover:bg-[#2a0d0f] hover:text-white"
+          className="flex w-full items-center gap-2.5 rounded-[11px] px-3 py-3 text-right text-[11px] text-white/55 transition hover:bg-[#421014] hover:text-white"
         >
-          <LogOut size={17} strokeWidth={1.45} className="text-somak-gold/75" />
+          <LogOut size={17} strokeWidth={1.45} className="text-[#e9a92f]/75" />
 
           <span>خروج از حساب</span>
         </button>
