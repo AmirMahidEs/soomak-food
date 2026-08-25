@@ -76,7 +76,7 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
             }
           }}
           className={`flex items-center justify-center rounded-full bg-gold-gradient font-medium text-somak-950 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105 ${
-            mobile ? "px-4 py-2.5 text-xs" : "h-9 px-5 text-sm"
+            mobile ? "mx-2 my-4 h-12 px-4 py-2.5" : "h-9 px-5 text-sm"
           }`}
         >
           ثبت نام
@@ -89,7 +89,7 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
             }
           }}
           className={`flex items-center justify-center rounded-full border border-somak-gold/70 py-3.5 text-white transition hover:bg-somak-gold hover:text-somak-950 ${
-            mobile ? "px-4 py-2.5 text-xs" : "h-9 px-5 text-sm"
+            mobile ? "mx-2 h-12 px-4 py-2.5" : "h-9 px-5 text-sm"
           }`}
         >
           ورود
