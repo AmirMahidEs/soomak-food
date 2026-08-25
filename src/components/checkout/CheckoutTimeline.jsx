@@ -9,14 +9,15 @@ const steps = [
   },
   {
     id: 2,
-    title: "پرداخت",
-    icon: <CreditCard />,
-  },
-  {
-    id: 3,
     title: "تأیید سفارش",
     icon: <CheckCheck />,
   },
+  {
+    id: 3,
+    title: "پرداخت",
+    icon: <CreditCard />,
+  },
+  
 ];
 
 export default function CheckoutTimeline({ currentStep }) {

@@ -163,144 +163,10 @@ function ShippingStep({ onNext }) {
 }
 
 /* =========================================================
-   PAYMENT STEP
-========================================================= */
-
-function PaymentStep({ onNext, onBack }) {
-  const [paymentMethod, setPaymentMethod] = useState("online");
-
-  return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        x: 15,
-      }}
-      animate={{
-        opacity: 1,
-        x: 0,
-      }}
-      exit={{
-        opacity: 0,
-        x: -15,
-      }}
-      transition={{
-        duration: 0.25,
-      }}
-    >
-      <div className="mb-7">
-        <h1 className="text-xl font-medium text-white">روش پرداخت</h1>
-
-        <p className="mt-2 text-xs text-white/45">
-          روش پرداخت سفارش خود را انتخاب کنید.
-        </p>
-      </div>
-
-      <div className="space-y-3">
-        {/* ONLINE */}
-
-        <button
-          type="button"
-          onClick={() => setPaymentMethod("online")}
-          className={`flex w-full items-center gap-4 rounded-[13px] border p-4 text-right transition ${
-            paymentMethod === "online"
-              ? "border-[#e9a92f]/60 bg-[#e9a92f]/5"
-              : "border-[#63221f] bg-[#25080b]"
-          }`}
-        >
-          <span
-            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${
-              paymentMethod === "online"
-                ? "bg-[#e9a92f] text-somak-950"
-                : "bg-[#180507] text-[#e9a92f]"
-            }`}
-          >
-            <CreditCard size={20} strokeWidth={1.4} />
-          </span>
-
-          <span className="flex-1">
-            <span className="block text-sm text-white">پرداخت آنلاین</span>
-
-            <span className="mt-1 block text-[11px] text-white/40">
-              پرداخت امن از طریق درگاه بانکی
-            </span>
-          </span>
-
-          <span
-            className={`h-4 w-4 rounded-full border ${
-              paymentMethod === "online"
-                ? "border-[#e9a92f] bg-[#e9a92f]"
-                : "border-white/20"
-            }`}
-          />
-        </button>
-
-        {/* CASH */}
-
-        <button
-          type="button"
-          onClick={() => setPaymentMethod("cash")}
-          className={`flex w-full items-center gap-4 rounded-[13px] border p-4 text-right transition ${
-            paymentMethod === "cash"
-              ? "border-[#e9a92f]/60 bg-[#e9a92f]/5"
-              : "border-[#63221f] bg-[#25080b]"
-          }`}
-        >
-          <span
-            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${
-              paymentMethod === "cash"
-                ? "bg-[#e9a92f] text-somak-950"
-                : "bg-[#180507] text-[#e9a92f]"
-            }`}
-          >
-            <WalletCards size={20} strokeWidth={1.4} />
-          </span>
-
-          <span className="flex-1">
-            <span className="block text-sm text-white">پرداخت هنگام تحویل</span>
-
-            <span className="mt-1 block text-[11px] text-white/40">
-              پرداخت نقدی هنگام دریافت سفارش
-            </span>
-          </span>
-
-          <span
-            className={`h-4 w-4 rounded-full border ${
-              paymentMethod === "cash"
-                ? "border-[#e9a92f] bg-[#e9a92f]"
-                : "border-white/20"
-            }`}
-          />
-        </button>
-      </div>
-
-      <div className="mt-7 flex gap-3">
-        <button
-          type="button"
-          onClick={onBack}
-          className="flex h-[48px] flex-1 items-center justify-center gap-2 rounded-full border border-[#642421] text-sm text-white/70 transition hover:border-[#8a322d] hover:bg-[#421014] hover:text-white"
-        >
-          <ArrowRight size={17} strokeWidth={1.6} />
-          بازگشت
-        </button>
-
-        <button
-          type="button"
-          onClick={onNext}
-          className="flex h-[48px] flex-[1.7] items-center justify-center gap-2 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105"
-        >
-          ادامه
-          <ArrowLeft size={18} strokeWidth={1.7} />
-        </button>
-      </div>
-    </motion.div>
-  );
-}
-
-/* =========================================================
    CONFIRMATION STEP
 ========================================================= */
 
-function ConfirmationStep({ onBack }) {
+function ConfirmationStep({ onNext, onBack }) {
   return (
     <motion.div
       initial={{
@@ -353,7 +219,7 @@ function ConfirmationStep({ onBack }) {
             <div className="flex h-9 min-w-0 items-center gap-3">
               <span className="text-[10px] text-white/35">
                 نام و نام خانوادگی
-              </span>   
+              </span>
 
               <span className="block text-xs text-white/75">
                 {customerInfo.name}
@@ -454,25 +320,165 @@ function ConfirmationStep({ onBack }) {
       </div>
 
       {/* =====================================================
-          FINAL BUTTON
+          NEXT / BACK BUTTONS
       ====================================================== */}
 
-      <button
-        type="button"
-        className="mt-6 flex h-[49px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105"
-      >
-        <Check size={18} strokeWidth={1.7} />
-        ثبت نهایی سفارش
-      </button>
+      <div className="mt-6 flex gap-3">
+        <button
+          type="button"
+          onClick={onBack}
+          className="flex h-[48px] flex-1 items-center justify-center gap-2 rounded-full border border-[#642421] text-sm text-white/70 transition hover:border-[#8a322d] hover:bg-[#421014] hover:text-white"
+        >
+          <ArrowRight size={17} strokeWidth={1.6} />
+          بازگشت
+        </button>
 
-      <button
-        type="button"
-        onClick={onBack}
-        className="mx-auto mt-4 flex items-center gap-2 text-xs text-[#e9a92f] transition hover:text-[#f2bd4a]"
-      >
-        <ArrowRight size={15} strokeWidth={1.5} />
-        بازگشت به مرحله پرداخت
-      </button>
+        <button
+          type="button"
+          onClick={onNext}
+          className="flex h-[48px] flex-[1.7] items-center justify-center gap-2 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105"
+        >
+          ادامه
+          <ArrowLeft size={18} strokeWidth={1.7} />
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
+/* =========================================================
+   PAYMENT STEP
+========================================================= */
+
+function PaymentStep({ onBack }) {
+  const [paymentMethod, setPaymentMethod] = useState("online");
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        x: 15,
+      }}
+      animate={{
+        opacity: 1,
+        x: 0,
+      }}
+      exit={{
+        opacity: 0,
+        x: -15,
+      }}
+      transition={{
+        duration: 0.25,
+      }}
+    >
+      <div className="mb-7">
+        <h1 className="text-xl font-medium text-white">روش پرداخت</h1>
+
+        <p className="mt-2 text-xs text-white/45">
+          روش پرداخت سفارش خود را انتخاب کنید.
+        </p>
+      </div>
+
+      <div className="space-y-3">
+        {/* ONLINE */}
+
+        <button
+          type="button"
+          onClick={() => setPaymentMethod("online")}
+          className={`flex w-full items-center gap-4 rounded-[13px] border p-4 text-right transition ${
+            paymentMethod === "online"
+              ? "border-[#e9a92f]/60 bg-[#e9a92f]/5"
+              : "border-[#63221f] bg-[#25080b]"
+          }`}
+        >
+          <span
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${
+              paymentMethod === "online"
+                ? "bg-[#e9a92f] text-somak-950"
+                : "bg-[#180507] text-[#e9a92f]"
+            }`}
+          >
+            <CreditCard size={20} strokeWidth={1.4} />
+          </span>
+
+          <span className="flex-1">
+            <span className="block text-sm text-white">
+              پرداخت آنلاین
+            </span>
+
+            <span className="mt-1 block text-[11px] text-white/40">
+              پرداخت امن از طریق درگاه بانکی
+            </span>
+          </span>
+
+          <span
+            className={`h-4 w-4 rounded-full border ${
+              paymentMethod === "online"
+                ? "border-[#e9a92f] bg-[#e9a92f]"
+                : "border-white/20"
+            }`}
+          />
+        </button>
+
+        {/* CASH */}
+
+        <button
+          type="button"
+          onClick={() => setPaymentMethod("cash")}
+          className={`flex w-full items-center gap-4 rounded-[13px] border p-4 text-right transition ${
+            paymentMethod === "cash"
+              ? "border-[#e9a92f]/60 bg-[#e9a92f]/5"
+              : "border-[#63221f] bg-[#25080b]"
+          }`}
+        >
+          <span
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${
+              paymentMethod === "cash"
+                ? "bg-[#e9a92f] text-somak-950"
+                : "bg-[#180507] text-[#e9a92f]"
+            }`}
+          >
+            <WalletCards size={20} strokeWidth={1.4} />
+          </span>
+
+          <span className="flex-1">
+            <span className="block text-sm text-white">
+              پرداخت هنگام تحویل
+            </span>
+
+            <span className="mt-1 block text-[11px] text-white/40">
+              پرداخت نقدی هنگام دریافت سفارش
+            </span>
+          </span>
+
+          <span
+            className={`h-4 w-4 rounded-full border ${
+              paymentMethod === "cash"
+                ? "border-[#e9a92f] bg-[#e9a92f]"
+                : "border-white/20"
+            }`}
+          />
+        </button>
+      </div>
+
+      <div className="mt-7 flex gap-3">
+        <button
+          type="button"
+          onClick={onBack}
+          className="flex h-[48px] flex-1 items-center justify-center gap-2 rounded-full border border-[#642421] text-sm text-white/70 transition hover:border-[#8a322d] hover:bg-[#421014] hover:text-white"
+        >
+          <ArrowRight size={17} strokeWidth={1.6} />
+          بازگشت
+        </button>
+
+        <button
+          type="button"
+          className="flex h-[48px] flex-[1.7] items-center justify-center gap-2 rounded-full bg-gold-gradient text-sm font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105"
+        >
+          <Check size={18} strokeWidth={1.7} />
+          ثبت نهایی سفارش
+        </button>
+      </div>
     </motion.div>
   );
 }
@@ -554,16 +560,32 @@ export default function CheckoutPage() {
           className="order-2 rounded-[16px] border border-[#6f2826] bg-[#27090c] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.18)] sm:p-7 lg:order-1"
         >
           <AnimatePresence mode="wait" initial={false}>
+            {/* STEP 1 - SHIPPING */}
+
             {currentStep === 1 && (
-              <ShippingStep key="shipping" onNext={goNext} />
+              <ShippingStep
+                key="shipping"
+                onNext={goNext}
+              />
             )}
+
+            {/* STEP 2 - CONFIRMATION */}
 
             {currentStep === 2 && (
-              <PaymentStep key="payment" onNext={goNext} onBack={goBack} />
+              <ConfirmationStep
+                key="confirmation"
+                onNext={goNext}
+                onBack={goBack}
+              />
             )}
 
+            {/* STEP 3 - PAYMENT */}
+
             {currentStep === 3 && (
-              <ConfirmationStep key="confirmation" onBack={goBack} />
+              <PaymentStep
+                key="payment"
+                onBack={goBack}
+              />
             )}
           </AnimatePresence>
         </motion.section>
@@ -582,7 +604,9 @@ export default function CheckoutPage() {
           }}
           className="order-1 h-fit rounded-[16px] border border-[#6f2826] bg-[#27090c] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.18)] lg:sticky lg:top-[95px] lg:order-2"
         >
-          <h2 className="text-sm font-medium text-white">خلاصه سفارش</h2>
+          <h2 className="text-sm font-medium text-white">
+            خلاصه سفارش
+          </h2>
 
           <div className="mt-5 space-y-3">
             {orderItems.map((item) => (
@@ -591,7 +615,9 @@ export default function CheckoutPage() {
                 className="flex items-start justify-between gap-3"
               >
                 <div className="min-w-0">
-                  <p className="truncate text-xs text-white/70">{item.title}</p>
+                  <p className="truncate text-xs text-white/70">
+                    {item.title}
+                  </p>
 
                   <p className="mt-1 text-[10px] text-white/35">
                     تعداد: {item.quantity.toLocaleString("fa-IR")}
@@ -610,19 +636,25 @@ export default function CheckoutPage() {
           <div className="flex items-center justify-between text-[11px]">
             <span className="text-white/50">جمع سفارش</span>
 
-            <span className="text-white">{formatPrice(subtotal)}</span>
+            <span className="text-white">
+              {formatPrice(subtotal)}
+            </span>
           </div>
 
           <div className="mt-3 flex items-center justify-between text-[11px]">
             <span className="text-white/50">ارسال</span>
 
-            <span className="text-white">{formatPrice(shipping)}</span>
+            <span className="text-white">
+              {formatPrice(shipping)}
+            </span>
           </div>
 
           <div className="my-5 h-px bg-[#61221f]" />
 
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-white">مجموع</span>
+            <span className="text-xs font-medium text-white">
+              مجموع
+            </span>
 
             <span className="text-[16px] font-bold text-[#e9a92f]">
               {formatPrice(total)} تومان
