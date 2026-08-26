@@ -8,6 +8,7 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import ProfilePage from "./pages/ProfilePage";
+import AdminLayout from "./components/admin/AdminLayout";
 
 export default function App() {
   const location = useLocation();
@@ -19,6 +20,7 @@ export default function App() {
     { path: "*", element: <NotFoundPage /> },
     { path: "/checkout", element: <CheckoutPage /> },
     { path: "/profile", element: <ProfilePage /> },
+    { path: "/admin", element: <AdminLayout /> },
   ]);
 
   useLayoutEffect(() => {
