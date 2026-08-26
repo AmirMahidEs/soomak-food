@@ -40,7 +40,7 @@ const menuItems = [
 
 export default function AdminSidebar({ activeTab, onTabChange }) {
   return (
-    <aside className="hidden h-fit w-[220px] shrink-0 self-start rounded-[18px] border border-[#6f2826] bg-[#27090c] p-3 lg:block">
+    <aside className="hidden h-fit w-[165px] shrink-0 self-start rounded-[18px] border border-[#6f2826] bg-[#27090c] p-3 lg:block">
       {/* LOGO */}
 
       {/* <div className="mb-6 flex items-center gap-3 px-3 py-3">
@@ -68,10 +68,10 @@ export default function AdminSidebar({ activeTab, onTabChange }) {
               key={item.id}
               type="button"
               onClick={() => onTabChange(item.id)}
-              className={`group relative flex h-[46px] w-full items-center gap-3 rounded-[11px] px-3 text-right text-[11px] transition ${
+              className={`group relative flex h-[46px] w-full items-center gap-2 rounded-[11px] px-3 text-right text-[11px] text-xs font-bold transition ${
                 isActive
                   ? "text-[#e9a92f]"
-                  : "text-white/50 hover:bg-[#421014] hover:text-white"
+                  : "text-white hover:bg-[#421014] hover:text-white"
               }`}
             >
               {/* ACTIVE BACKGROUND */}
@@ -120,7 +120,7 @@ export default function AdminSidebar({ activeTab, onTabChange }) {
       <div className="mt-5 border-t border-[#61221f]/70 pt-3">
         <button
           type="button"
-          className="flex h-[46px] w-full items-center gap-3 rounded-[11px] px-3 text-right text-[11px] text-white/45 transition hover:bg-[#421014] hover:text-white"
+          className="flex h-[46px] w-full items-center gap-3 rounded-[11px] px-3 text-right text-[11px] text-xs font-bold text-white transition hover:bg-[#421014] hover:text-white"
         >
           <LogOut size={17} strokeWidth={1.4} className="text-[#e9a92f]/70" />
 
