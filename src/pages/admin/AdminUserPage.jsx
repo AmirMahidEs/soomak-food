@@ -59,6 +59,8 @@ export default function AdminUsersPage() {
                 <th className="py-4 font-normal">تعداد سفارش</th>
 
                 <th className="py-4 font-normal">وضعیت</th>
+
+                <th className="py-4 font-normal">عملیات</th>
               </tr>
             </thead>
 
@@ -92,6 +94,15 @@ export default function AdminUsersPage() {
                     <span className="rounded-full bg-green-400/10 px-2.5 py-1 text-[8px] text-green-300">
                       {user.status}
                     </span>
+                  </td>
+
+                  <td className="py-4">
+                    <button
+                      type="button"
+                      className="text-[9px] text-[#e9a92f]/75 transition hover:text-[#e9a92f]"
+                    >
+                      مشاهده
+                    </button>
                   </td>
                 </tr>
               ))}

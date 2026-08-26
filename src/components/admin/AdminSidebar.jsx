@@ -58,7 +58,7 @@ export default function AdminSidebar({ activeTab, onTabChange }) {
       </div> */}
 
       {/* MENU */}
-      <nav className="space-y-1">
+      <nav className="space-y-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
