@@ -37,9 +37,9 @@ export default function RecentOrders() {
     >
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-sm font-medium text-white">سفارش‌های اخیر</h2>
+          <h2 className="text-lg font-medium text-white">سفارش‌های اخیر</h2>
 
-          <p className="mt-1 text-[9px] text-white/35">
+          <p className="mt-1 text-[15px] text-white/40">
             آخرین سفارش‌های ثبت شده
           </p>
         </div>
@@ -50,7 +50,7 @@ export default function RecentOrders() {
       <div className="mt-5 overflow-x-auto">
         <table className="w-full min-w-[650px] text-right">
           <thead>
-            <tr className="border-b border-[#61221f]/70 text-[9px] text-white/30">
+            <tr className="border-b border-[#61221f]/70 text-[15px] text-white/80">
               <th className="pb-3 font-normal">سفارش</th>
               <th className="pb-3 font-normal">مشتری</th>
               <th className="pb-3 font-normal">اقلام</th>
@@ -65,25 +65,25 @@ export default function RecentOrders() {
                 key={order.id}
                 className="border-b border-[#61221f]/40 last:border-0"
               >
-                <td className="py-4 text-[10px] font-medium text-white/75">
+                <td className="py-4 text-[13px] font-medium text-white/75">
                   {order.id}
                 </td>
 
-                <td className="py-4 text-[10px] text-white/55">
+                <td className="py-4 text-[13px] text-white/65">
                   {order.customer}
                 </td>
 
-                <td className="py-4 text-[10px] text-white/40">
+                <td className="py-4 text-[13px] text-white/65">
                   {order.items}
                 </td>
 
-                <td className="py-4 text-[10px] text-white/60">
+                <td className="py-4 text-[13px] text-white/65">
                   {order.price}
                 </td>
 
                 <td className="py-4">
                   <span
-                    className={`rounded-full px-2.5 py-1 text-[8px] ${order.statusClass}`}
+                    className={`rounded-full px-2.5 py-1 text-[12px] ${order.statusClass}`}
                   >
                     {order.status}
                   </span>
