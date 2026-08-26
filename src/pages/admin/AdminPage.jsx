@@ -27,9 +27,7 @@ function QuickActions() {
       className="mt-5 rounded-[16px] border border-[#6f2826] bg-[#27090c] p-5 sm:p-6"
     >
       <div>
-        <h2 className="text-sm font-medium text-white">دسترسی سریع</h2>
-
-        <p className="mt-1 text-[9px] text-white/35">مدیریت سریع فروشگاه</p>
+        <h2 className="text-lg font-bold text-white">دسترسی سریع</h2>
       </div>
 
       <div className="mt-5 flex gap-3 sm:grid-cols-2">
@@ -39,11 +37,11 @@ function QuickActions() {
         >
           <Package size={18} strokeWidth={1.35} className="text-[#e9a92f]" />
 
-          <p className="mt-3 text-[10px] text-white/70 transition group-hover:text-white">
+          <p className="mt-3 text-[15px] text-white/70 transition group-hover:text-white">
             افزودن غذا
           </p>
 
-          <p className="mt-1 text-[9px] text-white/25">ثبت غذای جدید در منو</p>
+          <p className="mt-1 text-[15px] text-white/35">ثبت غذای جدید در منو</p>
         </button>
 
         <button
@@ -56,11 +54,11 @@ function QuickActions() {
             className="text-[#e9a92f]"
           />
 
-          <p className="mt-3 text-[10px] text-white/70 transition group-hover:text-white">
+          <p className="mt-3 text-[15px] text-white/70 transition group-hover:text-white">
             دسته‌بندی جدید
           </p>
 
-          <p className="mt-1 text-[9px] text-white/25">
+          <p className="mt-1 text-[15px] text-white/35">
             ایجاد دسته‌بندی برای غذاها
           </p>
         </button>
@@ -69,18 +67,18 @@ function QuickActions() {
           type="button"
           className="group w-full rounded-[12px] border border-[#63221f] bg-[#25080b] p-4 text-right transition hover:border-[#e9a92f]/40 hover:bg-[#2c0b0e]"
         >
-          <ClipboardList
+          <Users
             size={18}
             strokeWidth={1.35}
             className="text-[#e9a92f]"
           />
 
-          <p className="mt-3 text-[10px] text-white/70 transition group-hover:text-white">
-            دسته‌بندی جدید
+          <p className="mt-3 text-[15px] text-white/70 transition group-hover:text-white">
+           کاربران
           </p>
 
-          <p className="mt-1 text-[9px] text-white/25">
-            ایجاد دسته‌بندی برای غذاها
+          <p className="mt-1 text-[15px] text-white/35">
+           مدیریت کاربران
           </p>
         </button>
       </div>
