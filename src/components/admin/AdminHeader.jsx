@@ -32,7 +32,7 @@ export default function AdminHeader({ activeTab }) {
   const current = titles[activeTab] ?? titles.dashboard;
 
   return (
-    <header className="flex h-[70px] items-center justify-between rounded-[16px] border border-[#6f2826] bg-[#27090c] px-4 sm:px-6">
+    <header className="flex h-[70px] items-center justify-between rounded-[16px] border border-[#6f2826] bg-[#27090c] px-4 sm:px-4">
       {/* TITLE */}
       <div className="relative min-w-0 overflow-hidden">
         <AnimatePresence mode="wait" initial={false}>
