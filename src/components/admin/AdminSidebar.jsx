@@ -77,20 +77,31 @@ export default function AdminSidebar({ activeTab, onTabChange }) {
               {/* ACTIVE BACKGROUND */}
               {isActive && (
                 <motion.span
-                  layoutId="admin-sidebar-active"
+                  layoutId="profile-sidebar-active"
                   transition={{
                     type: "spring",
                     stiffness: 420,
                     damping: 32,
                     mass: 0.7,
                   }}
-                  className="absolute inset-0 rounded-[11px] bg-[#e9a92f]/10 shadow-[0_0_12px_rgba(233,169,47,0.12)]"
+                  className="absolute inset-0 rounded-[11px] bg-[#e9a92f]/10 shadow-[0_0_8px_rgba(233,169,47,0.35),0_0_20px_rgba(233,169,47,0.18)]"
                 />
               )}
 
               {/* NEON LINE */}
               {isActive && (
-                <span className="absolute right-0 top-1/2 z-20 h-6 w-[2px] -translate-y-1/2 rounded-full bg-[#e9a92f] shadow-[0_0_6px_#e9a92f,0_0_14px_#e9a92f]" />
+                <span className="absolute inset-y-0 right-0 z-20 flex items-center">
+                  <motion.span
+                    layoutId="profile-sidebar-neon-line"
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 35,
+                      mass: 0.6,
+                    }}
+                    className="h-7 w-[2px] rounded-full bg-[#e9a92f] shadow-[0_0_6px_#e9a92f,0_0_12px_#e9a92f,0_0_22px_rgba(233,169,47,0.7)]"
+                  />
+                </span>
               )}
 
               {/* ICON */}
