@@ -1,4 +1,5 @@
 import { Mail, Phone, UserRound } from "lucide-react";
+import { motion } from "framer-motion";
 
 const userInfo = {
   firstName: "امیر محمدی",
@@ -9,9 +10,7 @@ const userInfo = {
 function ProfileField({ label, value, icon: Icon, type = "text" }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-xs text-white/65">
-        {label}
-      </span>
+      <span className="mb-2 block text-xs text-white/65">{label}</span>
 
       <div className="relative">
         <Icon
@@ -33,13 +32,23 @@ function ProfileField({ label, value, icon: Icon, type = "text" }) {
 
 export default function ProfileInfo() {
   return (
-    <section className="flex-1 rounded-[16px] border border-[#6f2826] bg-[#27090c] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.18)] sm:p-7">
+    <motion.section
+      initial={{
+        opacity: 0,
+        y: 8,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.22,
+      }}
+      className="flex-1 rounded-[16px] border border-[#6f2826] bg-[#27090c] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.18)] sm:p-7"
+    >
       {/* HEADER */}
-
       <div>
-        <h1 className="text-xl font-medium text-white">
-          اطلاعات شخصی
-        </h1>
+        <h1 className="text-xl font-medium text-white">اطلاعات شخصی</h1>
 
         <p className="mt-2 text-xs text-white/45">
           اطلاعات خود را به‌روز رسانی کنید.
@@ -47,7 +56,6 @@ export default function ProfileInfo() {
       </div>
 
       {/* FORM */}
-
       <div className="mt-8 space-y-5">
         <ProfileField
           label="نام و نام خانوادگی"
@@ -71,13 +79,12 @@ export default function ProfileInfo() {
       </div>
 
       {/* SAVE */}
-
       <button
         type="button"
         className="mt-7 flex h-[48px] w-full items-center justify-center rounded-full bg-gold-gradient text-sm font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105 sm:w-[220px]"
       >
         ذخیره تغییرات
       </button>
-    </section>
+    </motion.section>
   );
 }
