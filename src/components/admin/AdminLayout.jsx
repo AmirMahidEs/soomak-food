@@ -41,18 +41,13 @@ export default function AdminLayout() {
     >
       <div className="mx-auto flex w-full max-w-[1200px] items-start gap-5">
         {/* SIDEBAR */}
-        <AdminSidebar
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
+        <AdminSidebar activeTab={activeTab} onTabChange={setActiveTab} />
 
         {/* MAIN */}
         <div className="min-w-0 flex-1">
-          <AdminHeader />
+          <AdminHeader activeTab={activeTab} />
 
-          <div className="mt-5">
-            {renderContent()}
-          </div>
+          <div className="mt-5">{renderContent()}</div>
         </div>
       </div>
     </main>

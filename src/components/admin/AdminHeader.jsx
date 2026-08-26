@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { Bell } from "lucide-react";
 
 const titles = {
@@ -5,18 +6,22 @@ const titles = {
     title: "پیشخوان مدیریت",
     description: "مدیریت و نظارت بر فروشگاه سومک",
   },
+
   products: {
     title: "مدیریت غذاها",
     description: "افزودن، ویرایش و مدیریت غذاهای فروشگاه",
   },
+
   orders: {
     title: "مدیریت سفارش‌ها",
     description: "مشاهده و مدیریت سفارش‌های مشتریان",
   },
+
   categories: {
     title: "دسته‌بندی‌ها",
     description: "مدیریت دسته‌بندی غذاهای فروشگاه",
   },
+
   users: {
     title: "کاربران",
     description: "مشاهده و مدیریت کاربران فروشگاه",
@@ -24,17 +29,44 @@ const titles = {
 };
 
 export default function AdminHeader({ activeTab }) {
-  
-  const current = titles[activeTab] || titles.dashboard;
+  const current = titles[activeTab] ?? titles.dashboard;
 
   return (
     <header className="flex h-[70px] items-center justify-between rounded-[16px] border border-[#6f2826] bg-[#27090c] px-4 sm:px-6">
-      <div>
-        <p className="text-base font-extrabold text-white">{current.title}</p>
+      {/* TITLE */}
+      <div className="relative min-w-0 overflow-hidden">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={activeTab}
+            initial={{
+              opacity: 0,
+              y: 8,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: -8,
+            }}
+            transition={{
+              duration: 0.22,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <p className="text-base font-extrabold text-white">
+              {current.title}
+            </p>
 
-        <p className="mt-1 text-[14.5px] font-light text-white">{current.description}</p>
+            <p className="mt-1 text-[14.5px] font-light text-white">
+              {current.description}
+            </p>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
+      {/* RIGHT SECTION */}
       <div className="flex items-center gap-3">
         {/* NOTIFICATION */}
         <button
@@ -49,11 +81,11 @@ export default function AdminHeader({ activeTab }) {
         {/* ADMIN */}
         <div className="flex items-center gap-2.5 border-r border-[#61221f] pr-3">
           {/* AVATAR */}
-
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e9a92f]/10 text-base font-medium text-[#e9a92f]">
             ا
           </div>
 
+          {/* ADMIN INFO */}
           <div className="hidden sm:block">
             <p className="text-[15px] text-white">مدیر فروشگاه</p>
 
