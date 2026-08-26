@@ -32,8 +32,8 @@ const menuItems = [
 
 export default function ProfileSidebar({ activeTab, onTabChange }) {
   return (
-    <aside className="w-full shrink-0 rounded-[16px] border border-[#6f2826] bg-[#27090c] p-3 lg:w-[150px]">
-      <nav className="flex flex-col gap-1">
+    <aside className="w-full shrink-0 rounded-[16px] border border-[#6f2826] bg-[#27090c] p-3 lg:w-[160px]">
+      <nav className="flex flex-col gap-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -46,7 +46,7 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
               className={`group relative flex w-full items-center justify-between rounded-[11px] px-3 py-3 text-right text-[11px] transition-colors duration-200 ${
                 isActive
                   ? "text-[#e9a92f]"
-                  : "text-white/55 hover:bg-[#421014] hover:text-white"
+                  : "text-white hover:bg-[#421014] hover:text-white"
               }`}
             >
               {/* ACTIVE BACKGROUND */}
@@ -87,7 +87,7 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
                   className={isActive ? "text-somak-gold" : "text-[#debc6c]"}
                 />
 
-                <span>{item.label}</span>
+                <span className="font-bold text-xs">{item.label}</span>
               </span>
             </button>
           );
@@ -99,7 +99,7 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
         {/* LOGOUT */}
         <button
           type="button"
-          className="flex w-full items-center gap-2.5 rounded-[11px] px-3 py-3 text-right text-[11px] text-white/55 transition hover:bg-[#421014] hover:text-white"
+          className="flex w-full items-center gap-2.5 rounded-[11px] px-3 py-3 text-right text-[11px] text-xs font-bold text-white transition hover:bg-[#421014] hover:text-white"
         >
           <LogOut size={17} strokeWidth={1.45} className="text-[#e9a92f]/75" />
 
