@@ -2,7 +2,13 @@ import { Edit3, MoreVertical, Plus, Search, Trash2 } from "lucide-react";
 
 import { motion } from "framer-motion";
 
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectProductFilters,
+  setProductCategoryFilter,
+  setProductSearch,
+  setProductStatusFilter,
+} from "../../features/admin/adminSlice";
 import AdminSelect from "../../components/admin/AdminSelect";
 
 const products = [
@@ -41,8 +47,8 @@ const products = [
 ];
 
 export default function AdminProductsPage() {
-  const [category, setCategory] = useState("");
-  const [status, setStatus] = useState("");
+  const dispatch = useDispatch();
+  const { search, category, status } = useSelector(selectProductFilters);
 
   const categoryOptions = [
     { value: "", label: "همه دسته‌بندی‌ها" },
@@ -56,6 +62,19 @@ export default function AdminProductsPage() {
     { value: "active", label: "فعال" },
     { value: "unavailable", label: "ناموجود" },
   ];
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase());
+    const categoryMap = {
+      burger: "برگر",
+      pizza: "پیتزا",
+      pasta: "پاستا",
+    };
+    const matchesCategory = !category || product.category === categoryMap[category];
+    const matchesStatus =
+      !status || (status === "active" ? product.status === "فعال" : product.status === "ناموجود");
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -93,6 +112,8 @@ export default function AdminProductsPage() {
 
             <input
               type="text"
+              value={search}
+              onChange={(event) => dispatch(setProductSearch(event.target.value))}
               placeholder="جستجوی غذا..."
               className="h-[42px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-3 pr-10 text-[15px] text-white/70 outline-none transition placeholder:text-white/25 focus:border-[#e9a92f]/50"
             />
@@ -100,14 +121,14 @@ export default function AdminProductsPage() {
 
           <AdminSelect
             value={category}
-            onChange={setCategory}
+            onChange={(value) => dispatch(setProductCategoryFilter(value))}
             options={categoryOptions}
             placeholder="همه دسته‌بندی‌ها"
           />
 
           <AdminSelect
             value={status}
-            onChange={setStatus}
+            onChange={(value) => dispatch(setProductStatusFilter(value))}
             options={statusOptions}
             placeholder="همه وضعیت‌ها"
           />
@@ -129,7 +150,7 @@ export default function AdminProductsPage() {
             </thead>
 
             <tbody>
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <tr
                   key={product.id}
                   className="border-b border-[#61221f]/40 last:border-0"

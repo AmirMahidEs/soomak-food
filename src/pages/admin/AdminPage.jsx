@@ -1,7 +1,3 @@
-import AdminCategoriesPage from "./AdminCategoriesPage";
-import AdminOrdersPage from "./AdminOrdersPage";
-import AdminProductsPage from "./AdminProductsPage";
-
 import AdminStatCard from "../../components/admin/dashboard/AdminStatCard";
 import RecentOrders from "../../components/admin/dashboard/RecentOrders";
 
@@ -302,24 +298,6 @@ function EmptyAdminContent({ title, description, icon: Icon }) {
   );
 }
 
-export default function AdminPage({ activeTab }) {
-  switch (activeTab) {
-    case "dashboard":
-      return <DashboardContent />;
-
-    case "products":
-      return <AdminProductsPage />;
-
-    case "orders":
-      return <AdminOrdersPage />;
-
-    case "categories":
-      return <AdminCategoriesPage />;
-
-    case "users":
-      return <UsersContent />;
-
-    default:
-      return <DashboardContent />;
-  }
+export default function AdminPage() {
+  return <DashboardContent />;
 }

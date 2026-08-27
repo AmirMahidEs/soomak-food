@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAdminTab, setAdminTab } from "../../features/admin/adminSlice";
 
 import AdminHeader from "./AdminHeader";
 import AdminSidebar from "./AdminSidebar";
@@ -10,7 +11,9 @@ import AdminCategoriesPage from "../../pages/admin/AdminCategoriesPage";
 import AdminUsersPage from "../../pages/admin/AdminUserPage";
 
 export default function AdminLayout() {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const dispatch = useDispatch();
+  const activeTab = useSelector(selectAdminTab);
+  const setActiveTab = (tab) => dispatch(setAdminTab(tab));
 
   const renderContent = () => {
     switch (activeTab) {

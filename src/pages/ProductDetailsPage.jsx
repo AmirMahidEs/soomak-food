@@ -8,13 +8,24 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  decreaseQuantity,
+  increaseQuantity,
+  selectCartItems,
+} from "../features/cart/cartSlice";
 import PageMotion from "../components/PageMotion";
 import ProductCard from "../components/ProductCard";
 import { products } from "../data/products";
 const money = (n) => n.toLocaleString("fa-IR");
 export default function ProductDetailsPage() {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
   const product = products.find((x) => x.id === id) || products[1];
+  const cartItem = cartItems.find((item) => item.id === product.id);
+  const quantity = cartItem?.quantity ?? 1;
   const related = products.filter((x) => x.id !== product.id).slice(0, 4);
   return (
     <PageMotion>
@@ -66,7 +77,7 @@ export default function ProductDetailsPage() {
                       className="aspect-square w-full object-cover"
                     />
                   </button>
-                ),  
+                ),
               )}
             </div>
           </div>
@@ -92,15 +103,39 @@ export default function ProductDetailsPage() {
               {money(product.price)} تومان
             </div>
             <div className="my-5 flex items-center justify-end gap-5">
-              <button className="grid h-11 w-40 grid-cols-3 items-center rounded-full border border-somak-gold/60 text-white">
-                <span>−</span>
-                <span>۱</span>
-                <span>+</span>
-              </button>
+              <div className="grid h-11 w-40 grid-cols-3 items-center rounded-full border border-somak-gold/60 text-white">
+                <button
+                  type="button"
+                  onClick={() =>
+                    cartItem
+                      ? dispatch(increaseQuantity(product.id))
+                      : dispatch(addToCart(product))
+                  }
+                  className="h-full text-lg text-somak-gold2 transition hover:text-white"
+                  aria-label="افزایش تعداد"
+                >
+                  +
+                </button>
+                <span className="text-center">
+                  {quantity.toLocaleString("fa-IR")}
+                </span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    cartItem && dispatch(decreaseQuantity(product.id))
+                  }
+                  className="h-full text-lg text-somak-gold2 transition hover:text-white"
+                  aria-label="کاهش تعداد"
+                >
+                  −
+                </button>
+              </div>
             </div>
             <div className="grid gap-3">
               <motion.button
+                type="button"
                 whileTap={{ scale: 0.98 }}
+                onClick={() => dispatch(addToCart(product))}
                 className="flex items-center justify-center gap-4 rounded-full bg-gradient-to-r from-[#f5d26b] to-[#d9931e] py-4 font-semibold text-somak-950"
               >
                 افزودن به سبد خرید <ShoppingCart size={20} />

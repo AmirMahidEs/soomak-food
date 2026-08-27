@@ -1,8 +1,18 @@
 import { Heart, Plus, ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../features/cart/cartSlice";
 const formatPrice = (n) => n.toLocaleString("fa-IR");
 export default function ProductCard({ product, compact = false }) {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    dispatch(addToCart(product));
+  };
+
   return (
     <motion.article
       whileHover={{ y: -7 }}
@@ -43,9 +53,14 @@ export default function ProductCard({ product, compact = false }) {
             <span className="text-sm font-semibold text-somak-gold2">
               {formatPrice(product.price)} تومان
             </span>
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-somak-gold text-somak-950">
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              aria-label="افزودن به سبد خرید"
+              className="grid h-9 w-9 place-items-center rounded-full bg-somak-gold text-somak-950 transition hover:brightness-105"
+            >
               {compact ? <ShoppingCart size={17} /> : <Plus size={20} />}
-            </span>
+            </button>
           </div>
         </div>
       </Link>

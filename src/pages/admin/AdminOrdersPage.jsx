@@ -1,6 +1,11 @@
 import { Eye, Search } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectOrderFilters,
+  setOrderSearch,
+  setOrderStatusFilter,
+} from "../../features/admin/adminSlice";
 
 import AdminSelect from "../../components/admin/AdminSelect";
 
@@ -35,7 +40,8 @@ const orders = [
 ];
 
 export default function AdminOrdersPage() {
-  const [status, setStatus] = useState("");
+  const dispatch = useDispatch();
+  const { search, status } = useSelector(selectOrderFilters);
 
   const statusOptions = [
     { value: "", label: "همه وضعیت‌ها" },
@@ -44,6 +50,22 @@ export default function AdminOrdersPage() {
     { value: "completed", label: "تکمیل شده" },
     { value: "cancelled", label: "لغو شده" },
   ];
+
+  const filteredOrders = orders.filter((order) => {
+    const query = search.trim().toLowerCase();
+    const matchesSearch =
+      !query ||
+      order.id.toLowerCase().includes(query) ||
+      order.customer.toLowerCase().includes(query) ||
+      order.phone.toLowerCase().includes(query);
+    const statusMap = {
+      new: "جدید",
+      preparing: "در حال آماده‌سازی",
+      completed: "تکمیل شده",
+      cancelled: "لغو شده",
+    };
+    return matchesSearch && (!status || order.status === statusMap[status]);
+  });
 
   return (
     <motion.div
@@ -69,6 +91,8 @@ export default function AdminOrdersPage() {
             />
 
             <input
+              value={search}
+              onChange={(event) => dispatch(setOrderSearch(event.target.value))}
               placeholder="جستجوی شماره سفارش یا مشتری..."
               className="h-[42px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-3 pr-10 text-[15px] text-white/70 outline-none placeholder:text-white/25 focus:border-[#e9a92f]/50"
             />
@@ -76,7 +100,7 @@ export default function AdminOrdersPage() {
 
           <AdminSelect
             value={status}
-            onChange={setStatus}
+            onChange={(value) => dispatch(setOrderStatusFilter(value))}
             options={statusOptions}
             placeholder="همه وضعیت‌ها"
           />
@@ -99,7 +123,7 @@ export default function AdminOrdersPage() {
             </thead>
 
             <tbody>
-              {orders.map((order) => (
+              {filteredOrders.map((order) => (
                 <tr
                   key={order.id}
                   className="border-b border-[#61221f]/40 last:border-0"

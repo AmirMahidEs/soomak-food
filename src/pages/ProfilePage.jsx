@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 
 import { Heart, MapPin, Package } from "lucide-react";
 
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectProfileTab, setProfileTab } from "../features/profile/profileSlice";
 
 import ProfileInfo from "../components/profile/ProfileInfo";
 
@@ -85,7 +86,8 @@ function DashboardContent() {
 }
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState("profile");
+  const dispatch = useDispatch();
+  const activeTab = useSelector(selectProfileTab);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -147,7 +149,7 @@ export default function ProfilePage() {
 
         <ProfileSidebar
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={(tab) => dispatch(setProfileTab(tab))}
         />
 
         {/* CONTENT */}

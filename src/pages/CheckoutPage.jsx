@@ -10,61 +10,33 @@ import {
 } from "lucide-react";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import CheckoutTimeline from "../components/checkout/CheckoutTimeline";
+import {
+  nextCheckoutStep,
+  previousCheckoutStep,
+  selectCheckoutStep,
+  selectPaymentMethod,
+  selectShippingInfo,
+  setPaymentMethod,
+  updateShippingInfo,
+} from "../features/checkout/checkoutSlice";
+import {
+  selectCartItems,
+  selectCartShipping,
+  selectCartSubtotal,
+  selectCartTotal,
+} from "../features/cart/cartSlice";
 
 const formatPrice = (price) => price.toLocaleString("fa-IR");
-
-/* =========================================================
-   STATIC ORDER DATA
-
-   فعلاً فقط برای UI.
-   بعداً از Redux Cart گرفته خواهد شد.
-========================================================= */
-
-const orderItems = [
-  {
-    id: 1,
-    title: "زرشک پلو با مرغ",
-    quantity: 1,
-    price: 260000,
-  },
-  {
-    id: 2,
-    title: "قورمه سبزی",
-    quantity: 1,
-    price: 280000,
-  },
-];
-
-const subtotal = orderItems.reduce(
-  (sum, item) => sum + item.price * item.quantity,
-  0,
-);
-
-const shipping = 30000;
-const total = subtotal + shipping;
-
-/* =========================================================
-   STATIC CUSTOMER DATA
-
-   فعلاً هاردکد شده.
-   بعداً از Redux گرفته خواهد شد.
-========================================================= */
-
-const customerInfo = {
-  name: "امیر مهدی اسلامی",
-  phone: "0912 345 6789",
-  address: "تهران، خیابان ولیعصر، کوچه نمونه، پلاک ۱۲، واحد ۴",
-};
 
 /* =========================================================
    INPUT
 ========================================================= */
 
-function Input({ label, placeholder, icon: Icon, type = "text" }) {
+function Input({ label, placeholder, icon: Icon, type = "text", name, value, onChange }) {
   return (
     <label className="block">
       <span className="mb-2 block text-xs text-white/65">{label}</span>
@@ -78,6 +50,9 @@ function Input({ label, placeholder, icon: Icon, type = "text" }) {
 
         <input
           type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
           placeholder={placeholder}
           className="h-[48px] w-full rounded-[11px] border border-[#63221f] bg-somak-850 pl-4 pr-11 text-sm text-white outline-none transition placeholder:text-white/25 focus:border-[#e9a92f]/60 focus:ring-1 focus:ring-[#e9a92f]/20"
         />
@@ -91,6 +66,14 @@ function Input({ label, placeholder, icon: Icon, type = "text" }) {
 ========================================================= */
 
 function ShippingStep({ onNext }) {
+  const dispatch = useDispatch();
+  const shippingInfo = useSelector(selectShippingInfo);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    dispatch(updateShippingInfo({ [name]: value }));
+  };
+
   return (
     <motion.div
       initial={{
@@ -122,6 +105,9 @@ function ShippingStep({ onNext }) {
           label="نام و نام خانوادگی"
           placeholder="نام و نام خانوادگی"
           icon={UserRound}
+          name="name"
+          value={shippingInfo.name}
+          onChange={handleChange}
         />
 
         <Input
@@ -129,6 +115,9 @@ function ShippingStep({ onNext }) {
           placeholder="0912 000 0000"
           icon={Phone}
           type="tel"
+          name="phone"
+          value={shippingInfo.phone}
+          onChange={handleChange}
         />
 
         <label className="block">
@@ -143,6 +132,9 @@ function ShippingStep({ onNext }) {
 
             <textarea
               rows={4}
+              name="address"
+              value={shippingInfo.address}
+              onChange={handleChange}
               placeholder="آدرس کامل خود را وارد کنید..."
               className="w-full resize-none rounded-[11px] border border-[#63221f] bg-somak-850 px-4 py-3 pr-11 text-sm leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-[#e9a92f]/60 focus:ring-1 focus:ring-[#e9a92f]/20"
             />
@@ -167,6 +159,12 @@ function ShippingStep({ onNext }) {
 ========================================================= */
 
 function ConfirmationStep({ onNext, onBack }) {
+  const shippingInfo = useSelector(selectShippingInfo);
+  const orderItems = useSelector(selectCartItems);
+  const subtotal = useSelector(selectCartSubtotal);
+  const shipping = useSelector(selectCartShipping);
+  const total = useSelector(selectCartTotal);
+
   return (
     <motion.div
       initial={{
@@ -222,7 +220,7 @@ function ConfirmationStep({ onNext, onBack }) {
               </span>
 
               <span className="block text-xs text-white/75">
-                {customerInfo.name}
+                {shippingInfo.name || "—"}
               </span>
             </div>
           </div>
@@ -243,7 +241,7 @@ function ConfirmationStep({ onNext, onBack }) {
                 dir="ltr"
                 className="mt-1 block text-left text-xs text-white/75"
               >
-                {customerInfo.phone}
+                {shippingInfo.phone || "—"}
               </span>
             </div>
           </div>
@@ -261,7 +259,7 @@ function ConfirmationStep({ onNext, onBack }) {
               </span>
 
               <span className="block text-xs leading-6 text-white/75">
-                {customerInfo.address}
+                {shippingInfo.address || "—"}
               </span>
             </div>
           </div>
@@ -351,7 +349,8 @@ function ConfirmationStep({ onNext, onBack }) {
 ========================================================= */
 
 function PaymentStep({ onBack }) {
-  const [paymentMethod, setPaymentMethod] = useState("online");
+  const dispatch = useDispatch();
+  const paymentMethod = useSelector(selectPaymentMethod);
 
   return (
     <motion.div
@@ -384,7 +383,7 @@ function PaymentStep({ onBack }) {
 
         <button
           type="button"
-          onClick={() => setPaymentMethod("online")}
+          onClick={() => dispatch(setPaymentMethod("online"))}
           className={`flex w-full items-center gap-4 rounded-[13px] border p-4 text-right transition ${
             paymentMethod === "online"
               ? "border-[#e9a92f]/60 bg-[#e9a92f]/5"
@@ -424,7 +423,7 @@ function PaymentStep({ onBack }) {
 
         <button
           type="button"
-          onClick={() => setPaymentMethod("cash")}
+          onClick={() => dispatch(setPaymentMethod("cash"))}
           className={`flex w-full items-center gap-4 rounded-[13px] border p-4 text-right transition ${
             paymentMethod === "cash"
               ? "border-[#e9a92f]/60 bg-[#e9a92f]/5"
@@ -488,15 +487,15 @@ function PaymentStep({ onBack }) {
 ========================================================= */
 
 export default function CheckoutPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const dispatch = useDispatch();
+  const currentStep = useSelector(selectCheckoutStep);
+  const orderItems = useSelector(selectCartItems);
+  const subtotal = useSelector(selectCartSubtotal);
+  const shipping = useSelector(selectCartShipping);
+  const total = useSelector(selectCartTotal);
 
-  const goNext = () => {
-    setCurrentStep((step) => Math.min(step + 1, 3));
-  };
-
-  const goBack = () => {
-    setCurrentStep((step) => Math.max(step - 1, 1));
-  };
+  const goNext = () => dispatch(nextCheckoutStep());
+  const goBack = () => dispatch(previousCheckoutStep());
 
   return (
     <main

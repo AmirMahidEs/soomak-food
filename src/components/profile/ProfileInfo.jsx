@@ -1,11 +1,8 @@
 import { Mail, Phone, UserRound } from "lucide-react";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { selectProfileInfo } from "../../features/profile/profileSlice";
 
-const userInfo = {
-  firstName: "امیر محمدی",
-  phone: "0912 123 4567",
-  email: "ali.rezai@email.com",
-};
 
 function ProfileField({ label, value, icon: Icon, type = "text" }) {
   return (
@@ -31,6 +28,8 @@ function ProfileField({ label, value, icon: Icon, type = "text" }) {
 }
 
 export default function ProfileInfo() {
+  const userInfo = useSelector(selectProfileInfo);
+
   return (
     <motion.section
       initial={{

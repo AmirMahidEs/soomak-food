@@ -2,6 +2,9 @@ import { Menu, X, ShoppingCart, UserRound } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectCurrentUser, selectIsAuthenticated } from "../features/auth/authSlice";
+import { selectCartItemCount } from "../features/cart/cartSlice";
 
 import logo from "../assets/logo-placeholder.svg";
 
@@ -15,9 +18,11 @@ const links = [
   ["#contact", "تماس با ما"],
 ];
 
-const CART_COUNT = 1;
-
-export default function Navbar({ isAuthenticated = false, userName = "امیر" }) {
+export default function Navbar() {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const currentUser = useSelector(selectCurrentUser);
+  const cartCount = useSelector(selectCartItemCount);
+  const userName = currentUser?.name ?? "امیر";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -113,9 +118,9 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
     >
       <ShoppingCart size={mobile ? 21 : 22} strokeWidth={1.5} />
 
-      {CART_COUNT > 0 && (
+      {cartCount > 0 && (
         <span className="absolute right-0 top-0 flex h-[15px] min-w-[15px] items-center justify-center rounded-full bg-somak-gold px-[3px] text-[9px] font-bold leading-none text-somak-950">
-          1
+          {cartCount.toLocaleString("fa-IR")}
         </span>
       )}
     </button>

@@ -8,6 +8,18 @@ import {
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  resetFilters,
+  selectProductCategory,
+  selectProductMaxPrice,
+  selectProductSort,
+  selectProductView,
+  setCategory,
+  setMaxPrice,
+  setSort,
+  setView,
+} from "../features/products/productsSlice";
 import { Link } from "react-router-dom";
 
 import PageMotion from "../components/PageMotion";
@@ -16,17 +28,31 @@ import ProductCard from "../components/ProductCard";
 import { categories, products } from "../data/products";
 
 export default function ProductsPage() {
-  const [category, setCategory] = useState("همه محصولات");
-  const [view, setView] = useState("grid");
+  const dispatch = useDispatch();
+  const category = useSelector(selectProductCategory);
+  const view = useSelector(selectProductView);
+  const maxPrice = useSelector(selectProductMaxPrice);
+  const sort = useSelector(selectProductSort);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  const filtered = useMemo(
-    () =>
+  const filtered = useMemo(() => {
+    let result =
       category === "همه محصولات"
         ? products
-        : products.filter((p) => p.category === category),
-    [category],
-  );
+        : products.filter((p) => p.category === category);
+
+    result = result.filter((product) => product.price <= maxPrice);
+
+    if (sort === "price-asc") {
+      result = [...result].sort((a, b) => a.price - b.price);
+    }
+
+    if (sort === "price-desc") {
+      result = [...result].sort((a, b) => b.price - a.price);
+    }
+
+    return result;
+  }, [category, maxPrice, sort]);
 
   return (
     <PageMotion>
@@ -80,8 +106,26 @@ export default function ProductsPage() {
           <div className="flex items-center gap-3">
             {/* Sort */}
 
-            <button className="flex items-center gap-2 rounded-full border border-somak-gold/60 px-5 py-2 text-xs text-white">
-              مرتب‌سازی پیش‌فرض
+            <button
+              type="button"
+              onClick={() =>
+                dispatch(
+                  setSort(
+                    sort === "default"
+                      ? "price-asc"
+                      : sort === "price-asc"
+                        ? "price-desc"
+                        : "default",
+                  ),
+                )
+              }
+              className="flex items-center gap-2 rounded-full border border-somak-gold/60 px-5 py-2 text-xs text-white"
+            >
+              {sort === "price-asc"
+                ? "ارزان‌ترین"
+                : sort === "price-desc"
+                  ? "گران‌ترین"
+                  : "مرتب‌سازی پیش‌فرض"}
               <ChevronDown size={16} />
             </button>
 
@@ -89,7 +133,7 @@ export default function ProductsPage() {
 
             <div className="hidden rounded-xl border border-[#6d2724] p-1 sm:flex">
               <button
-                onClick={() => setView("grid")}
+                onClick={() => dispatch(setView("grid"))}
                 className={`rounded-lg p-2 ${
                   view === "grid"
                     ? "bg-[#5a1b18] text-somak-gold2"
@@ -100,7 +144,7 @@ export default function ProductsPage() {
               </button>
 
               <button
-                onClick={() => setView("list")}
+                onClick={() => dispatch(setView("list"))}
                 className={`rounded-lg p-2 ${
                   view === "list"
                     ? "bg-[#5a1b18] text-somak-gold2"
@@ -166,7 +210,7 @@ export default function ProductsPage() {
                 {categories.map(([name, count]) => (
                   <button
                     key={name}
-                    onClick={() => setCategory(name)}
+                    onClick={() => dispatch(setCategory(name))}
                     className={`flex w-full items-center justify-between rounded-xl px-3 py-3 text-xs transition ${
                       category === name
                         ? "bg-[#542018] text-somak-gold2"
@@ -196,7 +240,8 @@ export default function ProductsPage() {
                 type="range"
                 min="0"
                 max="500000"
-                defaultValue="500000"
+                value={maxPrice}
+                onChange={(event) => dispatch(setMaxPrice(event.target.value))}
                 className="w-full accent-[#e6a62e]"
               />
 
@@ -208,7 +253,7 @@ export default function ProductsPage() {
 
               {/* Reset */}
 
-              <button className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2">
+              <button onClick={() => dispatch(resetFilters())} className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2">
                 <RotateCcw size={14} />
                 پاک کردن فیلترها
               </button>
@@ -241,7 +286,7 @@ export default function ProductsPage() {
               {categories.map(([name, count]) => (
                 <button
                   key={name}
-                  onClick={() => setCategory(name)}
+                  onClick={() => dispatch(setCategory(name))}
                   className={`flex w-full items-center justify-between rounded-xl px-3 py-3 text-xs transition ${
                     category === name
                       ? "bg-[#542018] text-somak-gold2"
@@ -271,8 +316,9 @@ export default function ProductsPage() {
               type="range"
               min="0"
               max="500000"
-              defaultValue="500000"
-              className="w-full accent-[#e6a62e]"
+              value={maxPrice}
+              onChange={(event) => dispatch(setMaxPrice(event.target.value))}
+                className="w-full accent-[#e6a62e]"
             />
 
             <div className="mt-2 flex justify-between text-[10px] text-somak-muted">
@@ -283,7 +329,7 @@ export default function ProductsPage() {
 
             {/* Reset */}
 
-            <button className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2">
+            <button onClick={() => dispatch(resetFilters())} className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2">
               <RotateCcw size={14} />
               پاک کردن فیلترها
             </button>

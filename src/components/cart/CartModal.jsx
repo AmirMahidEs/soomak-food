@@ -1,35 +1,19 @@
 import { Minus, Plus, ShoppingBag, Trash2, X, ArrowLeft } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
-
-import zereshpolo from "../../assets/zereshk-polo-card.jpg";
-import ghormesabzi from "../../assets/ghorme-sabzi.jpg";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeFromCart,
+  selectCartItems,
+  selectCartShipping,
+  selectCartSubtotal,
+  selectCartTotal,
+} from "../../features/cart/cartSlice";
+import { products } from "../../data/products";
 
 import { Link } from "react-router-dom";
-
-/* =========================================================
-   STATIC CART DATA
-
-   فعلاً فقط برای طراحی UI است.
-   بعداً این قسمت کامل حذف می‌شود و Redux جایگزین آن خواهد شد.
-========================================================= */
-
-const INITIAL_CART = [
-  {
-    id: 1,
-    title: "زرشک پلو با مرغ",
-    price: 260000,
-    image: zereshpolo,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    title: "قورمه سبزی",
-    price: 280000,
-    image: ghormesabzi,
-    quantity: 1,
-  },
-];
 
 /* =========================================================
    PRICE FORMAT
@@ -44,7 +28,11 @@ const formatPrice = (price) => {
 ========================================================= */
 
 export default function CartModal({ open, onClose }) {
-  const [cartItems, setCartItems] = useState(INITIAL_CART);
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
+  const subtotal = useSelector(selectCartSubtotal);
+  const shipping = useSelector(selectCartShipping);
+  const total = useSelector(selectCartTotal);
 
   /* =======================================================
    LOCK PAGE SCROLL WITHOUT HIDING SCROLLBAR
@@ -128,63 +116,6 @@ export default function CartModal({ open, onClose }) {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [open, onClose]);
-
-  /* =======================================================
-     INCREASE
-  ======================================================== */
-
-  const increaseQuantity = (id) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
-          : item,
-      ),
-    );
-  };
-
-  /* =======================================================
-     DECREASE
-  ======================================================== */
-
-  const decreaseQuantity = (id) => {
-    setCartItems((items) =>
-      items
-        .map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                quantity: item.quantity - 1,
-              }
-            : item,
-        )
-        .filter((item) => item.quantity > 0),
-    );
-  };
-
-  /* =======================================================
-     DELETE
-  ======================================================== */
-
-  const removeItem = (id) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-  };
-
-  /* =======================================================
-     CALCULATIONS
-  ======================================================== */
-
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
-
-  const shipping = cartItems.length > 0 ? 30000 : 0;
-
-  const total = subtotal + shipping;
 
   /* =======================================================
      MODAL
@@ -322,7 +253,7 @@ export default function CartModal({ open, onClose }) {
 
                           <div className="h-[68px] w-[68px] shrink-0 overflow-hidden rounded-[11px] border border-[#652522] bg-[#180507]">
                             <img
-                              src={item.image}
+                              src={item.image || products.find((product) => product.id === item.id)?.image}
                               alt={item.title}
                               className="h-full w-full object-cover"
                             />
@@ -349,7 +280,7 @@ export default function CartModal({ open, onClose }) {
 
                             <button
                               type="button"
-                              onClick={() => removeItem(item.id)}
+                              onClick={() => dispatch(removeFromCart(item.id))}
                               aria-label="حذف محصول"
                               className="flex h-[29px] w-[29px] items-center justify-center rounded-full border border-[#642421] text-[#d8952d] transition hover:border-red-400/50 hover:bg-red-950/30 hover:text-red-300"
                             >
@@ -364,7 +295,7 @@ export default function CartModal({ open, onClose }) {
                             >
                               <button
                                 type="button"
-                                onClick={() => increaseQuantity(item.id)}
+                                onClick={() => dispatch(increaseQuantity(item.id))}
                                 className="flex h-[28px] w-[30px] items-center justify-center text-[#e9a92f] transition hover:text-white"
                                 aria-label="افزایش"
                               >
@@ -377,7 +308,7 @@ export default function CartModal({ open, onClose }) {
 
                               <button
                                 type="button"
-                                onClick={() => decreaseQuantity(item.id)}
+                                onClick={() => dispatch(decreaseQuantity(item.id))}
                                 className="flex h-[28px] w-[30px] items-center justify-center text-[#e9a92f] transition hover:text-white"
                                 aria-label="کاهش"
                               >
