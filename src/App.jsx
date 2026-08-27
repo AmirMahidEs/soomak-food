@@ -10,6 +10,7 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import ProfilePage from "./pages/ProfilePage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -56,6 +57,10 @@ export default function App() {
       path: "*",
       element: <NotFoundPage />,
     },
+    {
+      path: "/forgot-password",
+      element: <ForgotPasswordPage />,
+    },
   ]);
 
   useLayoutEffect(() => {
@@ -64,13 +69,12 @@ export default function App() {
 
   const isAuthPage =
     location.pathname === "/login" ||
-    location.pathname === "/signup";
+    location.pathname === "/signup" ||
+    location.pathname === "/forgot-password";
 
   const animatedPage = (
     <AnimatePresence mode="popLayout">
-      <div key={location.pathname}>
-        {element}
-      </div>
+      <div key={location.pathname}>{element}</div>
     </AnimatePresence>
   );
 

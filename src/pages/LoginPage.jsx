@@ -34,7 +34,7 @@ export default function LoginPage() {
   return (
     <AuthLayout
       title="ورود به حساب کاربری"
-    //   subtitle="خوش آمدید! لطفاً برای ادامه وارد شوید"
+      //   subtitle="خوش آمدید! لطفاً برای ادامه وارد شوید"
     >
       <form onSubmit={handleSubmit} className="space-y-5">
         <AuthField
@@ -59,12 +59,12 @@ export default function LoginPage() {
         />
 
         <div className="flex justify-start">
-          <button
-            type="button"
+          <Link
+            to="/forgot-password"
             className="text-xs text-[#e6a62e] transition hover:text-[#f2c55d]"
           >
             رمز عبور خود را فراموش کرده‌اید؟
-          </button>
+          </Link>
         </div>
 
         <button
