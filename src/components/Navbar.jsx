@@ -116,10 +116,10 @@ export default function Navbar() {
         mobile ? "h-10 w-10" : "h-9 w-9"
       }`}
     >
-      <ShoppingCart size={mobile ? 21 : 22} strokeWidth={1.5} />
+      <ShoppingCart size={mobile ? 25 : 28} strokeWidth={1.5} />
 
       {cartCount > 0 && (
-        <span className="absolute right-0 top-0 flex h-[15px] min-w-[15px] items-center justify-center rounded-full bg-somak-gold px-[3px] text-[9px] font-bold leading-none text-somak-950">
+        <span className="absolute right-0 top-0 flex h-[19px] min-w-[19px] items-center justify-center rounded-full bg-somak-gold px-[3px] text-[16px] font-bold leading-none text-somak-950">
           {cartCount.toLocaleString("fa-IR")}
         </span>
       )}
