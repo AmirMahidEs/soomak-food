@@ -21,7 +21,7 @@ export default function AuthLayout({ title, subtitle, children }) {
         <motion.section
           initial={{
             opacity: 0,
-            y: 18,
+            y: 50,
           }}
           animate={{
             opacity: 1,
@@ -29,7 +29,6 @@ export default function AuthLayout({ title, subtitle, children }) {
           }}
           transition={{
             duration: 0.45,
-            ease: [0.22, 1, 0.36, 1],
           }}
           className="overflow-hidden rounded-[20px] border border-[#6f2826] bg-[#27090c] shadow-[0_25px_80px_rgba(0,0,0,0.35)]"
         >
@@ -91,7 +90,7 @@ export default function AuthLayout({ title, subtitle, children }) {
 
             <div
               dir="rtl"
-              className="flex  flex-col justify-center bg-somak-800 px-5 py-8 sm:px-10 lg:min-h-[720px] lg:px-14 lg:py-10"
+              className="flex flex-col justify-center bg-somak-800 px-5 py-8 sm:px-10 lg:min-h-[720px] lg:px-14 lg:py-10"
             >
               {/* Mobile Logo */}
               {/* <div className="mb-7 flex justify-center lg:hidden">
