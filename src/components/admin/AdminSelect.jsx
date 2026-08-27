@@ -55,11 +55,11 @@ export default function AdminSelect({
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -5, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -5, scale: 0.98 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0}}
+            exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 top-[calc(100%+6px)] z-50 w-full min-w-[170px] overflow-hidden rounded-[11px] border border-[#6f2826] bg-[#27090c] p-1 shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
+            className="absolute right-0 top-[calc(100%+6px)] z-50 w-full min-w-[170px] space-y-2 overflow-hidden rounded-[15px] border border-[#6f2826] bg-[#27090c] p-2.5 shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
           >
             {options.map((option) => {
               const isSelected = option.value === value;
@@ -72,7 +72,7 @@ export default function AdminSelect({
                     onChange(option.value);
                     setOpen(false);
                   }}
-                  className={`flex w-full items-center justify-between rounded-[8px] px-3 py-2.5 text-right text-[14px] transition ${
+                  className={`flex w-full items-center justify-between rounded-[10px] px-3 py-2.5 text-right text-[14px] transition ${
                     isSelected
                       ? "bg-[#421014] text-[#e9a92f]"
                       : "text-white/55 hover:bg-[#3a0e12] hover:text-white/85"
