@@ -4,27 +4,27 @@ import { Bell } from "lucide-react";
 const titles = {
   dashboard: {
     title: "پیشخوان مدیریت",
-    description: "مدیریت و نظارت بر فروشگاه سومک",
+    // description: "مدیریت و نظارت بر فروشگاه سومک",
   },
 
   products: {
     title: "مدیریت غذاها",
-    description: "افزودن، ویرایش و مدیریت غذاهای فروشگاه",
+    // description: "افزودن، ویرایش و مدیریت غذاهای فروشگاه",
   },
 
   orders: {
     title: "مدیریت سفارش‌ها",
-    description: "مشاهده و مدیریت سفارش‌های مشتریان",
+    // description: "مشاهده و مدیریت سفارش‌های مشتریان",
   },
 
   categories: {
     title: "دسته‌بندی‌ها",
-    description: "مدیریت دسته‌بندی غذاهای فروشگاه",
+    // description: "مدیریت دسته‌بندی غذاهای فروشگاه",
   },
 
   users: {
     title: "کاربران",
-    description: "مشاهده و مدیریت کاربران فروشگاه",
+    // description: "مشاهده و مدیریت کاربران فروشگاه",
   },
 };
 
@@ -59,9 +59,9 @@ export default function AdminHeader({ activeTab }) {
               {current.title}
             </p>
 
-            <p className="mt-1 text-[14.5px] font-light text-white">
+            {/* <p className="mt-1 text-[14.5px] font-light text-white">
               {current.description}
-            </p>
+            </p> */}
           </motion.div>
         </AnimatePresence>
       </div>
