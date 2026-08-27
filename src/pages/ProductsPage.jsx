@@ -1,14 +1,11 @@
-import {
-  ChevronDown,
-  Grid2X2,
-  List,
-  RotateCcw,
-  SlidersHorizontal,
-} from "lucide-react";
+import { Grid2X2, List, RotateCcw, SlidersHorizontal } from "lucide-react";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+
 import { useMemo, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   resetFilters,
   selectProductCategory,
@@ -20,39 +17,129 @@ import {
   setSort,
   setView,
 } from "../features/products/productsSlice";
+
 import { Link } from "react-router-dom";
 
 import PageMotion from "../components/PageMotion";
+
 import ProductCard from "../components/ProductCard";
+
+import AdminSelect from "../components/admin/AdminSelect";
 
 import { categories, products } from "../data/products";
 
+/* =========================================================
+   SORT OPTIONS
+========================================================= */
+
+const sortOptions = [
+  {
+    value: "default",
+    label: "پیش‌فرض",
+  },
+  {
+    value: "price-asc",
+    label: "ارزان‌ترین",
+  },
+  {
+    value: "price-desc",
+    label: "گران‌ترین",
+  },
+];
+
+/* =========================================================
+   PRODUCTS PAGE
+========================================================= */
+
 export default function ProductsPage() {
   const dispatch = useDispatch();
+
+  /* =======================================================
+     REDUX STATE
+  ======================================================= */
+
   const category = useSelector(selectProductCategory);
+
   const view = useSelector(selectProductView);
+
   const maxPrice = useSelector(selectProductMaxPrice);
+
   const sort = useSelector(selectProductSort);
+
+  /* =======================================================
+     LOCAL UI STATE
+  ======================================================= */
+
   const [filtersOpen, setFiltersOpen] = useState(false);
+
+  /* =======================================================
+     DYNAMIC PRICE RANGE
+  ======================================================= */
+
+  const priceRange = useMemo(() => {
+    if (!products.length) {
+      return {
+        min: 0,
+        max: 0,
+      };
+    }
+
+    const prices = products.map((product) => Number(product.price) || 0);
+
+    return {
+      min: Math.min(...prices),
+      max: Math.max(...prices),
+    };
+  }, []);
+
+  /* =======================================================
+     FILTER + SORT PRODUCTS
+  ======================================================= */
 
   const filtered = useMemo(() => {
     let result =
       category === "همه محصولات"
-        ? products
-        : products.filter((p) => p.category === category);
+        ? [...products]
+        : products.filter((product) => product.category === category);
 
-    result = result.filter((product) => product.price <= maxPrice);
+    /* -------------------------------------------------------
+       PRICE FILTER
+    ------------------------------------------------------- */
+
+    result = result.filter(
+      (product) => Number(product.price) <= Number(maxPrice),
+    );
+
+    /* -------------------------------------------------------
+       SORT
+    ------------------------------------------------------- */
 
     if (sort === "price-asc") {
-      result = [...result].sort((a, b) => a.price - b.price);
+      result.sort((a, b) => Number(a.price) - Number(b.price));
     }
 
     if (sort === "price-desc") {
-      result = [...result].sort((a, b) => b.price - a.price);
+      result.sort((a, b) => Number(b.price) - Number(a.price));
     }
 
     return result;
   }, [category, maxPrice, sort]);
+
+  /* =======================================================
+     FORMAT PRICE
+  ======================================================= */
+
+  const formatPrice = (price) => {
+    return Number(price).toLocaleString("fa-IR");
+  };
+
+  /* =======================================================
+     RESET FILTERS
+  ======================================================= */
+
+  const handleResetFilters = () => {
+    dispatch(resetFilters());
+  };
 
   return (
     <PageMotion>
@@ -66,7 +153,7 @@ export default function ProductsPage() {
 
           <div className="order-2 lg:order-1">
             <img
-              src={products[1].image}
+              src={products[1]?.image}
               alt=""
               className="h-[280px] w-full object-cover lg:h-[290px]"
             />
@@ -76,7 +163,9 @@ export default function ProductsPage() {
 
           <div className="order-1 text-right lg:order-2">
             <p className="text-xs text-somak-muted">
-              صفحه اصلی <span className="mx-2">‹</span> محصولات
+              صفحه اصلی
+              <span className="mx-2">‹</span>
+              محصولات
             </p>
 
             <h1 className="mt-2 text-4xl font-bold text-white">محصولات</h1>
@@ -99,56 +188,50 @@ export default function ProductsPage() {
         ================================================== */}
 
         <div className="mb-5 flex items-center justify-between gap-3">
+          {/* Product Count */}
+
           <span className="text-sm text-somak-muted">
             نمایش {filtered.length.toLocaleString("fa-IR")} غذا
           </span>
 
+          {/* Toolbar Actions */}
+
           <div className="flex items-center gap-3">
-            {/* Sort */}
+            {/* =================================================
+                SORT
+            ================================================== */}
 
-            <button
-              type="button"
-              onClick={() =>
-                dispatch(
-                  setSort(
-                    sort === "default"
-                      ? "price-asc"
-                      : sort === "price-asc"
-                        ? "price-desc"
-                        : "default",
-                  ),
-                )
-              }
-              className="flex items-center gap-2 rounded-full border border-somak-gold/60 px-5 py-2 text-xs text-white"
-            >
-              {sort === "price-asc"
-                ? "ارزان‌ترین"
-                : sort === "price-desc"
-                  ? "گران‌ترین"
-                  : "مرتب‌سازی پیش‌فرض"}
-              <ChevronDown size={16} />
-            </button>
+            <AdminSelect
+              value={sort}
+              onChange={(value) => dispatch(setSort(value))}
+              options={sortOptions}
+              className="w-[190px]"
+            />
 
-            {/* View Switcher */}
+            {/* =================================================
+                VIEW SWITCHER
+            ================================================== */}
 
             <div className="hidden rounded-xl border border-[#6d2724] p-1 sm:flex">
               <button
+                type="button"
                 onClick={() => dispatch(setView("grid"))}
-                className={`rounded-lg p-2 ${
+                className={`rounded-lg p-2 transition ${
                   view === "grid"
                     ? "bg-[#5a1b18] text-somak-gold2"
-                    : "text-white/60"
+                    : "text-white/60 hover:text-white"
                 }`}
               >
                 <Grid2X2 size={17} />
               </button>
 
               <button
+                type="button"
                 onClick={() => dispatch(setView("list"))}
-                className={`rounded-lg p-2 ${
+                className={`rounded-lg p-2 transition ${
                   view === "list"
                     ? "bg-[#5a1b18] text-somak-gold2"
-                    : "text-white/60"
+                    : "text-white/60 hover:text-white"
                 }`}
               >
                 <List size={17} />
@@ -158,8 +241,8 @@ export default function ProductsPage() {
         </div>
 
         {/* =================================================
-    MOBILE / TABLET FILTER DROPDOWN
-================================================== */}
+            MOBILE / TABLET FILTER DROPDOWN
+        ================================================== */}
 
         <div className="mb-5 lg:hidden">
           <motion.div
@@ -176,6 +259,7 @@ export default function ProductsPage() {
             {/* Dropdown Header */}
 
             <button
+              type="button"
               onClick={() => setFiltersOpen((prev) => !prev)}
               className="flex h-[56px] w-full shrink-0 items-center justify-between px-4 text-right"
             >
@@ -185,12 +269,19 @@ export default function ProductsPage() {
                 <span className="font-semibold">دسته‌بندی‌ها</span>
               </div>
 
-              <ChevronDown
-                size={18}
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
                 className={`text-somak-gold2 transition-transform duration-200 ${
                   filtersOpen ? "rotate-180" : ""
                 }`}
-              />
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
             </button>
 
             {/* Dropdown Content */}
@@ -210,6 +301,7 @@ export default function ProductsPage() {
                 {categories.map(([name, count]) => (
                   <button
                     key={name}
+                    type="button"
                     onClick={() => dispatch(setCategory(name))}
                     className={`flex w-full items-center justify-between rounded-xl px-3 py-3 text-xs transition ${
                       category === name
@@ -238,22 +330,28 @@ export default function ProductsPage() {
 
               <input
                 type="range"
-                min="0"
-                max="500000"
-                value={maxPrice}
-                onChange={(event) => dispatch(setMaxPrice(event.target.value))}
+                min={priceRange.min}
+                max={priceRange.max}
+                value={Math.min(maxPrice, priceRange.max)}
+                onChange={(event) =>
+                  dispatch(setMaxPrice(Number(event.target.value)))
+                }
                 className="w-full accent-[#e6a62e]"
               />
 
               <div className="mt-2 flex justify-between text-[10px] text-somak-muted">
-                <span>۰ تومان</span>
+                <span>{formatPrice(priceRange.min)} تومان</span>
 
-                <span>۵۰۰,۰۰۰ تومان</span>
+                <span>{formatPrice(maxPrice)} تومان</span>
               </div>
 
               {/* Reset */}
 
-              <button onClick={() => dispatch(resetFilters())} className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2">
+              <button
+                type="button"
+                onClick={handleResetFilters}
+                className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2 transition hover:bg-somak-gold/10"
+              >
                 <RotateCcw size={14} />
                 پاک کردن فیلترها
               </button>
@@ -262,13 +360,12 @@ export default function ProductsPage() {
         </div>
 
         {/* =================================================
-            MAIN GRID
+            MAIN CONTENT
         ================================================== */}
 
         <div className="grid gap-5 lg:grid-cols-[190px_1fr]">
           {/* =================================================
               DESKTOP SIDEBAR
-              دقیقاً همان استایل قبلی
           ================================================== */}
 
           <aside className="hidden h-fit rounded-2xl border border-[#6d2724] bg-[#28090c]/75 p-4 lg:sticky lg:top-28 lg:block">
@@ -286,6 +383,7 @@ export default function ProductsPage() {
               {categories.map(([name, count]) => (
                 <button
                   key={name}
+                  type="button"
                   onClick={() => dispatch(setCategory(name))}
                   className={`flex w-full items-center justify-between rounded-xl px-3 py-3 text-xs transition ${
                     category === name
@@ -314,22 +412,28 @@ export default function ProductsPage() {
 
             <input
               type="range"
-              min="0"
-              max="500000"
-              value={maxPrice}
-              onChange={(event) => dispatch(setMaxPrice(event.target.value))}
-                className="w-full accent-[#e6a62e]"
+              min={priceRange.min}
+              max={priceRange.max}
+              value={Math.min(maxPrice, priceRange.max)}
+              onChange={(event) =>
+                dispatch(setMaxPrice(Number(event.target.value)))
+              }
+              className="w-full accent-[#e6a62e]"
             />
 
             <div className="mt-2 flex justify-between text-[10px] text-somak-muted">
-              <span>۰ تومان</span>
+              <span>{formatPrice(priceRange.min)} تومان</span>
 
-              <span>۵۰۰,۰۰۰ تومان</span>
+              <span>{formatPrice(maxPrice)} تومان</span>
             </div>
 
             {/* Reset */}
 
-            <button onClick={() => dispatch(resetFilters())} className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2">
+            <button
+              type="button"
+              onClick={handleResetFilters}
+              className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-somak-gold/60 px-3 py-2 text-xs text-somak-gold2 transition hover:bg-somak-gold/10"
+            >
               <RotateCcw size={14} />
               پاک کردن فیلترها
             </button>
@@ -348,13 +452,30 @@ export default function ProductsPage() {
                   : "grid gap-4"
               }
             >
-              {filtered.map((p) => (
-                <ProductCard
-                  key={p.id}
-                  product={p}
-                />
+              {filtered.map((product) => (
+                <ProductCard key={product.id} product={product} />
               ))}
             </motion.div>
+
+            {/* Empty State */}
+
+            {filtered.length === 0 && (
+              <div className="flex min-h-[250px] items-center justify-center rounded-2xl border border-[#6d2724] bg-[#28090c]/50">
+                <div className="text-center">
+                  <p className="text-sm text-white">
+                    محصولی با این فیلتر پیدا نشد.
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={handleResetFilters}
+                    className="mt-4 rounded-full border border-somak-gold/60 px-5 py-2 text-xs text-somak-gold2 transition hover:bg-somak-gold/10"
+                  >
+                    پاک کردن فیلترها
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -363,14 +484,17 @@ export default function ProductsPage() {
         ================================================== */}
 
         <div className="mt-7 flex items-center justify-center gap-2">
-          {["‹", "۱", "۲", "۳", "›"].map((n, i) => (
+          {["‹", "۱", "۲", "۳", "›"].map((number, index) => (
             <button
-              key={i}
-              className={`grid h-10 min-w-10 place-items-center rounded-lg border border-[#6d2724] text-sm ${
-                n === "۱" ? "bg-somak-gold text-somak-950" : "text-white/70"
+              key={index}
+              type="button"
+              className={`grid h-10 min-w-10 place-items-center rounded-lg border border-[#6d2724] text-sm transition ${
+                number === "۱"
+                  ? "bg-somak-gold text-somak-950"
+                  : "text-white/70 hover:bg-white/5 hover:text-white"
               }`}
             >
-              {n}
+              {number}
             </button>
           ))}
         </div>
