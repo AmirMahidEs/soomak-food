@@ -6,7 +6,7 @@ export default function Layout({ children }) {
     <div className="min-h-screen bg-somak-950 text-somak-cream">
       <Navbar />
 
-      <main >{children}</main>
+      <main>{children}</main>
 
       <Footer />
     </div>
