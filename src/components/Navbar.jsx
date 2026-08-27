@@ -142,7 +142,7 @@ export default function Navbar({ isAuthenticated = false, userName = "امیر" 
           duration: 0.25,
           ease: "easeOut",
         }}
-        className={`sticky top-0 z-50 border-b ${
+        className={`sticky top-0 z-[100] border-b ${
           scrolled
             ? "border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.22)]"
             : "border-white/5 shadow-[0_6px_20px_rgba(0,0,0,0.10)]"
