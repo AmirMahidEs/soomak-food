@@ -3,20 +3,20 @@ import { createSlice } from "@reduxjs/toolkit";
 const STORAGE_KEY = "somak-food-cart";
 
 const initialItems = [
-  {
-    id: "zereshk-polo-morgh",
-    title: "زرشک پلو با مرغ",
-    price: 260000,
-    image: null,
-    quantity: 1,
-  },
-  {
-    id: "ghorme-sabzi",
-    title: "قورمه سبزی",
-    price: 280000,
-    image: null,
-    quantity: 1,
-  },
+  // {
+  //   id: "zereshk-polo-morgh",
+  //   title: "زرشک پلو با مرغ",
+  //   price: 260000,
+  //   image: null,
+  //   quantity: 1,
+  // },
+  // {
+  //   id: "ghorme-sabzi",
+  //   title: "قورمه سبزی",
+  //   price: 280000,
+  //   image: null,
+  //   quantity: 1,
+  // },
 ];
 
 function loadCart() {
