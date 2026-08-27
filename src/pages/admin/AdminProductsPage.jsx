@@ -2,6 +2,9 @@ import { Edit3, MoreVertical, Plus, Search, Trash2 } from "lucide-react";
 
 import { motion } from "framer-motion";
 
+import { useState } from "react";
+import AdminSelect from "../../components/admin/AdminSelect";
+
 const products = [
   {
     id: 1,
@@ -38,6 +41,21 @@ const products = [
 ];
 
 export default function AdminProductsPage() {
+  const [category, setCategory] = useState("");
+  const [status, setStatus] = useState("");
+
+  const categoryOptions = [
+    { value: "", label: "همه دسته‌بندی‌ها" },
+    { value: "burger", label: "برگر" },
+    { value: "pizza", label: "پیتزا" },
+    { value: "pasta", label: "پاستا" },
+  ];
+
+  const statusOptions = [
+    { value: "", label: "همه وضعیت‌ها" },
+    { value: "active", label: "فعال" },
+    { value: "unavailable", label: "ناموجود" },
+  ];
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -80,18 +98,19 @@ export default function AdminProductsPage() {
             />
           </div>
 
-          <select className="h-[42px] rounded-[10px] border border-[#63221f] bg-[#25080b] px-4 text-[15px] text-white/55 outline-none">
-            <option>همه دسته‌بندی‌ها</option>
-            <option>برگر</option>
-            <option>پیتزا</option>
-            <option>پاستا</option>
-          </select>
+          <AdminSelect
+            value={category}
+            onChange={setCategory}
+            options={categoryOptions}
+            placeholder="همه دسته‌بندی‌ها"
+          />
 
-          <select className="h-[42px] rounded-[10px] border border-[#63221f] bg-[#25080b] px-4 text-[15px] text-white/55 outline-none">
-            <option>همه وضعیت‌ها</option>
-            <option>فعال</option>
-            <option>ناموجود</option>
-          </select>
+          <AdminSelect
+            value={status}
+            onChange={setStatus}
+            options={statusOptions}
+            placeholder="همه وضعیت‌ها"
+          />
         </div>
       </section>
 

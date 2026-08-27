@@ -1,5 +1,8 @@
 import { Eye, Search } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+
+import AdminSelect from "../../components/admin/AdminSelect";
 
 const orders = [
   {
@@ -32,13 +35,23 @@ const orders = [
 ];
 
 export default function AdminOrdersPage() {
+  const [status, setStatus] = useState("");
+
+  const statusOptions = [
+    { value: "", label: "همه وضعیت‌ها" },
+    { value: "new", label: "جدید" },
+    { value: "preparing", label: "در حال آماده‌سازی" },
+    { value: "completed", label: "تکمیل شده" },
+    { value: "cancelled", label: "لغو شده" },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-5"
     >
-        {/* <div>
+      {/* <div>
           <h1 className="text-xl font-medium text-white">سفارش‌ها</h1>
 
           <p className="mt-2 text-[10px] text-white/35">
@@ -61,13 +74,12 @@ export default function AdminOrdersPage() {
             />
           </div>
 
-          <select className="h-[42px] rounded-[10px] border border-[#63221f] bg-[#25080b] px-4 text-[15px] text-white/55 outline-none">
-            <option>همه وضعیت‌ها</option>
-            <option>جدید</option>
-            <option>در حال آماده‌سازی</option>
-            <option>تکمیل شده</option>
-            <option>لغو شده</option>
-          </select>
+          <AdminSelect
+            value={status}
+            onChange={setStatus}
+            options={statusOptions}
+            placeholder="همه وضعیت‌ها"
+          />
         </div>
       </section>
 
