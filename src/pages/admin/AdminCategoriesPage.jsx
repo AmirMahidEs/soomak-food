@@ -52,7 +52,7 @@ export default function AdminCategoriesPage() {
           type="button"
           className="flex h-[42px] items-center justify-center gap-2 rounded-full bg-gold-gradient px-5 text-[13px] font-bold text-somak-950 transition hover:brightness-105"
         >
-          <Plus size={15} />
+          <Plus size={20} />
           دسته‌بندی جدید
         </button>
       </div>
