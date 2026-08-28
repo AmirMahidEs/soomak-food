@@ -1,0 +1,328 @@
+/////////////////////////////////////////////////////////////////////////
+get
+Food/popular
+/////////////////////////////////////////////////////////////////////////
+"output":[
+    {
+        "FoodName": "Pizza",
+        "shortTitle": "A delicious Italian dish made with a round, flat base of dough topped with tomato sauce, cheese, and various toppings.",
+        "price": 12.99,
+    }
+]
+
+/////////////////////////////////////////////////////////////////////////
+post
+Food/AddToBasket
+/////////////////////////////////////////////////////////////////////////
+input {
+    "foodIds":
+    [
+        1,
+        2,
+        3
+    ],
+    "name": "John Doe",
+    "PhoneNumber": "123-456-7890"
+    "address": "123 Main St, Anytown, USA"
+}
+output {
+    "success": true,
+    "OrderId": 12345,
+    "message": "Items added to basket successfully."
+}
+
+/////////////////////////////////////////////////////////////////////////
+get
+payment/ShomareKartBeKart
+/////////////////////////////////////////////////////////////////////////
+output {
+    "ShomareKartBeKart": "1234-5678-9012-3456",
+}
+
+///////////////////////////////////////////////////////////////////////////
+get
+food/foodDetails?FOODID=1
+/////////////////////////////////////////////////////////////////////////
+
+outPut{
+    title: "Pizza",
+    description: "A delicious Italian dish made with a round, flat base of dough topped with"
+    takeTime: "20-30 minutes",
+    price: 12.99,
+    weight: "500g",
+    servings: 2,
+    about: "Pizza is a popular dish that originated in Italy and has become a favorite around the world. It is made with a variety of ingredients and can be customized to suit individual tastes.",
+    ingredients: [
+      "برنج ایرانی",
+      "باقالی تازه",
+      "ماهیچه",
+      "زعفران دم‌کرده",
+      "روغن و ادویه‌های مخصوص",
+    ],
+     ImagesUrls: [
+      "برنج ایرانی",
+      "باقالی تازه",
+      "ماهیچه",
+      "زعفران دم‌کرده",
+      "روغن و ادویه‌های مخصوص",
+    ]
+}
+///////////////////////////////////////////////////////////////////////////
+get
+food/Comment?FOODID=1
+/////////////////////////////////////////////////////////////////////////
+outPut{
+    comments: [
+        {
+            user: "Alice",
+            comment: "The pizza was amazing! The crust was perfectly crispy and the toppings were fresh.",
+            rating: 5
+        }
+    ]
+    overallRating: 4.5,
+    commentCount: 120
+}
+///////////////////////////////////////////////////////////////////////////
+post
+food/Comment?FOODID=1
+/////////////////////////////////////////////////////////////////////////
+input{
+        {
+            user: "Alice",
+            comment: "The pizza was amazing! The crust was perfectly crispy and the toppings were fresh.",
+            rating: 5
+        }
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////
+get
+food/SuggestedFood?FOODID=1
+/////////////////////////////////////////////////////////////////////////
+"output":[
+    {
+        "FoodName": "Pizza",
+        "shortTitle": "A delicious Italian dish made with a round, flat base of dough topped with tomato sauce, cheese, and various toppings.",
+        "price": 12.99,
+    }
+]
+///////////////////////////////////////////////////////////////////////////
+food/Foods?take=10&skip=0&LowPrice=10&HighPrice=20&Category=10&sort=1
+/////////////////////////////////////////////////////////////////////////
+"output":[
+    {
+        "FoodName": "Pizza",
+        "shortTitle": "A delicious Italian dish made with a round, flat base of dough topped with tomato sauce, cheese, and various toppings.",
+        "price": 12.99,
+    }
+]
+
+///////////////////////////////////////////////////////////////////////////
+admin/Report/TodayOrder
+/////////////////////////////////////////////////////////////////////////
+"output":
+    {
+        "Count": 1,
+        "TotalIncome": 12.99
+    }
+
+///////////////////////////////////////////////////////////////////////////
+admin/Report/Users
+/////////////////////////////////////////////////////////////////////////
+"output":
+    {
+        "Count": 1
+    }
+
+///////////////////////////////////////////////////////////////////////////
+admin/Report/newUsers
+/////////////////////////////////////////////////////////////////////////
+"output":
+    {
+        "Count": 1
+}
+
+///////////////////////////////////////////////////////////////////////////
+admin/Orders/Orders?take=10&skip=0&Status=1
+/////////////////////////////////////////////////////////////////////////
+"output":[
+    {
+        "orderId": 1,
+        "userName": "John Doe",
+        "userphone": "123-456-7890",
+        "totalPrice": 12.99,
+        "orderDate": "2024-06-01T12:00:00Z",
+        "status": "Pending"
+    }   
+]
+
+///////////////////////////////////////////////////////////////////////////
+admin/Orders/editOrderStatus?orderId=1&status=2
+/////////////////////////////////////////////////////////////////////////
+"output":
+     {
+        "orderId": 1,
+        "userName": "John Doe",
+        "userphone": "123-456-7890",
+        "totalPrice": 12.99,
+        "orderDate": "2024-06-01T12:00:00Z",
+        "status": "Pending"
+    } 
+
+///////////////////////////////////////////////////////////////////////////
+get
+admin/food/foods?take=10&skip=0&Category=10&sort=1
+/////////////////////////////////////////////////////////////////////////
+"output":[
+    {
+        "ImageUrl": "https://example.com/image1.jpg",
+        "FoodName": "John Doe",
+        "Category": "Pizza",
+        "price": 12.99,
+    }   
+]
+///////////////////////////////////////////////////////////////////////////
+get
+admin/Category/categories?take=10&skip=0
+/////////////////////////////////////////////////////////////////////////
+"output":[
+    {
+        "Name": "John Doe",
+        "Description": "Pizza",
+        "quantity": 12,
+    }   
+]
+///////////////////////////////////////////////////////////////////////////
+get
+admin/Category/edit?categoryId=1
+/////////////////////////////////////////////////////////////////////////
+"output":
+    {
+        "Name": "John Doe",
+        "Description": "Pizza",
+        
+    }   
+///////////////////////////////////////////////////////////////////////////
+post
+admin/Category/edit?categoryId=1
+/////////////////////////////////////////////////////////////////////////
+"output":[
+    {
+        "Name": "John Doe",
+        "Description": "Pizza",
+    }   
+]
+///////////////////////////////////////////////////////////////////////////
+delete
+admin/Category/delete?categoryId=1
+/////////////////////////////////////////////////////////////////////////
+"output":
+    {
+        "success": "true",
+    }   
+///////////////////////////////////////////////////////////////////////////
+post
+admin/Category/add
+/////////////////////////////////////////////////////////////////////////
+"output":[
+    {
+        "Name": "John Doe",
+        "Description": "Pizza",
+    }   
+]
+///////////////////////////////////////////////////////////////////////////
+get
+admin/food/editFood?foodId=1
+/////////////////////////////////////////////////////////////////////////
+outPut{
+    title: "Pizza",
+    description: "A delicious Italian dish made with a round, flat base of dough topped with"
+    takeTime: "20-30 minutes",
+    price: 12.99,
+    weight: "500g",
+    servings: 2,
+    about: "Pizza is a popular dish that originated in Italy and has become a favorite around the world. It is made with a variety of ingredients and can be customized to suit individual tastes.",
+    ingredients: [
+      "برنج ایرانی",
+      "باقالی تازه",
+      "ماهیچه",
+      "زعفران دم‌کرده",
+      "روغن و ادویه‌های مخصوص",
+    ],
+     ImagesUrls: [
+      "برنج ایرانی",
+      "باقالی تازه",
+      "ماهیچه",
+      "زعفران دم‌کرده",
+      "روغن و ادویه‌های مخصوص",
+    ]
+}
+///////////////////////////////////////////////////////////////////////////
+POST
+admin/food/editFood?foodId=1
+/////////////////////////////////////////////////////////////////////////
+outPut{
+    title: "Pizza",
+    description: "A delicious Italian dish made with a round, flat base of dough topped with"
+    takeTime: "20-30 minutes",
+    price: 12.99,
+    weight: "500g",
+    servings: 2,
+    about: "Pizza is a popular dish that originated in Italy and has become a favorite around the world. It is made with a variety of ingredients and can be customized to suit individual tastes.",
+    ingredients: [
+      "برنج ایرانی",
+      "باقالی تازه",
+      "ماهیچه",
+      "زعفران دم‌کرده",
+      "روغن و ادویه‌های مخصوص",
+    ],
+     ImagesUrls: [
+      "برنج ایرانی",
+      "باقالی تازه",
+      "ماهیچه",
+      "زعفران دم‌کرده",
+      "روغن و ادویه‌های مخصوص",
+    ]
+}
+///////////////////////////////////////////////////////////////////////////
+get
+admin/food/DELETEFood?foodId=1
+/////////////////////////////////////////////////////////////////////////
+outPut{
+  success: true,
+  item:{
+  }
+  message: "Food item deleted successfully."
+}
+///////////////////////////////////////////////////////////////////////////
+admin/user/useres?take=10&skip=0
+/////////////////////////////////////////////////////////////////////////
+"output":[
+    {
+        "UserName": "Pizza",
+        "shortTitle": "A delicious Italian dish made with a round, flat base of dough topped with tomato sauce, cheese, and various toppings.",
+        "phoneNumber": 12.99,
+        "OrderCount": 12,
+    }
+]
+
+
+
+///////////////////////////////////////////////////////////////////////////
+get
+admin/Notification/PhoneNumber
+/////////////////////////////////////////////////////////////////////////
+"output":
+    {
+        "phoneNumber": 12.99
+    }
+
+///////////////////////////////////////////////////////////////////////////
+post
+admin/Notification/PhoneNumber
+/////////////////////////////////////////////////////////////////////////
+"output":
+{
+    "phoneNumber": 12.99
+}
