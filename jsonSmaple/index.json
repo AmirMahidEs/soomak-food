@@ -12,7 +12,7 @@ Food/popular
 
 /////////////////////////////////////////////////////////////////////////
 post
-Food/AddToBasket
+Food/AddToBasketAndCreateOrder
 /////////////////////////////////////////////////////////////////////////
 input {
     "foodIds":
@@ -27,8 +27,9 @@ input {
 }
 output {
     "success": true,
-    "OrderId": 12345,
-    "message": "Items added to basket successfully."
+    "orderId": 12345,
+    "TotalPrice": 12.99,
+    "message": " successfully."
 }
 
 /////////////////////////////////////////////////////////////////////////

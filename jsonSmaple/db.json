@@ -1,0 +1,186 @@
+{
+  "foods": [
+    {
+      "id": 1,
+      "FoodName": "Pizza",
+      "shortTitle": "A delicious Italian dish made with a round, flat base of dough topped with tomato sauce, cheese, and various toppings.",
+      "price": 12.99,
+      "description": "A delicious Italian dish made with a round, flat base of dough topped with tomato sauce, cheese, and various toppings.",
+      "takeTime": "20-30 minutes",
+      "weight": "500g",
+      "servings": 2,
+      "about": "Pizza is a popular dish that originated in Italy and has become a favorite around the world. It is made with a variety of ingredients and can be customized to suit individual tastes.",
+      "ingredients": [
+        "برنج ایرانی",
+        "باقالی تازه",
+        "ماهیچه",
+        "زعفران دم‌کرده",
+        "روغن و ادویه‌های مخصوص"
+      ],
+      "ImagesUrls": [
+        "https://example.com/image1.jpg",
+        "https://example.com/image2.jpg"
+      ]
+    }
+  ],
+
+  "popularFoods": [
+    {
+      "id": 1,
+      "FoodName": "Pizza",
+      "shortTitle": "A delicious Italian dish made with a round, flat base of dough topped with tomato sauce, cheese, and various toppings.",
+      "price": 12.99
+    }
+  ],
+
+  "suggestedFoods": [
+    {
+      "id": 1,
+      "FoodName": "Pizza",
+      "shortTitle": "A delicious Italian dish made with a round, flat base of dough topped with tomato sauce, cheese, and various toppings.",
+      "price": 12.99
+    }
+  ],
+
+  "comments": [
+    {
+      "id": 1,
+      "foodId": 1,
+      "user": "Alice",
+      "comment": "The pizza was amazing! The crust was perfectly crispy and the toppings were fresh.",
+      "rating": 5,
+      "createdAt": "2024-06-01T12:00:00Z"
+    }
+  ],
+
+  "commentStats": {
+    "foodId": 1,
+    "overallRating": 4.5,
+    "commentCount": 120
+  },
+
+  "basket": {
+    "items": [
+      {
+        "foodId": 1,
+        "quantity": 2
+      },
+      {
+        "foodId": 2,
+        "quantity": 1
+      }
+    ],
+    "name": "John Doe",
+    "PhoneNumber": "123-456-7890",
+    "address": "123 Main St, Anytown, USA"
+  },
+
+  "orders": [
+    {
+      "id": 12345,
+      "userId": 2,
+      "userName": "John Doe",
+      "userphone": "123-456-7890",
+      "totalPrice": 12.99,
+      "orderDate": "2024-06-01T12:00:00Z",
+      "status": "Pending",
+      "items": [
+        {
+          "foodId": 1,
+          "quantity": 1,
+          "price": 12.99
+        }
+      ]
+    },
+    {
+      "id": 12346,
+      "userId": 2,
+      "userName": "Jane Smith",
+      "userphone": "987-654-3210",
+      "totalPrice": 23.98,
+      "orderDate": "2024-06-02T10:00:00Z",
+      "status": "Delivered",
+      "items": [
+        {
+          "foodId": 1,
+          "quantity": 1,
+          "price": 12.99
+        },
+        {
+          "foodId": 2,
+          "quantity": 1,
+          "price": 10.99
+        }
+      ]
+    }
+  ],
+
+  "orderReports": {
+    "today": {
+      "Count": 1,
+      "TotalIncome": 12.99
+    }
+  },
+
+  "users": [
+    {
+      "id": 1,
+      "UserName": "John Doe",
+      "shortTitle": "Regular customer",
+      "phoneNumber": "123-456-7890",
+      "OrderCount": 5,
+      "joinDate": "2024-01-15T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "UserName": "Jane Smith",
+      "shortTitle": "New customer",
+      "phoneNumber": "987-654-3210",
+      "OrderCount": 1,
+      "joinDate": "2024-06-01T00:00:00Z"
+    }
+  ],
+
+  "userReports": {
+    "totalUsers": {
+      "Count": 2
+    },
+    "newUsers": {
+      "Count": 1
+    }
+  },
+
+  "categories": [
+    {
+      "id": 1,
+      "Name": "Italian",
+      "Description": "Authentic Italian cuisine",
+      "quantity": 12
+    },
+    {
+      "id": 2,
+      "Name": "Persian",
+      "Description": "Traditional Persian dishes",
+      "quantity": 8
+    }
+  ],
+
+  "paymentInfo": {
+    "ShomareKartBeKart": "1234-5678-9012-3456"
+  },
+
+  "notifications": {
+    "phoneNumber": "09123456789"
+  },
+
+  "adminFoods": [
+    {
+      "id": 1,
+      "ImageUrl": "https://example.com/image1.jpg",
+      "FoodName": "Pizza",
+      "Category": "Italian",
+      "price": 12.99,
+      "categoryId": 1
+    }
+  ]
+}
