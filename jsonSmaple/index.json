@@ -158,8 +158,13 @@ admin/Orders/Orders?take=10&skip=0&Status=1
 ]
 
 ///////////////////////////////////////////////////////////////////////////
-admin/Orders/editOrderStatus?orderId=1&status=2
+post
+admin/Orders/editOrderStatus
 /////////////////////////////////////////////////////////////////////////
+"input":{
+    "orderId": 1,
+    "status": 2
+}
 "output":
      {
         "orderId": 1,
