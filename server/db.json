@@ -1,0 +1,536 @@
+{
+  "foods": [
+    {
+      "id": "baghali-polo",
+      "FoodName": "باقالی پلو با ماهیچه",
+      "title": "باقالی پلو با ماهیچه",
+      "shortTitle": "ماهیچه مخصوص با باقالی تازه",
+      "short": "ماهیچه مخصوص با باقالی تازه",
+      "description": "ماهیچه مخصوص با باقالی تازه، برنج ایرانی و عطر زعفران؛ یک انتخاب اصیل و محبوب برای مهمانی‌ها.",
+      "price": 330000,
+      "image": "/src/assets/baghali-polo.jpg",
+      "ImagesUrls": ["/src/assets/baghali-polo.jpg"],
+      "category": "پلوها",
+      "categoryId": 1,
+      "takeTime": "۳۵ دقیقه",
+      "prep": "۳۵ دقیقه",
+      "weight": "۴۵۰ گرم",
+      "servings": "۱ نفر",
+      "about": "یک غذای اصیل ایرانی با برنج ایرانی، باقالی تازه و ماهیچه که با زعفران دم‌کرده و ادویه‌های مخصوص سرو می‌شود.",
+      "ingredients": [
+        "برنج ایرانی",
+        "باقالی تازه",
+        "ماهیچه",
+        "زعفران دم‌کرده",
+        "روغن و ادویه‌های مخصوص"
+      ],
+      "rating": 4.8,
+      "commentCount": 120,
+      "isPopular": true
+    },
+    {
+      "id": "zereshk-polo-morgh",
+      "FoodName": "زرشک پلو با مرغ",
+      "title": "زرشک پلو با مرغ",
+      "shortTitle": "با مرغ تازه و زرشک اعلا",
+      "short": "با مرغ تازه و زرشک اعلا",
+      "description": "مرغ زعفرانی سرو شده با برنج ایرانی و زرشک تازه؛ یک غذای اصیل و محبوب در مراسم و مهمانی‌ها.",
+      "price": 260000,
+      "image": "/src/assets/zereshk-polo-card.jpg",
+      "ImagesUrls": [
+        "/src/assets/zereshk-polo-card.jpg",
+        "/src/assets/zereshk-polo.jpg"
+      ],
+      "category": "پلوها",
+      "categoryId": 1,
+      "takeTime": "۴۵ دقیقه",
+      "prep": "۴۵ دقیقه",
+      "weight": "۴۰۰ گرم",
+      "servings": "۱ نفر",
+      "about": "زرشک پلو با مرغ زعفرانی، برنج ایرانی و زرشک تازه.",
+      "ingredients": [
+        "برنج ایرانی",
+        "مرغ تازه",
+        "زرشک",
+        "زعفران",
+        "روغن و ادویه‌های مخصوص"
+      ],
+      "rating": 4.7,
+      "commentCount": 96,
+      "isPopular": true
+    },
+    {
+      "id": "chelo-kabab-koobideh",
+      "FoodName": "چلو کباب کوبیده",
+      "title": "چلو کباب کوبیده",
+      "shortTitle": "کوبیده تازه گوسفندی به همراه برنج ایرانی",
+      "short": "کوبیده تازه گوسفندی به همراه برنج ایرانی",
+      "description": "کباب کوبیده گوسفندی تازه با برنج ایرانی، گوجه کبابی و کره؛ طعمی آشنا و اصیل.",
+      "price": 290000,
+      "image": "/src/assets/chelo-kabab.jpg",
+      "ImagesUrls": ["/src/assets/chelo-kabab.jpg"],
+      "category": "کباب‌ها",
+      "categoryId": 2,
+      "takeTime": "۳۰ دقیقه",
+      "prep": "۳۰ دقیقه",
+      "weight": "۴۲۰ گرم",
+      "servings": "۱ نفر",
+      "about": "کباب کوبیده گوسفندی تازه با برنج ایرانی، گوجه کبابی و کره.",
+      "ingredients": [
+        "گوشت گوسفندی",
+        "برنج ایرانی",
+        "گوجه تازه",
+        "کره",
+        "زعفران"
+      ],
+      "rating": 4.9,
+      "commentCount": 143,
+      "isPopular": true
+    },
+    {
+      "id": "ghorme-sabzi",
+      "FoodName": "قورمه سبزی",
+      "title": "قورمه سبزی",
+      "shortTitle": "با گوشت گوسفندی تازه و سبزیجات معطر",
+      "short": "با گوشت گوسفندی تازه و سبزیجات معطر",
+      "description": "قورمه سبزی جاافتاده با گوشت گوسفندی تازه، لوبیا و سبزی‌های معطر ایرانی.",
+      "price": 280000,
+      "image": "/src/assets/ghorme-sabzi.jpg",
+      "ImagesUrls": ["/src/assets/ghorme-sabzi.jpg"],
+      "category": "خورشت‌ها",
+      "categoryId": 3,
+      "takeTime": "۵۰ دقیقه",
+      "prep": "۵۰ دقیقه",
+      "weight": "۴۰۰ گرم",
+      "servings": "۱ نفر",
+      "about": "قورمه سبزی جاافتاده با گوشت گوسفندی تازه، لوبیا و سبزی‌های معطر ایرانی.",
+      "ingredients": [
+        "گوشت گوسفندی",
+        "سبزی تازه",
+        "لوبیا قرمز",
+        "لیمو عمانی",
+        "برنج ایرانی"
+      ],
+      "rating": 4.8,
+      "commentCount": 88,
+      "isPopular": true
+    },
+    {
+      "id": "chelo-jojeh",
+      "FoodName": "چلو جوجه کباب",
+      "title": "چلو جوجه کباب",
+      "shortTitle": "جوجه کباب زعفرانی با برنج ایرانی",
+      "short": "جوجه کباب زعفرانی با برنج ایرانی",
+      "description": "جوجه کباب زعفرانی نرم و آبدار با برنج ایرانی و گوجه تازه.",
+      "price": 280000,
+      "image": "/src/assets/chelo-jojeh.jpg",
+      "ImagesUrls": ["/src/assets/chelo-jojeh.jpg"],
+      "category": "کباب‌ها",
+      "categoryId": 2,
+      "takeTime": "۳۵ دقیقه",
+      "prep": "۳۵ دقیقه",
+      "weight": "۴۲۰ گرم",
+      "servings": "۱ نفر",
+      "about": "جوجه کباب زعفرانی نرم و آبدار با برنج ایرانی و گوجه تازه.",
+      "ingredients": ["سینه مرغ", "زعفران", "برنج ایرانی", "گوجه", "کره"],
+      "rating": 4.6,
+      "commentCount": 74,
+      "isPopular": true
+    },
+    {
+      "id": "fesenjan",
+      "FoodName": "فسنجان با مرغ",
+      "title": "فسنجان با مرغ",
+      "shortTitle": "مرغ در سس فسنجان با گردو و رب انار",
+      "short": "مرغ در سس فسنجان با گردو و رب انار",
+      "description": "فسنجان خوش‌عطر با مرغ، گردوی تازه و رب انار مخصوص سومک فود.",
+      "price": 270000,
+      "image": "/src/assets/fesenjan.jpg",
+      "ImagesUrls": ["/src/assets/fesenjan.jpg"],
+      "category": "خورشت‌ها",
+      "categoryId": 3,
+      "takeTime": "۶۰ دقیقه",
+      "prep": "۶۰ دقیقه",
+      "weight": "۴۰۰ گرم",
+      "servings": "۱ نفر",
+      "about": "فسنجان خوش‌عطر با مرغ، گردوی تازه و رب انار مخصوص سومک فود.",
+      "ingredients": ["مرغ", "گردوی تازه", "رب انار", "زعفران", "ادویه"],
+      "rating": 4.7,
+      "commentCount": 61,
+      "isPopular": false
+    },
+    {
+      "id": "khoresht-bademjan",
+      "FoodName": "خوراک بادمجان",
+      "title": "خوراک بادمجان",
+      "shortTitle": "بادمجان کبابی با گوشت و سس مخصوص",
+      "short": "بادمجان کبابی با گوشت و سس مخصوص",
+      "description": "بادمجان کبابی با گوشت و سس مخصوص، همراه با گوجه و ادویه‌های معطر.",
+      "price": 240000,
+      "image": "/src/assets/khoresht-bademjan.jpg",
+      "ImagesUrls": ["/src/assets/khoresht-bademjan.jpg"],
+      "category": "خورشت‌ها",
+      "categoryId": 3,
+      "takeTime": "۴۵ دقیقه",
+      "prep": "۴۵ دقیقه",
+      "weight": "۴۰۰ گرم",
+      "servings": "۱ نفر",
+      "about": "بادمجان کبابی با گوشت و سس مخصوص، همراه با گوجه و ادویه‌های معطر.",
+      "ingredients": ["بادمجان", "گوشت", "گوجه", "پیاز", "ادویه"],
+      "rating": 4.5,
+      "commentCount": 52,
+      "isPopular": false
+    },
+    {
+      "id": "chelo-cheen",
+      "FoodName": "چلو جوجه کباب زعفرانی",
+      "title": "چلو جوجه کباب زعفرانی",
+      "shortTitle": "جوجه کباب زعفرانی با برنج",
+      "short": "جوجه کباب زعفرانی با برنج",
+      "description": "جوجه کباب زعفرانی تازه، برنج ایرانی و چاشنی مخصوص سومک.",
+      "price": 280000,
+      "image": "/src/assets/chelo-cheen.jpg",
+      "ImagesUrls": ["/src/assets/chelo-cheen.jpg"],
+      "category": "کباب‌ها",
+      "categoryId": 2,
+      "takeTime": "۳۵ دقیقه",
+      "prep": "۳۵ دقیقه",
+      "weight": "۴۲۰ گرم",
+      "servings": "۱ نفر",
+      "about": "جوجه کباب زعفرانی تازه، برنج ایرانی و چاشنی مخصوص سومک.",
+      "ingredients": ["مرغ", "زعفران", "برنج ایرانی", "گوجه", "کره"],
+      "rating": 4.6,
+      "commentCount": 49,
+      "isPopular": false
+    }
+  ],
+  "popularFoods": [
+    {
+      "id": "baghali-polo",
+      "FoodName": "باقالی پلو با ماهیچه",
+      "shortTitle": "ماهیچه مخصوص با باقالی تازه",
+      "price": 330000,
+      "image": "/src/assets/baghali-polo.jpg",
+      "title": "باقالی پلو با ماهیچه",
+      "short": "ماهیچه مخصوص با باقالی تازه"
+    },
+    {
+      "id": "zereshk-polo-morgh",
+      "FoodName": "زرشک پلو با مرغ",
+      "shortTitle": "با مرغ تازه و زرشک اعلا",
+      "price": 260000,
+      "image": "/src/assets/zereshk-polo-card.jpg",
+      "title": "زرشک پلو با مرغ",
+      "short": "با مرغ تازه و زرشک اعلا"
+    },
+    {
+      "id": "chelo-kabab-koobideh",
+      "FoodName": "چلو کباب کوبیده",
+      "shortTitle": "کوبیده تازه گوسفندی به همراه برنج ایرانی",
+      "price": 290000,
+      "image": "/src/assets/chelo-kabab.jpg",
+      "title": "چلو کباب کوبیده",
+      "short": "کوبیده تازه گوسفندی به همراه برنج ایرانی"
+    },
+    {
+      "id": "ghorme-sabzi",
+      "FoodName": "قورمه سبزی",
+      "shortTitle": "با گوشت گوسفندی تازه و سبزیجات معطر",
+      "price": 280000,
+      "image": "/src/assets/ghorme-sabzi.jpg",
+      "title": "قورمه سبزی",
+      "short": "با گوشت گوسفندی تازه و سبزیجات معطر"
+    }
+  ],
+  "suggestedFoods": [
+    {
+      "id": "chelo-kabab-koobideh",
+      "FoodName": "چلو کباب کوبیده",
+      "shortTitle": "کوبیده تازه گوسفندی به همراه برنج ایرانی",
+      "price": 290000,
+      "image": "/src/assets/chelo-kabab.jpg"
+    },
+    {
+      "id": "chelo-jojeh",
+      "FoodName": "چلو جوجه کباب",
+      "shortTitle": "جوجه کباب زعفرانی با برنج ایرانی",
+      "price": 280000,
+      "image": "/src/assets/chelo-jojeh.jpg"
+    },
+    {
+      "id": "fesenjan",
+      "FoodName": "فسنجان با مرغ",
+      "shortTitle": "مرغ در سس فسنجان با گردو و رب انار",
+      "price": 270000,
+      "image": "/src/assets/fesenjan.jpg"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "Name": "پلوها",
+      "Description": "انواع پلوهای ایرانی",
+      "quantity": 8
+    },
+    {
+      "id": 2,
+      "Name": "کباب‌ها",
+      "Description": "انواع کباب‌های ایرانی",
+      "quantity": 5
+    },
+    {
+      "id": 3,
+      "Name": "خورشت‌ها",
+      "Description": "انواع خورشت‌های اصیل ایرانی",
+      "quantity": 6
+    },
+    {
+      "id": 4,
+      "Name": "خوراک‌ها",
+      "Description": "انواع خوراک‌های ایرانی",
+      "quantity": 3
+    },
+    {
+      "id": 5,
+      "Name": "سالاد و پیش‌غذا",
+      "Description": "سالادها و پیش‌غذاهای تازه",
+      "quantity": 2
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "foodId": "baghali-polo",
+      "user": "سارا احمدی",
+      "comment": "باقالی پلو خیلی خوشمزه بود و کیفیت ماهیچه عالی بود.",
+      "rating": 5,
+      "createdAt": "2026-08-20T12:00:00Z"
+    },
+    {
+      "id": 2,
+      "foodId": "baghali-polo",
+      "user": "علی رضایی",
+      "comment": "طعم غذا خیلی خوب بود و بسته‌بندی هم عالی بود.",
+      "rating": 4,
+      "createdAt": "2026-08-21T14:30:00Z"
+    },
+    {
+      "id": 3,
+      "foodId": "zereshk-polo-morgh",
+      "user": "محمد کریمی",
+      "comment": "مرغ نرم و خوش‌طعم بود و زرشک کیفیت خوبی داشت.",
+      "rating": 5,
+      "createdAt": "2026-08-22T18:00:00Z"
+    },
+    {
+      "id": 4,
+      "foodId": "chelo-kabab-koobideh",
+      "user": "نگار حسینی",
+      "comment": "کباب تازه و خوش‌طعم بود.",
+      "rating": 5,
+      "createdAt": "2026-08-23T16:20:00Z"
+    }
+  ],
+  "commentStats": [
+    {
+      "id": 1,
+      "foodId": "baghali-polo",
+      "overallRating": 4.5,
+      "commentCount": 120
+    },
+    {
+      "id": 2,
+      "foodId": "zereshk-polo-morgh",
+      "overallRating": 4.7,
+      "commentCount": 96
+    },
+    {
+      "id": 3,
+      "foodId": "chelo-kabab-koobideh",
+      "overallRating": 4.9,
+      "commentCount": 143
+    },
+    {
+      "id": 4,
+      "foodId": "ghorme-sabzi",
+      "overallRating": 4.8,
+      "commentCount": 88
+    }
+  ],
+  "basket": [
+    {
+      "id": 1,
+      "items": [
+        { "foodId": "baghali-polo", "quantity": 2 },
+        { "foodId": "chelo-jojeh", "quantity": 1 }
+      ],
+      "name": "امیر محمدی",
+      "PhoneNumber": "09123456789",
+      "address": "تهران، خیابان نمونه، پلاک ۱۲"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1001,
+      "userId": 1,
+      "userName": "امیر محمدی",
+      "userphone": "09123456789",
+      "totalPrice": 940000,
+      "orderDate": "2026-08-31T11:30:00Z",
+      "status": "Pending",
+      "items": [
+        { "foodId": "baghali-polo", "quantity": 2, "price": 330000 },
+        { "foodId": "chelo-jojeh", "quantity": 1, "price": 280000 }
+      ]
+    },
+    {
+      "id": 1002,
+      "userId": 2,
+      "userName": "سارا احمدی",
+      "userphone": "09121234567",
+      "totalPrice": 570000,
+      "orderDate": "2026-08-30T16:20:00Z",
+      "status": "Processing",
+      "items": [
+        { "foodId": "chelo-kabab-koobideh", "quantity": 1, "price": 290000 },
+        { "foodId": "chelo-jojeh", "quantity": 1, "price": 280000 }
+      ]
+    },
+    {
+      "id": 1003,
+      "userId": 3,
+      "userName": "علی رضایی",
+      "userphone": "09129876543",
+      "totalPrice": 280000,
+      "orderDate": "2026-08-29T19:00:00Z",
+      "status": "Delivered",
+      "items": [{ "foodId": "ghorme-sabzi", "quantity": 1, "price": 280000 }]
+    },
+    {
+      "id": 1004,
+      "userId": 4,
+      "userName": "محمد کریمی",
+      "userphone": "09125555555",
+      "totalPrice": 540000,
+      "orderDate": "2026-08-28T13:45:00Z",
+      "status": "Cancelled",
+      "items": [
+        { "foodId": "zereshk-polo-morgh", "quantity": 1, "price": 260000 },
+        { "foodId": "chelo-jojeh", "quantity": 1, "price": 280000 }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "UserName": "امیر محمدی",
+      "shortTitle": "مشتری دائمی",
+      "phoneNumber": "09123456789",
+      "OrderCount": 8,
+      "joinDate": "2026-06-10T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "UserName": "سارا احمدی",
+      "shortTitle": "مشتری جدید",
+      "phoneNumber": "09121234567",
+      "OrderCount": 3,
+      "joinDate": "2026-08-20T10:00:00Z"
+    },
+    {
+      "id": 3,
+      "UserName": "علی رضایی",
+      "shortTitle": "مشتری",
+      "phoneNumber": "09129876543",
+      "OrderCount": 5,
+      "joinDate": "2026-07-15T10:00:00Z"
+    },
+    {
+      "id": 4,
+      "UserName": "محمد کریمی",
+      "shortTitle": "مشتری",
+      "phoneNumber": "09125555555",
+      "OrderCount": 2,
+      "joinDate": "2026-08-01T10:00:00Z"
+    },
+    {
+      "id": 5,
+      "UserName": "نگار حسینی",
+      "shortTitle": "مشتری جدید",
+      "phoneNumber": "09121111111",
+      "OrderCount": 1,
+      "joinDate": "2026-08-30T10:00:00Z"
+    }
+  ],
+  "adminFoods": [
+    {
+      "id": "baghali-polo",
+      "ImageUrl": "/src/assets/baghali-polo.jpg",
+      "FoodName": "باقالی پلو با ماهیچه",
+      "Category": "پلوها",
+      "price": 330000,
+      "categoryId": 1
+    },
+    {
+      "id": "zereshk-polo-morgh",
+      "ImageUrl": "/src/assets/zereshk-polo-card.jpg",
+      "FoodName": "زرشک پلو با مرغ",
+      "Category": "پلوها",
+      "price": 260000,
+      "categoryId": 1
+    },
+    {
+      "id": "chelo-kabab-koobideh",
+      "ImageUrl": "/src/assets/chelo-kabab.jpg",
+      "FoodName": "چلو کباب کوبیده",
+      "Category": "کباب‌ها",
+      "price": 290000,
+      "categoryId": 2
+    },
+    {
+      "id": "ghorme-sabzi",
+      "ImageUrl": "/src/assets/ghorme-sabzi.jpg",
+      "FoodName": "قورمه سبزی",
+      "Category": "خورشت‌ها",
+      "price": 280000,
+      "categoryId": 3
+    },
+    {
+      "id": "chelo-jojeh",
+      "ImageUrl": "/src/assets/chelo-jojeh.jpg",
+      "FoodName": "چلو جوجه کباب",
+      "Category": "کباب‌ها",
+      "price": 280000,
+      "categoryId": 2
+    },
+    {
+      "id": "fesenjan",
+      "ImageUrl": "/src/assets/fesenjan.jpg",
+      "FoodName": "فسنجان با مرغ",
+      "Category": "خورشت‌ها",
+      "price": 270000,
+      "categoryId": 3
+    },
+    {
+      "id": "khoresht-bademjan",
+      "ImageUrl": "/src/assets/khoresht-bademjan.jpg",
+      "FoodName": "خوراک بادمجان",
+      "Category": "خورشت‌ها",
+      "price": 240000,
+      "categoryId": 3
+    },
+    {
+      "id": "chelo-cheen",
+      "ImageUrl": "/src/assets/chelo-cheen.jpg",
+      "FoodName": "چلو جوجه کباب زعفرانی",
+      "Category": "کباب‌ها",
+      "price": 280000,
+      "categoryId": 2
+    }
+  ],
+  "orderReports": [{ "id": 1, "Count": 1, "TotalIncome": 940000 }],
+  "userReports": [{ "id": 1, "Count": 5 }],
+  "newUserReports": [{ "id": 1, "Count": 2 }],
+  "paymentInfo": [{ "id": 1, "ShomareKartBeKart": "6037-9918-1234-5678" }],
+  "notifications": [{ "id": 1, "phoneNumber": "09120000000" }]
+}

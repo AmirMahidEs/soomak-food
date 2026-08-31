@@ -14,7 +14,23 @@ import SectionTitle from "../components/SectionTitle";
 import ProductCard from "../components/ProductCard";
 import CorporateBanner from "../components/CorporateBanner";
 import { products } from "../data/products";
+import { useEffect, useState } from "react";
+
+import { getPopularFoods } from "../services/foodServices";
 export default function HomePage() {
+  const [popular, setPopular] = useState([]);
+
+  useEffect(() => {
+    async function fetchPopular() {
+      const [popularFoods] = await Promise.all([getPopularFoods()]);
+
+      setPopular(popularFoods);
+
+      console.log("All Foods pop:", popularFoods);
+    }
+
+    fetchPopular();
+  }, []);
   return (
     <PageMotion>
       <section
@@ -22,7 +38,7 @@ export default function HomePage() {
         className="relative overflow-hidden border-b border-white/5"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_35%,rgba(110,20,18,.25),transparent_42%)]" />
-        <div className="relative z-10 mx-auto grid min-h-[590px] max-w-[1200px] items-center gap-4 px-6 py-12 lg:grid-cols-[1.02fr_.98fr] ">
+        <div className="relative z-10 mx-auto grid min-h-[590px] max-w-[1200px] items-center gap-4 px-6 py-12 lg:grid-cols-[1.02fr_.98fr]">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -43,7 +59,6 @@ export default function HomePage() {
             transition={{ duration: 0.75, delay: 0.08 }}
             className="order-1 pr-0 text-right lg:order-2 lg:pr-8"
           >
-            
             <h1 className="text-4xl font-bold leading-[1.55] text-white sm:text-5xl">
               <span className="text-somak-gold2">طعم</span> اصیل ایرانی
               <br />
@@ -68,29 +83,17 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="mt-12 flex flex-wrap gap-8 text-sm text-white/90">
-              <Feature
-                icon={Leaf}
-                text="مواد اولیه تازه"
-              />
-              <Feature
-                icon={Soup}
-                text="پخت روزانه"
-              />
-              <Feature
-                icon={PackageCheck}
-                text="بسته‌بندی بهداشتی"
-              />
+              <Feature icon={Leaf} text="مواد اولیه تازه" />
+              <Feature icon={Soup} text="پخت روزانه" />
+              <Feature icon={PackageCheck} text="بسته‌بندی بهداشتی" />
             </div>
           </motion.div>
         </div>
       </section>
-      <section
-        id="menu"
-        className="mx-auto max-w-[1200px] px-6 py-16 "
-      >
+      <section id="menu" className="mx-auto max-w-[1200px] px-6 py-16">
         <SectionTitle>محبوب‌ترین غذاها</SectionTitle>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {products.slice(0, 4).map((p, i) => (
+          {popular.map((p, i) => (
             <motion.div
               key={p.id}
               initial={{ opacity: 0, y: 25 }}
@@ -98,16 +101,13 @@ export default function HomePage() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ delay: i * 0.07 }}
             >
-              <ProductCard
-                product={p}
-                compact
-              />
+              <ProductCard product={p} compact />
             </motion.div>
           ))}
         </div>
       </section>
       <CorporateBanner />
-      <section className="mx-auto grid max-w-[1200px] gap-5 px-6 py-12 md:grid-cols-3 ">
+      <section className="mx-auto grid max-w-[1200px] gap-5 px-6 py-12 md:grid-cols-3">
         <Service
           icon={Trophy}
           title="کیفیت تضمینی"
@@ -130,11 +130,7 @@ export default function HomePage() {
 function Feature({ icon: Icon, text }) {
   return (
     <div className="flex items-center gap-3">
-      <Icon
-        size={28}
-        className="text-somak-gold"
-        strokeWidth={1.4}
-      />
+      <Icon size={28} className="text-somak-gold" strokeWidth={1.4} />
       <span>{text}</span>
     </div>
   );
@@ -145,11 +141,7 @@ function Service({ icon: Icon, title, text }) {
       whileHover={{ y: -5 }}
       className="rounded-2xl border border-[#6d2724] bg-[#2a090c]/70 p-8 text-center"
     >
-      <Icon
-        className="mx-auto text-somak-gold"
-        size={46}
-        strokeWidth={1.3}
-      />
+      <Icon className="mx-auto text-somak-gold" size={46} strokeWidth={1.3} />
       <h3 className="mt-5 text-xl font-semibold text-white">{title}</h3>
       <p className="mt-2 text-sm text-somak-muted">{text}</p>
     </motion.div>
