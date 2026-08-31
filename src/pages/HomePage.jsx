@@ -25,8 +25,6 @@ export default function HomePage() {
       const [popularFoods] = await Promise.all([getPopularFoods()]);
 
       setPopular(popularFoods);
-
-      console.log("All Foods pop:", popularFoods);
     }
 
     fetchPopular();
