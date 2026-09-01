@@ -20,3 +20,10 @@ export async function getCategories() {
 
   return response.data;
 }
+
+//GET foods by Id
+export async function getFoodsById(id) {
+  const response = await api.get(`/foods/${id}`);
+
+  return response.data;
+}
