@@ -266,32 +266,38 @@
     }
   ],
   "categories": [
-    {
+     {
       "id": 1,
+      "Name": "همه محصولات",
+      "Description": "همه دسته ها",
+      "quantity": 24
+    },
+    {
+      "id": 2,
       "Name": "پلوها",
       "Description": "انواع پلوهای ایرانی",
       "quantity": 8
     },
     {
-      "id": 2,
+      "id": 3,
       "Name": "کباب‌ها",
       "Description": "انواع کباب‌های ایرانی",
       "quantity": 5
     },
     {
-      "id": 3,
+      "id": 4,
       "Name": "خورشت‌ها",
       "Description": "انواع خورشت‌های اصیل ایرانی",
       "quantity": 6
     },
     {
-      "id": 4,
+      "id": 5,
       "Name": "خوراک‌ها",
       "Description": "انواع خوراک‌های ایرانی",
       "quantity": 3
     },
     {
-      "id": 5,
+      "id": 6,
       "Name": "سالاد و پیش‌غذا",
       "Description": "سالادها و پیش‌غذاهای تازه",
       "quantity": 2

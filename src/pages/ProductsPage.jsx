@@ -2,7 +2,7 @@ import { Grid2X2, List, RotateCcw, SlidersHorizontal } from "lucide-react";
 
 import { motion } from "framer-motion";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -26,7 +26,9 @@ import ProductCard from "../components/ProductCard";
 
 import AdminSelect from "../components/admin/AdminSelect";
 
-import { categories, products } from "../data/products";
+import zereshkHero from "../assets/zereshk-polo.jpg";
+
+import { getFoods, getCategories } from "../services/foodServices";
 
 /* =========================================================
    SORT OPTIONS
@@ -52,6 +54,10 @@ const sortOptions = [
 ========================================================= */
 
 export default function ProductsPage() {
+  const [foods, setFoods] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const dispatch = useDispatch();
 
   /* =======================================================
@@ -72,25 +78,55 @@ export default function ProductsPage() {
 
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  /*=======================================================
+     FETCH FOODS + CATEGORIES
+  ======================================================= */
+
+  useEffect(() => {
+    const fetchFoods = async () => {
+      try {
+        const data = await getFoods();
+        setFoods(data);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching foods:", error);
+      }
+    };
+    fetchFoods();
+  }, []);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
   /* =======================================================
      DYNAMIC PRICE RANGE
   ======================================================= */
 
   const priceRange = useMemo(() => {
-    if (!products.length) {
+    if (!foods.length) {
       return {
         min: 0,
         max: 0,
       };
     }
 
-    const prices = products.map((product) => Number(product.price) || 0);
+    const prices = foods.map((food) => Number(food.price) || 0);
 
     return {
       min: Math.min(...prices),
       max: Math.max(...prices),
     };
-  }, []);
+  }, [foods]);
 
   /* =======================================================
      FILTER + SORT PRODUCTS
@@ -99,16 +135,14 @@ export default function ProductsPage() {
   const filtered = useMemo(() => {
     let result =
       category === "همه محصولات"
-        ? [...products]
-        : products.filter((product) => product.category === category);
+        ? [...foods]
+        : foods.filter((food) => food.category === category);
 
     /* -------------------------------------------------------
        PRICE FILTER
     ------------------------------------------------------- */
 
-    result = result.filter(
-      (product) => Number(product.price) <= Number(maxPrice),
-    );
+    result = result.filter((food) => Number(food.price) <= Number(maxPrice));
 
     /* -------------------------------------------------------
        SORT
@@ -123,7 +157,7 @@ export default function ProductsPage() {
     }
 
     return result;
-  }, [category, maxPrice, sort]);
+  }, [foods, category, maxPrice, sort]);
 
   /* =======================================================
      FORMAT PRICE
@@ -153,7 +187,7 @@ export default function ProductsPage() {
 
           <div className="order-2 lg:order-1">
             <img
-              src={products[1]?.image}
+              src={zereshkHero}
               alt=""
               className="h-[280px] w-full object-cover lg:h-[290px]"
             />
@@ -164,7 +198,7 @@ export default function ProductsPage() {
           <div className="order-1 text-right lg:order-2">
             <p className="text-xs text-somak-muted">
               صفحه اصلی
-              <span className="mx-2">‹</span>
+              <span className="mx-2">›</span>
               محصولات
             </p>
 
@@ -298,20 +332,20 @@ export default function ProductsPage() {
               {/* Categories */}
 
               <div className="space-y-1">
-                {categories.map(([name, count]) => (
+                {categories.map((cats, index) => (
                   <button
-                    key={name}
+                    key={index}
                     type="button"
-                    onClick={() => dispatch(setCategory(name))}
+                    onClick={() => dispatch(setCategory(cats.Name))}
                     className={`flex w-full items-center justify-between rounded-xl px-3 py-3 text-xs transition ${
-                      category === name
+                      category === cats.Name
                         ? "bg-[#542018] text-somak-gold2"
                         : "text-white/80 hover:bg-white/5"
                     }`}
                   >
-                    <span>{name}</span>
+                    <span>{cats.Name}</span>
 
-                    <span>({count.toLocaleString("fa-IR")})</span>
+                    <span>({cats.quantity.toLocaleString("fa-IR")})</span>
                   </button>
                 ))}
               </div>
@@ -380,20 +414,20 @@ export default function ProductsPage() {
             {/* Categories */}
 
             <div className="space-y-1">
-              {categories.map(([name, count]) => (
+              {categories.map((cats, index) => (
                 <button
-                  key={name}
+                  key={index}
                   type="button"
-                  onClick={() => dispatch(setCategory(name))}
+                  onClick={() => dispatch(setCategory(cats.Name))}
                   className={`flex w-full items-center justify-between rounded-xl px-3 py-3 text-xs transition ${
-                    category === name
+                    category === cats.Name
                       ? "bg-[#542018] text-somak-gold2"
                       : "text-white/80 hover:bg-white/5"
                   }`}
                 >
-                  <span>{name}</span>
+                  <span>{cats.Name}</span>
 
-                  <span>({count.toLocaleString("fa-IR")})</span>
+                  <span>({cats.quantity.toLocaleString("fa-IR")})</span>
                 </button>
               ))}
             </div>
@@ -452,8 +486,8 @@ export default function ProductsPage() {
                   : "grid gap-4"
               }
             >
-              {filtered.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {filtered.map((p) => (
+                <ProductCard key={p.id} product={p} />
               ))}
             </motion.div>
 

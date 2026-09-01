@@ -6,3 +6,17 @@ export async function getPopularFoods() {
 
   return response.data;
 }
+
+//GET foods
+export async function getFoods() {
+  const response = await api.get("/foods");
+
+  return response.data;
+}
+
+//GET categories
+export async function getCategories() {
+  const response = await api.get("/categories");
+
+  return response.data;
+}
