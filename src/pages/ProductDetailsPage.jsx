@@ -42,14 +42,14 @@ export default function ProductDetailsPage() {
           >
             صفحه اصلی
           </Link>
-          <span className="mx-2">‹</span>
+          <span className="mx-2">›</span>
           <Link
             to={"/products"}
             className="mb-7 text-xs text-somak-muted hover:text-somak-gold2"
           >
             محصولات
           </Link>
-          <span className="mx-2">‹</span>
+          <span className="mx-2">›</span>
           <p className="mb-7 text-xs text-somak-muted">{product.title}</p>
         </div>
         <div className="grid gap-10 lg:grid-cols-[1.05fr_.95fr]">
