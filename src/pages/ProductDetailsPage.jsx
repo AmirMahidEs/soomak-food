@@ -19,7 +19,7 @@ import PageMotion from "../components/PageMotion";
 import ProductCard from "../components/ProductCard";
 import { products } from "../data/products";
 
-import { getFoodsById } from "../services/foodServices";
+import { getFoodsById, getFoodsComments } from "../services/foodServices";
 import { useEffect, useState } from "react";
 
 const money = (n) => n.toLocaleString("fa-IR");
@@ -27,6 +27,10 @@ export default function ProductDetailsPage() {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const [comments, setComments] = useState([]);
+  const [commentsLoading, setCommentsLoading] = useState(true);
+  const [commentsError, setCommentsError] = useState(false);
 
   useEffect(() => {
     const fetchFoodsById = async () => {
@@ -40,6 +44,21 @@ export default function ProductDetailsPage() {
       }
     };
     fetchFoodsById();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchFoodsComments = async () => {
+      try {
+        const data = await getFoodsComments(id);
+        setComments(data);
+        setCommentsLoading(false);
+      } catch (error) {
+        setCommentsLoading(false);
+        setCommentsError(true);
+        console.error("Error fetching foods comments:", error);
+      }
+    };
+    fetchFoodsComments();
   }, [id]);
 
   const dispatch = useDispatch();
@@ -215,33 +234,59 @@ export default function ProductDetailsPage() {
                 </ul>
               </InfoColumn>
             </section>
-            <section className="mt-10 rounded-2xl border border-[#6d2724] bg-[#25080b]/60 p-7">
-              <div className="grid gap-7 lg:grid-cols-[1fr_220px]">
-                <div>
-                  <div className="mb-4 flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-somak-gold2">
-                      نظرات مشتریان
-                    </h2>
-                    <span className="text-xs text-somak-muted">
-                      مشاهده همه نظرات
-                    </span>
-                  </div>
-                  <Review
-                    name="مریم احمدی"
-                    text="واقعا طعم زرشک و زعفران عالی بود. مرغ هم خیلی خوب پخته و لذیذ بود."
-                  />
-                  <Review
-                    name="علی رضایی"
-                    text="یکی از بهترین غذاهایی بود که تا حالا خوردم."
-                  />
-                </div>
-                <div className="border-r border-[#6d2724] pr-7 text-center">
-                  <div className="text-5xl font-bold text-white">۴.۸</div>
-                  <div className="my-2 text-somak-gold2">★★★★★</div>
-                  <p className="text-sm text-somak-muted">(۱۲۶ نظر)</p>
-                </div>
+            {commentsLoading ? (
+              <div className="mt-10 flex h-[400px] items-center justify-center rounded-2xl border border-[#6d2724] bg-[#25080b]/60">
+                <p className="text-lg text-somak-muted">در حال بارگذاری...</p>
               </div>
-            </section>
+            ) : (
+              <section className="mt-10 rounded-2xl border border-[#6d2724] bg-[#25080b]/60 p-7">
+                {commentsError ? (
+                  <div className="flex h-[400px] items-center justify-center">
+                    <p className="text-lg text-somak-muted">
+                      خطا در بارگذاری نظرات. لطفاً دوباره تلاش کنید.
+                    </p>
+                  </div>
+                ) : comments.length === 0 ? (
+                  <div className="flex items-center justify-center">
+                    <p className="text-lg text-somak-muted">
+                      نظری برای نمایش وجود ندارد.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid gap-7 lg:grid-cols-[1fr_220px]">
+                    <div>
+                      <div className="mb-4 flex items-center justify-between">
+                        <h2 className="text-xl font-semibold text-somak-gold2">
+                          نظرات مشتریان
+                        </h2>
+
+                        <span className="text-xs text-somak-muted">
+                          مشاهده همه نظرات
+                        </span>
+                      </div>
+
+                      {comments.map((comment) => (
+                        <Review
+                          key={comment.id}
+                          name={comment.user}
+                          text={comment.comment}
+                          rating={comment.rating}
+                        />
+                      ))}
+                    </div>
+
+                    <div className="flex flex-col items-center justify-center gap-3 border-r border-[#6d2724] pr-7 text-center">
+                      <div className="text-5xl font-bold text-white">۴.۸</div>
+
+                      <div className="my-2 text-somak-gold2">★★★★★</div>
+
+                      <p className="text-sm text-somak-muted">(۱۲۶ نظر)</p>
+                    </div>
+                  </div>
+                )}
+              </section>
+            )}
+
             <section className="py-12">
               <h2 className="mb-7 text-center text-2xl font-semibold text-white">
                 محصولات مرتبط
@@ -277,13 +322,17 @@ function InfoColumn({ title, children }) {
     </div>
   );
 }
-function Review({ name, text }) {
+function Review({ name, text, rating }) {
   return (
     <div className="mb-3 flex items-center justify-between rounded-xl border border-[#6d2724] px-4 py-3">
-      <p className="text-xs leading-7 text-somak-muted">{text}</p>
-      <div className="mr-5 shrink-0 text-xs text-white">
+      <p className="text-base leading-7 text-somak-muted">{text}</p>
+      <div className="mr-5 flex h-full shrink-0 flex-row-reverse items-center gap-3 text-sm text-white">
         {name}
-        <div className="text-somak-gold2">★★★★★</div>
+        <div className="text-2xl text-somak-gold2">
+          {[1, 2, 3, 4, 5].map((current) => (
+            <span key={current}>{current <= rating ? "★" : "☆"}</span>
+          ))}
+        </div>
       </div>
     </div>
   );

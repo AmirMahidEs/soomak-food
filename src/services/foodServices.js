@@ -27,3 +27,10 @@ export async function getFoodsById(id) {
 
   return response.data;
 }
+
+//GET foods comments
+export async function getFoodsComments(id) {
+  const response = await api.get(`/comments?foodId=${encodeURIComponent(id)}`);
+
+  return response.data;
+}
