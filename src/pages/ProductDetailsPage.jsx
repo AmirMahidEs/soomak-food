@@ -67,6 +67,19 @@ export default function ProductDetailsPage() {
   const cartItem = cartItems.find((item) => item.id === product.id);
   const quantity = cartItem?.quantity ?? 1;
   const related = products.filter((x) => x.id !== product.id).slice(0, 4);
+
+  const averageRating =
+    comments.length > 0
+      ? comments.reduce((sum, comment) => sum + comment.rating, 0) /
+        comments.length
+      : 0;
+
+  const getStarFill = (index) => {
+    const fill = averageRating - index;
+
+    return Math.min(Math.max(fill, 0), 1);
+  };
+
   return (
     <PageMotion>
       <section className="mx-auto max-w-[1200px] px-6 py-8">
@@ -274,13 +287,35 @@ export default function ProductDetailsPage() {
                         />
                       ))}
                     </div>
-
                     <div className="flex flex-col items-center justify-center gap-3 border-r border-[#6d2724] pr-7 text-center">
-                      <div className="text-5xl font-bold text-white">۴.۸</div>
+                      <div className="text-5xl font-bold text-white">
+                        {averageRating.toLocaleString("fa-IR")}
+                      </div>
 
-                      <div className="my-2 text-somak-gold2">★★★★★</div>
+                      <div className="my-2 flex gap-0.5 text-4xl">
+                        {[0, 1, 2, 3, 4].map((index) => {
+                          const fill = getStarFill(index); 
 
-                      <p className="text-sm text-somak-muted">(۱۲۶ نظر)</p>
+                          return (
+                            <div key={index} className="relative">
+                              <span className="text-somak-gold/80">☆</span>
+
+                              {fill > 0 && (
+                                <span
+                                  className="absolute inset-y-0 right-0 overflow-hidden text-somak-gold2"
+                                  style={{ width: `${fill * 100}%` }}
+                                >
+                                  ★
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      <p className="text-sm text-somak-muted">
+                        ( {`${comments.length} نظر`} )
+                      </p>
                     </div>
                   </div>
                 )}
@@ -328,9 +363,17 @@ function Review({ name, text, rating }) {
       <p className="text-base leading-7 text-somak-muted">{text}</p>
       <div className="mr-5 flex h-full shrink-0 flex-row-reverse items-center gap-3 text-sm text-white">
         {name}
-        <div className="text-2xl text-somak-gold2">
+
+        <div className="text-2xl">
           {[1, 2, 3, 4, 5].map((current) => (
-            <span key={current}>{current <= rating ? "★" : "☆"}</span>
+            <span
+              key={current}
+              className={
+                current <= rating ? "text-somak-gold2" : "text-somak-gold/80"
+              }
+            >
+              {current <= rating ? "★" : "☆"}
+            </span>
           ))}
         </div>
       </div>
