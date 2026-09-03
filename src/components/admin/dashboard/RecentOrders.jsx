@@ -1,33 +1,20 @@
 import { motion } from "framer-motion";
-
-const orders = [
-  {
-    id: "#1024",
-    customer: "امیر محمدی",
-    items: "۲ برگر + ۱ پیتزا",
-    price: "۸۵۰,۰۰۰ تومان",
-    status: "جدید",
-    statusClass: "text-[#e9a92f] bg-[#e9a92f]/10",
-  },
-  {
-    id: "#1023",
-    customer: "علی رضایی",
-    items: "۱ پاستا + ۲ نوشیدنی",
-    price: "۵۴۰,۰۰۰ تومان",
-    status: "در حال آماده‌سازی",
-    statusClass: "text-blue-300 bg-blue-400/10",
-  },
-  {
-    id: "#1022",
-    customer: "رضا احمدی",
-    items: "۲ پیتزا",
-    price: "۷۲۰,۰۰۰ تومان",
-    status: "تکمیل شده",
-    statusClass: "text-green-300 bg-green-400/10",
-  },
-];
+import AdminStatsChip from "./AdminStatsChip";
+import { useEffect, useState } from "react";
+import { getLastOrders } from "../../../services/adminServices";
 
 export default function RecentOrders() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchLastOrders = async () => {
+      const lastOrders = await getLastOrders();
+      setOrders(lastOrders);
+    };
+
+    fetchLastOrders();
+  }, []);
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 8 }}
@@ -66,11 +53,13 @@ export default function RecentOrders() {
                 className="border-b border-[#61221f]/40 last:border-0"
               >
                 <td className="py-4 text-[13px] font-medium text-white/75">
-                  {order.id}
+                  {order.id}#
                 </td>
 
                 <td className="py-4 text-[13px] text-white/65">
-                  {order.customer}
+                  {order.userName}
+                  <br />
+                  {order.userphone}
                 </td>
 
                 <td className="py-4 text-[13px] text-white/65">
@@ -78,15 +67,11 @@ export default function RecentOrders() {
                 </td>
 
                 <td className="py-4 text-[13px] text-white/65">
-                  {order.price}
+                  {order.totalPrice.toLocaleString("fa-IR")} تومان
                 </td>
 
                 <td className="py-4">
-                  <span
-                    className={`rounded-full px-2.5 py-1 text-[12px] ${order.statusClass}`}
-                  >
-                    {order.status}
-                  </span>
+                  <AdminStatsChip order={order} />
                 </td>
               </tr>
             ))}

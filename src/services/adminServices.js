@@ -6,3 +6,10 @@ export async function getAdminStats() {
 
   return response.data;
 }
+
+//GET LAST ORDERS
+export async function getLastOrders() {
+  const response = await api.get("/lastOrders");
+
+  return response.data;
+}
