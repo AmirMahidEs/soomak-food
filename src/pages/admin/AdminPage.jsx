@@ -11,6 +11,9 @@ import {
 
 import { motion } from "framer-motion";
 
+import { useEffect, useState } from "react";
+import { getAdminStats } from "../../services/adminServices";
+
 function QuickActions() {
   return (
     <motion.section
@@ -77,6 +80,17 @@ function QuickActions() {
 }
 
 function DashboardContent() {
+  const [adminStats, setAdminStats] = useState([]);
+
+  useEffect(() => {
+    const fetchAdminStats = async () => {
+      const stats = await getAdminStats();
+      setAdminStats(stats);
+    };
+
+    fetchAdminStats();
+  }, [adminStats]);
+
   return (
     <div>
       {/* PAGE TITLE */}
@@ -102,35 +116,40 @@ function DashboardContent() {
       </motion.div>
 
       {/* STATS */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <AdminStatCard
-          title="سفارش‌های امروز"
-          value="۲۴"
-          description="۳ سفارش جدید"
-          icon={ShoppingBag}
-        />
+      {adminStats.map((stat) => (
+        <div
+          key={stat.id}
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4"
+        >
+          <AdminStatCard
+            title="سفارش‌های امروز"
+            value={stat.totalOrders.toLocaleString("fa-IR")}
+            description={`${stat.newOrders.toLocaleString("fa-IR")} سفارش جدید`}
+            icon={ShoppingBag}
+          />
 
-        <AdminStatCard
-          title="فروش امروز"
-          value="۸.۴M"
-          description="تومان"
-          icon={DollarSign}
-        />
+          <AdminStatCard
+            title="فروش امروز"
+            value={stat.totalSales.toLocaleString("fa-IR")}
+            description="تومان"
+            icon={DollarSign}
+          />
 
-        <AdminStatCard
-          title="غذاها"
-          value="۳۲"
-          description="۲۹ غذای فعال"
-          icon={Package}
-        />
+          <AdminStatCard
+            title="غذاها"
+            value={stat.totalFoods.toLocaleString("fa-IR")}
+            description={`${stat.activeFoods.toLocaleString("fa-IR")} غذای فعال`}
+            icon={Package}
+          />
 
-        <AdminStatCard
-          title="کاربران"
-          value="۵۴۰"
-          description="۱۲ کاربر جدید"
-          icon={Users}
-        />
-      </div>
+          <AdminStatCard
+            title="کاربران"
+            value={stat.totalUsers.toLocaleString("fa-IR")}
+            description={`${stat.newUsers.toLocaleString("fa-IR")} کاربر جدید`}
+            icon={Users}
+          />
+        </div>
+      ))}
 
       {/* RECENT ORDERS */}
       <div className="mt-5">

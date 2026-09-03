@@ -266,7 +266,7 @@
     }
   ],
   "categories": [
-     {
+    {
       "id": 1,
       "Name": "همه محصولات",
       "Description": "همه دسته ها",
@@ -532,6 +532,17 @@
       "Category": "کباب‌ها",
       "price": 280000,
       "categoryId": 2
+    }
+  ],
+  "adminStats": [
+    {
+      "totalOrders": 4,
+      "newOrders": 1,
+      "totalSales": 8400000,
+      "totalFoods": 8,
+      "activeFoods": 5,
+      "totalUsers": 5,
+      "newUsers": 2
     }
   ],
   "orderReports": [{ "id": 1, "Count": 1, "TotalIncome": 940000 }],
