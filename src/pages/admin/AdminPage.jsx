@@ -14,71 +14,6 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getAdminStats } from "../../services/adminServices";
 
-function QuickActions() {
-  return (
-    <motion.section
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.22,
-        delay: 0.08,
-      }}
-      className="mt-5 rounded-[16px] border border-[#6f2826] bg-[#27090c] p-5 sm:p-6"
-    >
-      <div>
-        <h2 className="text-lg font-bold text-white">دسترسی سریع</h2>
-      </div>
-
-      <div className="mt-5 flex gap-3 sm:grid-cols-2">
-        <button
-          type="button"
-          className="group w-full rounded-[12px] border border-[#63221f] bg-[#25080b] p-4 text-right transition hover:border-[#e9a92f]/40 hover:bg-[#2c0b0e]"
-        >
-          <Package size={18} strokeWidth={1.35} className="text-[#e9a92f]" />
-
-          <p className="mt-3 text-[15px] text-white/70 transition group-hover:text-white">
-            افزودن غذا
-          </p>
-
-          <p className="mt-1 text-[15px] text-white/35">ثبت غذای جدید در منو</p>
-        </button>
-
-        <button
-          type="button"
-          className="group w-full rounded-[12px] border border-[#63221f] bg-[#25080b] p-4 text-right transition hover:border-[#e9a92f]/40 hover:bg-[#2c0b0e]"
-        >
-          <ClipboardList
-            size={18}
-            strokeWidth={1.35}
-            className="text-[#e9a92f]"
-          />
-
-          <p className="mt-3 text-[15px] text-white/70 transition group-hover:text-white">
-            دسته‌بندی جدید
-          </p>
-
-          <p className="mt-1 text-[15px] text-white/35">
-            ایجاد دسته‌بندی برای غذاها
-          </p>
-        </button>
-
-        <button
-          type="button"
-          className="group w-full rounded-[12px] border border-[#63221f] bg-[#25080b] p-4 text-right transition hover:border-[#e9a92f]/40 hover:bg-[#2c0b0e]"
-        >
-          <Users size={18} strokeWidth={1.35} className="text-[#e9a92f]" />
-
-          <p className="mt-3 text-[15px] text-white/70 transition group-hover:text-white">
-            کاربران
-          </p>
-
-          <p className="mt-1 text-[15px] text-white/35">مدیریت کاربران</p>
-        </button>
-      </div>
-    </motion.section>
-  );
-}
-
 function DashboardContent() {
   const [adminStats, setAdminStats] = useState([]);
 
@@ -155,9 +90,6 @@ function DashboardContent() {
       <div className="mt-5">
         <RecentOrders />
       </div>
-
-      {/* QUICK ACTIONS */}
-      <QuickActions />
     </div>
   );
 }
