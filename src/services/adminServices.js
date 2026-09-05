@@ -13,3 +13,10 @@ export async function getLastOrders() {
 
   return response.data;
 }
+
+// GET ADMIN FOODS
+export async function getAdminFoods() {
+  const response = await api.get("/adminFoods");
+
+  return response.data;
+}

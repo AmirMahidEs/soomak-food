@@ -11,7 +11,7 @@
       "image": "/src/assets/baghali-polo.jpg",
       "ImagesUrls": ["/src/assets/baghali-polo.jpg"],
       "category": "پلوها",
-      "categoryId": 1,
+      "categoryId": 2,
       "takeTime": "۳۵ دقیقه",
       "prep": "۳۵ دقیقه",
       "weight": "۴۵۰ گرم",
@@ -42,7 +42,7 @@
         "/src/assets/zereshk-polo.jpg"
       ],
       "category": "پلوها",
-      "categoryId": 1,
+      "categoryId": 2,
       "takeTime": "۴۵ دقیقه",
       "prep": "۴۵ دقیقه",
       "weight": "۴۰۰ گرم",
@@ -70,7 +70,7 @@
       "image": "/src/assets/chelo-kabab.jpg",
       "ImagesUrls": ["/src/assets/chelo-kabab.jpg"],
       "category": "کباب‌ها",
-      "categoryId": 2,
+      "categoryId": 3,
       "takeTime": "۳۰ دقیقه",
       "prep": "۳۰ دقیقه",
       "weight": "۴۲۰ گرم",
@@ -98,7 +98,7 @@
       "image": "/src/assets/ghorme-sabzi.jpg",
       "ImagesUrls": ["/src/assets/ghorme-sabzi.jpg"],
       "category": "خورشت‌ها",
-      "categoryId": 3,
+      "categoryId": 4,
       "takeTime": "۵۰ دقیقه",
       "prep": "۵۰ دقیقه",
       "weight": "۴۰۰ گرم",
@@ -126,7 +126,7 @@
       "image": "/src/assets/chelo-jojeh.jpg",
       "ImagesUrls": ["/src/assets/chelo-jojeh.jpg"],
       "category": "کباب‌ها",
-      "categoryId": 2,
+      "categoryId": 3,
       "takeTime": "۳۵ دقیقه",
       "prep": "۳۵ دقیقه",
       "weight": "۴۲۰ گرم",
@@ -148,7 +148,7 @@
       "image": "/src/assets/fesenjan.jpg",
       "ImagesUrls": ["/src/assets/fesenjan.jpg"],
       "category": "خورشت‌ها",
-      "categoryId": 3,
+      "categoryId": 4,
       "takeTime": "۶۰ دقیقه",
       "prep": "۶۰ دقیقه",
       "weight": "۴۰۰ گرم",
@@ -170,7 +170,7 @@
       "image": "/src/assets/khoresht-bademjan.jpg",
       "ImagesUrls": ["/src/assets/khoresht-bademjan.jpg"],
       "category": "خورشت‌ها",
-      "categoryId": 3,
+      "categoryId": 4,
       "takeTime": "۴۵ دقیقه",
       "prep": "۴۵ دقیقه",
       "weight": "۴۰۰ گرم",
@@ -192,7 +192,7 @@
       "image": "/src/assets/chelo-cheen.jpg",
       "ImagesUrls": ["/src/assets/chelo-cheen.jpg"],
       "category": "کباب‌ها",
-      "categoryId": 2,
+      "categoryId": 3,
       "takeTime": "۳۵ دقیقه",
       "prep": "۳۵ دقیقه",
       "weight": "۴۲۰ گرم",
@@ -267,7 +267,7 @@
   ],
   "categories": [
     {
-      "id": 1,
+      "id": "",
       "Name": "همه محصولات",
       "Description": "همه دسته ها",
       "quantity": 24
@@ -517,7 +517,7 @@
       "FoodName": "باقالی پلو با ماهیچه",
       "Category": "پلوها",
       "price": 330000,
-      "categoryId": 1
+      "categoryId": 2
     },
     {
       "id": "zereshk-polo-morgh",
@@ -525,7 +525,7 @@
       "FoodName": "زرشک پلو با مرغ",
       "Category": "پلوها",
       "price": 260000,
-      "categoryId": 1
+      "categoryId": 2
     },
     {
       "id": "chelo-kabab-koobideh",
@@ -533,7 +533,7 @@
       "FoodName": "چلو کباب کوبیده",
       "Category": "کباب‌ها",
       "price": 290000,
-      "categoryId": 2
+      "categoryId": 3
     },
     {
       "id": "ghorme-sabzi",
@@ -541,7 +541,7 @@
       "FoodName": "قورمه سبزی",
       "Category": "خورشت‌ها",
       "price": 280000,
-      "categoryId": 3
+      "categoryId": 4
     },
     {
       "id": "chelo-jojeh",
@@ -549,7 +549,7 @@
       "FoodName": "چلو جوجه کباب",
       "Category": "کباب‌ها",
       "price": 280000,
-      "categoryId": 2
+      "categoryId": 3
     },
     {
       "id": "fesenjan",
@@ -557,7 +557,7 @@
       "FoodName": "فسنجان با مرغ",
       "Category": "خورشت‌ها",
       "price": 270000,
-      "categoryId": 3
+      "categoryId": 4
     },
     {
       "id": "khoresht-bademjan",
@@ -565,7 +565,7 @@
       "FoodName": "خوراک بادمجان",
       "Category": "خورشت‌ها",
       "price": 240000,
-      "categoryId": 3
+      "categoryId": 4
     },
     {
       "id": "chelo-cheen",
@@ -573,7 +573,7 @@
       "FoodName": "چلو جوجه کباب زعفرانی",
       "Category": "کباب‌ها",
       "price": 280000,
-      "categoryId": 2
+      "categoryId": 3
     }
   ],
   "adminStats": [

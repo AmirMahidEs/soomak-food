@@ -7,7 +7,7 @@ const adminSlice = createSlice({
     productFilters: {
       search: "",
       category: "",
-      status: "",
+      // status: "",
     },
     orderFilters: {
       search: "",
@@ -24,9 +24,9 @@ const adminSlice = createSlice({
     setProductCategoryFilter: (state, action) => {
       state.productFilters.category = action.payload;
     },
-    setProductStatusFilter: (state, action) => {
-      state.productFilters.status = action.payload;
-    },
+    // setProductStatusFilter: (state, action) => {
+    //   state.productFilters.status = action.payload;
+    // },
     setOrderSearch: (state, action) => {
       state.orderFilters.search = action.payload;
     },
@@ -34,7 +34,7 @@ const adminSlice = createSlice({
       state.orderFilters.status = action.payload;
     },
     resetAdminFilters: (state) => {
-      state.productFilters = { search: "", category: "", status: "" };
+      state.productFilters = { search: "", category: "" };
       state.orderFilters = { search: "", status: "" };
     },
   },
@@ -44,7 +44,7 @@ export const {
   setAdminTab,
   setProductSearch,
   setProductCategoryFilter,
-  setProductStatusFilter,
+  // setProductStatusFilter,
   setOrderSearch,
   setOrderStatusFilter,
   resetAdminFilters,

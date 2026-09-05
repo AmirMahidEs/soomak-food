@@ -1,4 +1,4 @@
-import { Edit3, MoreVertical, Plus, Search, Trash2 } from "lucide-react";
+import { Edit3, Plus, Search, Trash2 } from "lucide-react";
 
 import { motion } from "framer-motion";
 
@@ -7,74 +7,59 @@ import {
   selectProductFilters,
   setProductCategoryFilter,
   setProductSearch,
-  setProductStatusFilter,
 } from "../../features/admin/adminSlice";
 import AdminSelect from "../../components/admin/AdminSelect";
-
-const products = [
-  {
-    id: 1,
-    name: "برگر مخصوص سومک",
-    category: "برگر",
-    price: "۳۸۰,۰۰۰",
-    status: "فعال",
-    statusClass: "text-green-300 bg-green-400/10",
-  },
-  {
-    id: 2,
-    name: "پیتزا پپرونی",
-    category: "پیتزا",
-    price: "۴۵۰,۰۰۰",
-    status: "فعال",
-    statusClass: "text-green-300 bg-green-400/10",
-  },
-  {
-    id: 3,
-    name: "پاستا آلفردو",
-    category: "پاستا",
-    price: "۳۲۰,۰۰۰",
-    status: "ناموجود",
-    statusClass: "text-red-300 bg-red-400/10",
-  },
-  {
-    id: 4,
-    name: "چیکن برگر",
-    category: "برگر",
-    price: "۳۴۰,۰۰۰",
-    status: "فعال",
-    statusClass: "text-green-300 bg-green-400/10",
-  },
-];
+import { useEffect, useState } from "react";
+import { getAdminFoods } from "../../services/adminServices";
+import { getCategories } from "../../services/foodServices";
 
 export default function AdminProductsPage() {
-  const dispatch = useDispatch();
-  const { search, category, status } = useSelector(selectProductFilters);
+  const [adminFoods, setAdminFoods] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-  const categoryOptions = [
-    { value: "", label: "همه دسته‌بندی‌ها" },
-    { value: "burger", label: "برگر" },
-    { value: "pizza", label: "پیتزا" },
-    { value: "pasta", label: "پاستا" },
-  ];
-
-  const statusOptions = [
-    { value: "", label: "همه وضعیت‌ها" },
-    { value: "active", label: "فعال" },
-    { value: "unavailable", label: "ناموجود" },
-  ];
-
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase());
-    const categoryMap = {
-      burger: "برگر",
-      pizza: "پیتزا",
-      pasta: "پاستا",
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
     };
-    const matchesCategory = !category || product.category === categoryMap[category];
-    const matchesStatus =
-      !status || (status === "active" ? product.status === "فعال" : product.status === "ناموجود");
-    return matchesSearch && matchesCategory && matchesStatus;
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchAdminFoods = async () => {
+      try {
+        const data = await getAdminFoods();
+        setAdminFoods(data);
+      } catch (error) {
+        console.error("Error fetching admin foods:", error);
+      }
+    };
+    fetchAdminFoods();
+  }, []);
+
+  const dispatch = useDispatch();
+  const { search, category } = useSelector(selectProductFilters);
+
+  const categoryOptions = categories.map((cat) => ({
+    value: cat.id,
+    label: cat.Name,
+  }));
+
+  const filteredProducts = adminFoods.filter((product) => {
+    const matchesSearch = product.FoodName.toLowerCase().includes(
+      search.toLowerCase(),
+    );
+
+    const matchesCategory =
+      !category || product.categoryId.toString() === category;
+
+    return matchesSearch && matchesCategory;
   });
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -113,7 +98,9 @@ export default function AdminProductsPage() {
             <input
               type="text"
               value={search}
-              onChange={(event) => dispatch(setProductSearch(event.target.value))}
+              onChange={(event) =>
+                dispatch(setProductSearch(event.target.value))
+              }
               placeholder="جستجوی غذا..."
               className="h-[42px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-3 pr-10 text-[15px] text-white/70 outline-none transition placeholder:text-white/25 focus:border-[#e9a92f]/50"
             />
@@ -123,14 +110,7 @@ export default function AdminProductsPage() {
             value={category}
             onChange={(value) => dispatch(setProductCategoryFilter(value))}
             options={categoryOptions}
-            placeholder="همه دسته‌بندی‌ها"
-          />
-
-          <AdminSelect
-            value={status}
-            onChange={(value) => dispatch(setProductStatusFilter(value))}
-            options={statusOptions}
-            placeholder="همه وضعیت‌ها"
+            placeholder="همه محصولات"
           />
         </div>
       </section>
@@ -144,69 +124,60 @@ export default function AdminProductsPage() {
                 <th className="px-5 py-4">غذا</th>
                 <th className="py-4">دسته‌بندی</th>
                 <th className="py-4">قیمت</th>
-                <th className="py-4">وضعیت</th>
                 <th className="px-5 py-4">عملیات</th>
               </tr>
             </thead>
 
             <tbody>
-              {filteredProducts.map((product) => (
-                <tr
-                  key={product.id}
-                  className="border-b border-[#61221f]/40 last:border-0"
-                >
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-[9px] bg-[#421014]" />
-
-                      <span className="text-[15px] text-white/60">
-                        {product.name}
-                      </span>
-                    </div>
-                  </td>
-
-                  <td className="py-4 text-[15px] text-white/50">
-                    {product.category}
-                  </td>
-
-                  <td className="py-4 text-[15px] text-white/50">
-                    {product.price} تومان
-                  </td>
-
-                  <td className="py-4">
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-[12px] ${product.statusClass}`}
-                    >
-                      {product.status}
-                    </span>
-                  </td>
-
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
-                      >
-                        <Edit3 size={20} />
-                      </button>
-
-                      <button
-                        type="button"
-                        className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
-                      >
-                        <Trash2 size={20} />
-                      </button>
-
-                      <button
-                        type="button"
-                        className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-white"
-                      >
-                        <MoreVertical size={20} />
-                      </button>
-                    </div>
+              {filteredProducts.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="py-8 text-center text-white/50">
+                    هیچ غذایی برای نمایش وجود ندارد.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredProducts.map((product) => (
+                  <tr
+                    key={product.id}
+                    className="border-b border-[#61221f]/40 last:border-0"
+                  >
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-[9px] bg-[#421014]" />
+                        <span className="text-[15px] text-white/60">
+                          {product.FoodName}
+                        </span>
+                      </div>
+                    </td>
+
+                    <td className="py-4 text-[15px] text-white/50">
+                      {product.Category}
+                    </td>
+
+                    <td className="py-4 text-[15px] text-white/50">
+                      {product.price.toLocaleString("fa-IR")} تومان
+                    </td>
+
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
+                        >
+                          <Edit3 size={20} />
+                        </button>
+
+                        <button
+                          type="button"
+                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
+                        >
+                          <Trash2 size={20} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
