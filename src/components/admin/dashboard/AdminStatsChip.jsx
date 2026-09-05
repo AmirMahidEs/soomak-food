@@ -7,12 +7,12 @@ const AdminStatsChip = ({ order }) => {
     },
     {
       status: "Processing",
-      className: "text-blue-300 bg-blue-400/10",
+      className: "text-blue-400 bg-blue-400/10",
       label: "در حال آماده سازی",
     },
     {
       status: "Delivered",
-      className: "text-green-300 bg-green-400/10",
+      className: "text-green-400 bg-green-400/10",
       label: "تحویل داده شده",
     },
     {
@@ -26,7 +26,7 @@ const AdminStatsChip = ({ order }) => {
   return (
     <div>
       <span
-        className={`rounded-full px-2.5 py-1 text-[12px] ${statsFind?.className}`}
+        className={`rounded-full px-2.5 py-1 text-[13.5px] ${statsFind?.className}`}
       >
         {statsFind?.label}
       </span>
