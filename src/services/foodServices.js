@@ -1,36 +1,51 @@
 import api from "./api";
 
-//GET  popularFoods
+// GET popular foods
 export async function getPopularFoods() {
   const response = await api.get("/popularFoods");
-
   return response.data;
 }
 
-//GET foods
+// GET all foods
 export async function getFoods() {
   const response = await api.get("/foods");
-
   return response.data;
 }
 
-//GET categories
-export async function getCategories() {
-  const response = await api.get("/categories");
-
-  return response.data;
-}
-
-//GET foods by Id
+// GET food by ID
 export async function getFoodsById(id) {
   const response = await api.get(`/foods/${id}`);
-
   return response.data;
 }
 
-//GET foods comments
-export async function getFoodsComments(id) {
-  const response = await api.get(`/comments?foodId=${encodeURIComponent(id)}`);
+// POST create food
+export async function createFood(foodData) {
+  const response = await api.post("/foods", foodData);
+  return response.data;
+}
 
+// PUT update food
+export async function updateFood(foodId, foodData) {
+  const response = await api.put(`/foods/${foodId}`, foodData);
+  return response.data;
+}
+
+// DELETE food
+export async function deleteFood(foodId) {
+  const response = await api.delete(`/foods/${foodId}`);
+  return response.data;
+}
+
+// GET categories
+export async function getCategories() {
+  const response = await api.get("/categories");
+  return response.data;
+}
+
+// GET food comments
+export async function getFoodsComments(id) {
+  const response = await api.get(
+    `/comments?foodId=${encodeURIComponent(id)}`
+  );
   return response.data;
 }

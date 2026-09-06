@@ -10,12 +10,13 @@ import {
 } from "../../features/admin/adminSlice";
 import AdminSelect from "../../components/admin/AdminSelect";
 import { useEffect, useState } from "react";
-import { getAdminFoods } from "../../services/adminServices";
-import { getCategories } from "../../services/foodServices";
+import { getCategories, getFoods } from "../../services/foodServices";
+import FoodModal from "../../components/admin/products/FoodModal";
 
 export default function AdminProductsPage() {
-  const [adminFoods, setAdminFoods] = useState([]);
+  const [foods, setFoods] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -30,15 +31,16 @@ export default function AdminProductsPage() {
   }, []);
 
   useEffect(() => {
-    const fetchAdminFoods = async () => {
+    const fetchFoods = async () => {
       try {
-        const data = await getAdminFoods();
-        setAdminFoods(data);
+        const data = await getFoods();
+        setFoods(data);
       } catch (error) {
-        console.error("Error fetching admin foods:", error);
+        console.error("Error fetching foods:", error);
       }
     };
-    fetchAdminFoods();
+
+    fetchFoods();
   }, []);
 
   const dispatch = useDispatch();
@@ -49,7 +51,7 @@ export default function AdminProductsPage() {
     label: cat.Name,
   }));
 
-  const filteredProducts = adminFoods.filter((product) => {
+  const filteredProducts = foods.filter((product) => {
     const matchesSearch = product.FoodName.toLowerCase().includes(
       search.toLowerCase(),
     );
@@ -79,6 +81,7 @@ export default function AdminProductsPage() {
         <button
           type="button"
           className="flex h-[42px] items-center justify-center gap-2 rounded-full bg-gold-gradient px-5 text-[13px] font-bold text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.12)] transition hover:brightness-105"
+          onClick={() => setOpenDialog(true)}
         >
           <Plus size={20} strokeWidth={1.6} />
           افزودن غذا
@@ -151,7 +154,7 @@ export default function AdminProductsPage() {
                     </td>
 
                     <td className="py-4 text-[15px] text-white/50">
-                      {product.Category}
+                      {product.category}
                     </td>
 
                     <td className="py-4 text-[15px] text-white/50">
@@ -182,6 +185,15 @@ export default function AdminProductsPage() {
           </table>
         </div>
       </section>
+      <FoodModal
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log("submit");
+        }}
+        initialData={null}
+      />
     </motion.div>
   );
 }
