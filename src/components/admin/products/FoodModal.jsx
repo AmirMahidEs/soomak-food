@@ -1,4 +1,17 @@
-const FoodModal = ({ open, onClose, onSubmit, initialData }) => {
+import { useState } from "react";
+import AdminSelect from "../AdminSelect";
+
+const FoodModal = ({
+  open,
+  onClose,
+  onSubmit,
+  initialData,
+  categoryOptions,
+}) => {
+  const [selectedCategoryId, setSelectedCategoryId] = useState(
+    initialData?.categoryId || "",
+  );
+
   if (!open) return null;
 
   return (
@@ -11,7 +24,7 @@ const FoodModal = ({ open, onClose, onSubmit, initialData }) => {
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="text"
           placeholder="نام محصول"
-          defaultValue={initialData?.name || ""}
+          defaultValue={initialData?.FoodName || ""}
         />
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
@@ -43,15 +56,15 @@ const FoodModal = ({ open, onClose, onSubmit, initialData }) => {
           placeholder="تصویر محصول"
           defaultValue={initialData?.image || ""}
         />
-        <select
-          className="col-span-2 h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
-          defaultValue={initialData?.category || ""}
-        >
-          <option value="">انتخاب دسته‌بندی</option>
-          <option value="polo">پلوها</option>
-          <option value="kabab">کباب</option>
-          <option value="khoresht">خورشت</option>
-        </select>
+
+        <AdminSelect
+          className="col-span-2"
+          value={selectedCategoryId}
+          onChange={setSelectedCategoryId}
+          options={categoryOptions}
+          placeholder="انتخاب دسته‌بندی"
+        />
+
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="number"

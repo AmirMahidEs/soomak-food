@@ -51,6 +51,13 @@ export default function AdminProductsPage() {
     label: cat.Name,
   }));
 
+  const foodCategoryOptions = categories
+    .filter((cat) => cat.id !== "")
+    .map((cat) => ({
+      value: cat.id,
+      label: cat.Name,
+    }));
+
   const filteredProducts = foods.filter((product) => {
     const matchesSearch = product.FoodName.toLowerCase().includes(
       search.toLowerCase(),
@@ -193,6 +200,7 @@ export default function AdminProductsPage() {
           console.log("submit");
         }}
         initialData={null}
+        categoryOptions={foodCategoryOptions}
       />
     </motion.div>
   );
