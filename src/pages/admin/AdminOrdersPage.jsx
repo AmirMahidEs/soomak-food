@@ -9,17 +9,24 @@ import {
 
 import AdminSelect from "../../components/admin/AdminSelect";
 
-import { getAllOrders } from "../../services/adminServices";
+import { getAllOrders, updateOrderStatus } from "../../services/adminServices";
 import { useEffect, useState } from "react";
 import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
+import OrderModal from "../../components/admin/orders/OrderModal";
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [openOrderModal, setOpenOrderModal] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const stats = await getAllOrders();
-      setOrders(stats);
+      try {
+        const data = await getAllOrders();
+        setOrders(data);
+      } catch (error) {
+        console.error("خطا در دریافت سفارش‌ها:", error);
+      }
     };
 
     fetchOrders();
@@ -47,6 +54,25 @@ export default function AdminOrdersPage() {
 
     return matchesSearch && (!status || order.status === status);
   });
+
+  const handleViewOrder = (order) => {
+    setSelectedOrder(order);
+    setOpenOrderModal(true);
+  };
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      const updatedOrder = await updateOrderStatus(orderId, newStatus);
+
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === updatedOrder.id ? updatedOrder : order,
+        ),
+      );
+    } catch (error) {
+      console.error("خطا در تغییر وضعیت سفارش:", error);
+    }
+  };
 
   return (
     <motion.div
@@ -145,6 +171,7 @@ export default function AdminOrdersPage() {
                     <td className="px-5 py-4">
                       <button
                         type="button"
+                        onClick={() => handleViewOrder(order)}
                         className="flex h-8 items-center gap-1.5 rounded-full border border-[#63221f] bg-[#25080b] px-3 text-[12px] text-white/50 transition hover:border-[#e9a92f]/40 hover:text-[#e9a92f]"
                       >
                         <Eye size={20} />
@@ -158,6 +185,15 @@ export default function AdminOrdersPage() {
           </table>
         </div>
       </section>
+      <OrderModal
+        open={openOrderModal}
+        onClose={() => {
+          setOpenOrderModal(false);
+          setSelectedOrder(null);
+        }}
+        order={selectedOrder}
+        onStatusChange={handleStatusChange}
+      />
     </motion.div>
   );
 }

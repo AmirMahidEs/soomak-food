@@ -17,3 +17,12 @@ export async function getAllOrders() {
   const response = await api.get("/orders");
   return response.data;
 }
+
+//PATCH UPDATE ORDER
+export const updateOrderStatus = async (orderId, status) => {
+  const response = await api.patch(`/orders/${orderId}`, {
+    status,
+  });
+
+  return response.data;
+};
