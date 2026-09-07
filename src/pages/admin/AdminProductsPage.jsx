@@ -10,13 +10,20 @@ import {
 } from "../../features/admin/adminSlice";
 import AdminSelect from "../../components/admin/AdminSelect";
 import { useEffect, useState } from "react";
-import { getCategories, getFoods } from "../../services/foodServices";
+import {
+  getCategories,
+  getFoods,
+  updateFood,
+  createFood,
+  deleteFood,
+} from "../../services/foodServices";
 import FoodModal from "../../components/admin/products/FoodModal";
 
 export default function AdminProductsPage() {
   const [foods, setFoods] = useState([]);
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [selectedFood, setSelectedFood] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -69,6 +76,48 @@ export default function AdminProductsPage() {
     return matchesSearch && matchesCategory;
   });
 
+  const handleCreateFood = () => {
+    setSelectedFood(null);
+    setOpenDialog(true);
+  };
+
+  const handleEditFood = (product) => {
+    setSelectedFood(product);
+    setOpenDialog(true);
+  };
+
+  const handleDeleteFood = async (foodId) => {
+    try {
+      await deleteFood(foodId);
+      const updatedFoods = await getFoods();
+      setFoods(updatedFoods);
+    } catch (error) {
+      console.error("خطا در حذف غذا:", error);
+    }
+  };
+
+  const isCreate = () => {
+    return selectedFood === null;
+  };
+
+  const handleSubmit = async (foodData) => {
+    try {
+      if (isCreate()) {
+        await createFood(foodData);
+      } else {
+        await updateFood(selectedFood.id, foodData);
+      }
+
+      const updatedFoods = await getFoods();
+      setFoods(updatedFoods);
+
+      setOpenDialog(false);
+      setSelectedFood(null);
+    } catch (error) {
+      console.error("خطا در ذخیره غذا:", error);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -88,7 +137,7 @@ export default function AdminProductsPage() {
         <button
           type="button"
           className="flex h-[42px] items-center justify-center gap-2 rounded-full bg-gold-gradient px-5 text-[13px] font-bold text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.12)] transition hover:brightness-105"
-          onClick={() => setOpenDialog(true)}
+          onClick={handleCreateFood}
         >
           <Plus size={20} strokeWidth={1.6} />
           افزودن غذا
@@ -173,6 +222,7 @@ export default function AdminProductsPage() {
                         <button
                           type="button"
                           className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
+                          onClick={() => handleEditFood(product)}
                         >
                           <Edit3 size={20} />
                         </button>
@@ -180,6 +230,7 @@ export default function AdminProductsPage() {
                         <button
                           type="button"
                           className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
+                          onClick={() => handleDeleteFood(product.id)}
                         >
                           <Trash2 size={20} />
                         </button>
@@ -195,11 +246,8 @@ export default function AdminProductsPage() {
       <FoodModal
         open={openDialog}
         onClose={() => setOpenDialog(false)}
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log("submit");
-        }}
-        initialData={null}
+        onSubmit={(foodData) => handleSubmit(foodData)}
+        initialData={selectedFood}
         categoryOptions={foodCategoryOptions}
       />
     </motion.div>

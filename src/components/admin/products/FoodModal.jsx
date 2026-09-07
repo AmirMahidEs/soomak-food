@@ -1,5 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import AdminSelect from "../AdminSelect";
+
+const emptyFormData = {
+  FoodName: "",
+  title: "",
+  shortTitle: "",
+  description: "",
+  price: "",
+  image: "",
+  categoryId: "",
+  takeTime: "",
+  weight: "",
+  servings: "",
+  ingredients: "",
+  about: "",
+};
 
 const FoodModal = ({
   open,
@@ -8,9 +24,68 @@ const FoodModal = ({
   initialData,
   categoryOptions,
 }) => {
-  const [selectedCategoryId, setSelectedCategoryId] = useState(
-    initialData?.categoryId || "",
-  );
+  const [formData, setFormData] = useState(emptyFormData);
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        FoodName: initialData.FoodName || "",
+        title: initialData.title || "",
+        shortTitle: initialData.shortTitle || "",
+        description: initialData.description || "",
+        price: initialData.price ?? "",
+        image: initialData.image || "",
+        categoryId:
+          initialData.categoryId !== undefined &&
+          initialData.categoryId !== null
+            ? String(initialData.categoryId)
+            : "",
+        takeTime: initialData.takeTime ?? "",
+        weight: initialData.weight ?? "",
+        servings: initialData.servings ?? "",
+        ingredients: Array.isArray(initialData.ingredients)
+          ? initialData.ingredients.join(", ")
+          : initialData.ingredients || "",
+        about: initialData.about || "",
+      });
+    } else {
+      setFormData(emptyFormData);
+    }
+  }, [initialData, categoryOptions]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleCategoryChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      categoryId: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const foodData = {
+      ...formData,
+      price: Number(formData.price),
+      takeTime: Number(formData.takeTime),
+      weight: Number(formData.weight),
+      servings: Number(formData.servings),
+      ingredients: formData.ingredients
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
+    };
+
+    onSubmit(foodData);
+  };
 
   if (!open) return null;
 
@@ -18,49 +93,66 @@ const FoodModal = ({
     <div className="dialog-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <form
         className="dialog-content relative grid w-[600px] grid-cols-2 gap-4 rounded-[20px] bg-somak-800 p-6 shadow-lg"
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
       >
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="text"
+          name="FoodName"
           placeholder="نام محصول"
-          defaultValue={initialData?.FoodName || ""}
+          value={formData.FoodName}
+          onChange={handleChange}
         />
+
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="text"
+          name="title"
           placeholder="عنوان محصول"
-          defaultValue={initialData?.title || ""}
+          value={formData.title}
+          onChange={handleChange}
         />
+
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="text"
+          name="shortTitle"
           placeholder="عنوان کوتاه محصول"
-          defaultValue={initialData?.shortTitle || ""}
+          value={formData.shortTitle}
+          onChange={handleChange}
         />
+
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="text"
+          name="description"
           placeholder="توضیحات محصول"
-          defaultValue={initialData?.description || ""}
+          value={formData.description}
+          onChange={handleChange}
         />
+
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="number"
+          name="price"
           placeholder="قیمت محصول"
-          defaultValue={initialData?.price || ""}
+          value={formData.price}
+          onChange={handleChange}
         />
+
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="text"
+          name="image"
           placeholder="تصویر محصول"
-          defaultValue={initialData?.image || ""}
+          value={formData.image}
+          onChange={handleChange}
         />
 
         <AdminSelect
           className="col-span-2"
-          value={selectedCategoryId}
-          onChange={setSelectedCategoryId}
+          value={formData.categoryId}
+          onChange={handleCategoryChange}
           options={categoryOptions}
           placeholder="انتخاب دسته‌بندی"
         />
@@ -68,34 +160,47 @@ const FoodModal = ({
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="number"
+          name="takeTime"
           placeholder="زمان اماده سازی (دقیقه)"
-          defaultValue={initialData?.takeTime || ""}
+          value={formData.takeTime}
+          onChange={handleChange}
         />
+
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="number"
+          name="weight"
           placeholder="وزن(گرم)"
-          defaultValue={initialData?.weight || ""}
+          value={formData.weight}
+          onChange={handleChange}
         />
+
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="number"
+          name="servings"
           placeholder="تعداد نفر"
-          defaultValue={initialData?.servings || ""}
+          value={formData.servings}
+          onChange={handleChange}
         />
 
         <input
           className="h-[50px] rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           type="text"
-          placeholder="مواد اولیه(با ، جدا کنید)"
-          defaultValue={initialData?.ingredients || ""}
+          name="ingredients"
+          placeholder="مواد اولیه(با , جدا کنید)"
+          value={formData.ingredients}
+          onChange={handleChange}
         />
 
         <textarea
           className="col-span-2 min-h-[100px] rounded-lg border border-somak-500 bg-somak-900 px-5 py-4 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
+          name="about"
           placeholder="درباره محصول"
-          defaultValue={initialData?.about || ""}
+          value={formData.about}
+          onChange={handleChange}
         />
+
         <div className="col-span-2 flex items-center justify-center gap-2">
           <button
             type="button"
@@ -104,6 +209,7 @@ const FoodModal = ({
           >
             لغو
           </button>
+
           <button
             type="submit"
             className="w-full rounded bg-gold-gradient px-4 py-2 font-medium text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105"
