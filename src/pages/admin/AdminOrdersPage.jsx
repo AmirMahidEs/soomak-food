@@ -23,7 +23,7 @@ export default function AdminOrdersPage() {
     };
 
     fetchOrders();
-  }, [orders]);
+  }, []);
 
   const dispatch = useDispatch();
   const { search, status } = useSelector(selectOrderFilters);
@@ -104,48 +104,56 @@ export default function AdminOrdersPage() {
             </thead>
 
             <tbody>
-              {filteredOrders.map((order) => (
-                <tr
-                  key={order.id}
-                  className="border-b border-[#61221f]/40 last:border-0"
-                >
-                  <td className="px-5 py-4 text-[15px] font-medium text-white/60">
-                    {order.id}#
-                  </td>
-
-                  <td className="py-4">
-                    <p className="text-[15px] text-white/60">
-                      {order.userName}
-                    </p>
-
-                    <p className="mt-1 text-[12px] text-white/25">
-                      {order.userphone}
-                    </p>
-                  </td>
-
-                  <td className="py-4 text-[15px] text-white/40">
-                    {order.items}
-                  </td>
-
-                  <td className="py-4 text-[15px] text-white/60">
-                    {order.totalPrice.toLocaleString("fa-IR")} تومان
-                  </td>
-
-                  <td className="py-4">
-                    <AdminStatsChip order={order} />
-                  </td>
-
-                  <td className="px-5 py-4">
-                    <button
-                      type="button"
-                      className="flex h-8 items-center gap-1.5 rounded-full border border-[#63221f] bg-[#25080b] px-3 text-[12px] text-white/50 transition hover:border-[#e9a92f]/40 hover:text-[#e9a92f]"
-                    >
-                      <Eye size={20} />
-                      مشاهده
-                    </button>
+              {filteredOrders.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="py-12 text-center text-white/50">
+                    هیچ سفارشی برای نمایش وجود ندارد.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredOrders.map((order) => (
+                  <tr
+                    key={order.id}
+                    className="border-b border-[#61221f]/40 last:border-0"
+                  >
+                    <td className="px-5 py-4 text-[15px] font-medium text-white/60">
+                      {order.id}#
+                    </td>
+
+                    <td className="py-4">
+                      <p className="text-[15px] text-white/60">
+                        {order.userName}
+                      </p>
+
+                      <p className="mt-1 text-[12px] text-white/25">
+                        {order.userphone}
+                      </p>
+                    </td>
+
+                    <td className="py-4 text-[15px] text-white/40">
+                      {order.items}
+                    </td>
+
+                    <td className="py-4 text-[15px] text-white/60">
+                      {order.totalPrice.toLocaleString("fa-IR")} تومان
+                    </td>
+
+                    <td className="py-4">
+                      <AdminStatsChip order={order} />
+                    </td>
+
+                    <td className="px-5 py-4">
+                      <button
+                        type="button"
+                        className="flex h-8 items-center gap-1.5 rounded-full border border-[#63221f] bg-[#25080b] px-3 text-[12px] text-white/50 transition hover:border-[#e9a92f]/40 hover:text-[#e9a92f]"
+                      >
+                        <Eye size={20} />
+                        مشاهده
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
