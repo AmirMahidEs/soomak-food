@@ -78,6 +78,7 @@ const FoodModal = ({
       takeTime: Number(formData.takeTime),
       weight: Number(formData.weight),
       servings: Number(formData.servings),
+      categoryId : Number(formData.categoryId),
       ingredients: formData.ingredients
         .split(",")
         .map((item) => item.trim())

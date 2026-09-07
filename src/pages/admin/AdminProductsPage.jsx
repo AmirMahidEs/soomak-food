@@ -195,49 +195,55 @@ export default function AdminProductsPage() {
                   </td>
                 </tr>
               ) : (
-                filteredProducts.map((product) => (
-                  <tr
-                    key={product.id}
-                    className="border-b border-[#61221f]/40 last:border-0"
-                  >
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-[9px] bg-[#421014]" />
-                        <span className="text-[15px] text-white/60">
-                          {product.FoodName}
-                        </span>
-                      </div>
-                    </td>
+                filteredProducts.map((product) => {
+                  const filteredCategoryById = categories.find(
+                    (category) => Number(category.id) === product.categoryId,
+                  );
 
-                    <td className="py-4 text-[15px] text-white/50">
-                      {product.category}
-                    </td>
+                  return (
+                    <tr
+                      key={product.id}
+                      className="border-b border-[#61221f]/40 last:border-0"
+                    >
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-[9px] bg-[#421014]" />
+                          <span className="text-[15px] text-white/60">
+                            {product.FoodName}
+                          </span>
+                        </div>
+                      </td>
 
-                    <td className="py-4 text-[15px] text-white/50">
-                      {product.price.toLocaleString("fa-IR")} تومان
-                    </td>
+                      <td className="py-4 text-[15px] text-white/50">
+                        {filteredCategoryById?.Name}
+                      </td>
 
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
-                          onClick={() => handleEditFood(product)}
-                        >
-                          <Edit3 size={20} />
-                        </button>
+                      <td className="py-4 text-[15px] text-white/50">
+                        {product.price.toLocaleString("fa-IR")} تومان
+                      </td>
 
-                        <button
-                          type="button"
-                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
-                          onClick={() => handleDeleteFood(product.id)}
-                        >
-                          <Trash2 size={20} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
+                            onClick={() => handleEditFood(product)}
+                          >
+                            <Edit3 size={20} />
+                          </button>
+
+                          <button
+                            type="button"
+                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
+                            onClick={() => handleDeleteFood(product.id)}
+                          >
+                            <Trash2 size={20} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
