@@ -154,17 +154,17 @@ export default function ProductDetailsPage() {
                   <Meta
                     icon={Clock3}
                     title="زمان آماده‌سازی"
-                    value={product.prep}
+                    value={`${product.prep.toLocaleString("fa-IR")} دقیقه`}
                   />
                   <Meta
                     icon={Weight}
                     title="وزن هر پرس"
-                    value={product.weight}
+                    value={`${product.weight.toLocaleString("fa-IR")} گرم`}
                   />
                   <Meta
                     icon={Users}
                     title="مناسب برای"
-                    value={product.servings}
+                    value={`${product.servings.toLocaleString("fa-IR")} نفر`}
                   />
                 </div>
                 <div className="text-2xl font-bold text-somak-gold2">
