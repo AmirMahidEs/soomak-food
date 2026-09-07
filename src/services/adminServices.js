@@ -11,3 +11,9 @@ export async function getLastOrders() {
   const response = await api.get("/lastOrders");
   return response.data;
 }
+
+//GET ALL OREDER
+export async function getAllOrders() {
+  const response = await api.get("/orders");
+  return response.data;
+}

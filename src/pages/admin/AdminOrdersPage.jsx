@@ -9,46 +9,31 @@ import {
 
 import AdminSelect from "../../components/admin/AdminSelect";
 
-const orders = [
-  {
-    id: "#1024",
-    customer: "امیر محمدی",
-    phone: "0912 123 4567",
-    items: "۲ برگر + ۱ پیتزا",
-    price: "۸۵۰,۰۰۰ تومان",
-    status: "جدید",
-    statusClass: "text-[#e9a92f] bg-[#e9a92f]/10",
-  },
-  {
-    id: "#1023",
-    customer: "علی رضایی",
-    phone: "0912 222 3344",
-    items: "۱ پاستا + ۲ نوشیدنی",
-    price: "۵۴۰,۰۰۰ تومان",
-    status: "در حال آماده‌سازی",
-    statusClass: "text-blue-300 bg-blue-400/10",
-  },
-  {
-    id: "#1022",
-    customer: "رضا احمدی",
-    phone: "0912 555 7788",
-    items: "۲ پیتزا",
-    price: "۷۲۰,۰۰۰ تومان",
-    status: "تکمیل شده",
-    statusClass: "text-green-300 bg-green-400/10",
-  },
-];
+import { getAllOrders } from "../../services/adminServices";
+import { useEffect, useState } from "react";
+import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
 
 export default function AdminOrdersPage() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const stats = await getAllOrders();
+      setOrders(stats);
+    };
+
+    fetchOrders();
+  }, [orders]);
+
   const dispatch = useDispatch();
   const { search, status } = useSelector(selectOrderFilters);
 
   const statusOptions = [
     { value: "", label: "همه وضعیت‌ها" },
-    { value: "new", label: "جدید" },
-    { value: "preparing", label: "در حال آماده‌سازی" },
-    { value: "completed", label: "تکمیل شده" },
-    { value: "cancelled", label: "لغو شده" },
+    { value: "New", label: "جدید" },
+    { value: "Processing", label: "در حال آماده‌سازی" },
+    { value: "Delivered", label: "تحویل داده شده" },
+    { value: "Cancelled", label: "لغو شده" },
   ];
 
   const filteredOrders = orders.filter((order) => {
@@ -56,15 +41,11 @@ export default function AdminOrdersPage() {
     const matchesSearch =
       !query ||
       order.id.toLowerCase().includes(query) ||
-      order.customer.toLowerCase().includes(query) ||
-      order.phone.toLowerCase().includes(query);
-    const statusMap = {
-      new: "جدید",
-      preparing: "در حال آماده‌سازی",
-      completed: "تکمیل شده",
-      cancelled: "لغو شده",
-    };
-    return matchesSearch && (!status || order.status === statusMap[status]);
+      order.userName.toLowerCase().includes(query) ||
+      order.userphone.toLowerCase().includes(query) ||
+      order.items.toLowerCase().includes(query);
+
+    return matchesSearch && (!status || order.status === status);
   });
 
   return (
@@ -129,16 +110,16 @@ export default function AdminOrdersPage() {
                   className="border-b border-[#61221f]/40 last:border-0"
                 >
                   <td className="px-5 py-4 text-[15px] font-medium text-white/60">
-                    {order.id}
+                    {order.id}#
                   </td>
 
                   <td className="py-4">
                     <p className="text-[15px] text-white/60">
-                      {order.customer}
+                      {order.userName}
                     </p>
 
                     <p className="mt-1 text-[12px] text-white/25">
-                      {order.phone}
+                      {order.userphone}
                     </p>
                   </td>
 
@@ -147,15 +128,11 @@ export default function AdminOrdersPage() {
                   </td>
 
                   <td className="py-4 text-[15px] text-white/60">
-                    {order.price}
+                    {order.totalPrice.toLocaleString("fa-IR")} تومان
                   </td>
 
                   <td className="py-4">
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-[12px] ${order.statusClass}`}
-                    >
-                      {order.status}
-                    </span>
+                    <AdminStatsChip order={order} />
                   </td>
 
                   <td className="px-5 py-4">
