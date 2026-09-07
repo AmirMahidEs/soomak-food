@@ -24,7 +24,7 @@ const menuItems = [
     id: "orders",
     label: "سفارش‌ها",
     icon: ShoppingBag,
-    badge: 3,
+    // badge: 3,
   },
   {
     id: "categories",
