@@ -1,38 +1,28 @@
 import { Edit3, Plus, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
-
-const categories = [
-  {
-    id: 1,
-    name: "برگر",
-    description: "انواع برگرهای سومک",
-    products: 8,
-    status: "فعال",
-  },
-  {
-    id: 2,
-    name: "پیتزا",
-    description: "پیتزاهای تنوری و مخصوص",
-    products: 10,
-    status: "فعال",
-  },
-  {
-    id: 3,
-    name: "پاستا",
-    description: "انواع پاستا",
-    products: 6,
-    status: "فعال",
-  },
-  {
-    id: 4,
-    name: "نوشیدنی",
-    description: "نوشیدنی‌های سرد",
-    products: 8,
-    status: "فعال",
-  },
-];
+import { getCategories } from "../../services/foodServices";
+import { useState, useEffect } from "react";
+import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
 
 export default function AdminCategoriesPage() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories();
+
+        const adminCategories = data.filter((category) => category.id !== "");
+
+        setCategories(adminCategories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -61,15 +51,23 @@ export default function AdminCategoriesPage() {
           <table className="w-full min-w-[650px] text-right">
             <thead>
               <tr className="border-b border-[#61221f]/70 text-[9px] text-white/30">
-                <th className="px-5 py-4 font-bold text-sm text-white/80">دسته‌بندی</th>
+                <th className="px-5 py-4 text-sm font-bold text-white/80">
+                  دسته‌بندی
+                </th>
 
-                <th className="py-4 font-bold text-sm text-white/80">توضیحات</th>
+                <th className="py-4 text-sm font-bold text-white/80">
+                  توضیحات
+                </th>
 
-                <th className="py-4 font-bold text-sm text-white/80">تعداد غذا</th>
+                <th className="py-4 text-sm font-bold text-white/80">
+                  تعداد غذا
+                </th>
 
-                <th className="py-4 font-bold text-sm text-white/80">وضعیت</th>
+                <th className="py-4 text-sm font-bold text-white/80">وضعیت</th>
 
-                <th className="px-5 py-4 font-bold text-sm text-white/80">عملیات</th>
+                <th className="px-5 py-4 text-sm font-bold text-white/80">
+                  عملیات
+                </th>
               </tr>
             </thead>
 
@@ -82,27 +80,25 @@ export default function AdminCategoriesPage() {
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-11 w-11 items-center justify-center rounded-[9px] bg-[#e9a92f]/10 text-[#e9a92f]">
-                        {category.name.charAt(0)}
+                        {category.Name.charAt(0)}
                       </div>
 
                       <span className="text-[15px] text-white/60">
-                        {category.name}
+                        {category.Name}
                       </span>
                     </div>
                   </td>
 
                   <td className="py-4 text-[15px] text-white/60">
-                    {category.description}
+                    {category.Description}
                   </td>
 
                   <td className="py-4 text-[15px] text-white/60">
-                    {category.products} غذا
+                    {category.quantity.toLocaleString("fa-IR")} غذا
                   </td>
 
                   <td className="py-4">
-                    <span className="rounded-full bg-green-400/10 px-2.5 py-1 text-[12px] text-green-300">
-                      {category.status}
-                    </span>
+                    <AdminStatsChip order={category} />
                   </td>
 
                   <td className="px-5 py-4">

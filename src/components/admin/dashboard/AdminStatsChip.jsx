@@ -20,6 +20,16 @@ const AdminStatsChip = ({ order }) => {
       className: "text-[#f87171] bg-[#f87171]/10",
       label: "لغو شده",
     },
+    {
+      status: "Active",
+      className: "text-green-400 bg-green-400/10",
+      label: "فعال",
+    },
+     {
+      status: "Deactive",
+      className: "text-[#f87171] bg-[#f87171]/10",
+      label: "غیرفعال",
+    },
   ];
 
   const statsFind = statusConfig.find((s) => s.status === order.status);
