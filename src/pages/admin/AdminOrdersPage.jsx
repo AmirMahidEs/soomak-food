@@ -74,6 +74,10 @@ export default function AdminOrdersPage() {
     }
   };
 
+  const toPersianDigits = (value) => {
+    return String(value).replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -147,12 +151,12 @@ export default function AdminOrdersPage() {
                     </td>
 
                     <td className="py-4">
-                      <p className="text-[15px] text-white/60">
+                      <p className="text-[16px] text-white/60">
                         {order.userName}
                       </p>
 
-                      <p className="mt-1 text-[12px] text-white/25">
-                        {order.userphone}
+                      <p className="mt-1 text-[16px] text-white/25">
+                        {toPersianDigits(order.userphone)}
                       </p>
                     </td>
 

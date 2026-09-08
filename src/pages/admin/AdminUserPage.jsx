@@ -20,6 +20,9 @@ export default function AdminUsersPage() {
     fetchUsers();
   }, []);
 
+  const toPersianDigits = (value) => {
+    return String(value).replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]);
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -63,17 +66,17 @@ export default function AdminUsersPage() {
                         <UserRound size={20} />
                       </div>
 
-                      <span className="text-[15px] text-white/70">
+                      <span className="text-[17px] text-white/70">
                         {user.UserName}
                       </span>
                     </div>
                   </td>
 
-                  <td className="py-4 text-[15px] text-white/45">
-                    {user.phoneNumber.toLocaleString("fa-IR")}
+                  <td className="py-4 text-[17px] text-white/45">
+                    {toPersianDigits(user.phoneNumber)}
                   </td>
 
-                  <td className="py-4 text-[15px] text-white/55">
+                  <td className="py-4 text-[19px] text-white/55">
                     {user.OrderCount.toLocaleString("fa-IR")}
                   </td>
 

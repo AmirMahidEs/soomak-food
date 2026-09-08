@@ -15,6 +15,9 @@ export default function RecentOrders() {
     fetchLastOrders();
   }, []);
 
+  const toPersianDigits = (value) => {
+    return String(value).replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]);
+  };
   return (
     <motion.section
       initial={{ opacity: 0, y: 8 }}
@@ -56,10 +59,10 @@ export default function RecentOrders() {
                   {order.id}#
                 </td>
 
-                <td className="py-4 text-[13px] text-white/65">
+                <td className="py-4 text-[14px] text-white/65">
                   {order.userName}
                   <br />
-                  {order.userphone}
+                  {toPersianDigits(order.userphone)}
                 </td>
 
                 <td className="py-4 text-[13px] text-white/65">
