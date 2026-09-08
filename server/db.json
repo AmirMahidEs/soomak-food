@@ -473,7 +473,8 @@
       "shortTitle": "مشتری دائمی",
       "phoneNumber": "09123456789",
       "OrderCount": 8,
-      "joinDate": "2026-06-10T10:00:00Z"
+      "joinDate": "2026-06-10T10:00:00Z",
+      "status": "Active"
     },
     {
       "id": 2,
@@ -481,7 +482,8 @@
       "shortTitle": "مشتری جدید",
       "phoneNumber": "09121234567",
       "OrderCount": 3,
-      "joinDate": "2026-08-20T10:00:00Z"
+      "joinDate": "2026-08-20T10:00:00Z",
+      "status": "Active"
     },
     {
       "id": 3,
@@ -489,7 +491,8 @@
       "shortTitle": "مشتری",
       "phoneNumber": "09129876543",
       "OrderCount": 5,
-      "joinDate": "2026-07-15T10:00:00Z"
+      "joinDate": "2026-07-15T10:00:00Z",
+      "status": "Active"
     },
     {
       "id": 4,
@@ -497,7 +500,8 @@
       "shortTitle": "مشتری",
       "phoneNumber": "09125555555",
       "OrderCount": 2,
-      "joinDate": "2026-08-01T10:00:00Z"
+      "joinDate": "2026-08-01T10:00:00Z",
+      "status": "Deactive"
     },
     {
       "id": 5,
@@ -505,7 +509,8 @@
       "shortTitle": "مشتری جدید",
       "phoneNumber": "09121111111",
       "OrderCount": 1,
-      "joinDate": "2026-08-30T10:00:00Z"
+      "joinDate": "2026-08-30T10:00:00Z",
+      "status": "Active"
     }
   ],
   "adminFoods": [

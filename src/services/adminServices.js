@@ -26,3 +26,9 @@ export const updateOrderStatus = async (orderId, status) => {
 
   return response.data;
 };
+
+//GET ALL USERS
+export async function getAllUsers() {
+  const response = await api.get("/users");
+  return response.data;
+}

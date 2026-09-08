@@ -1,38 +1,25 @@
 import { UserRound } from "lucide-react";
 import { motion } from "framer-motion";
-
-const users = [
-  {
-    id: 1,
-    name: "امیر محمدی",
-    phone: "0912 123 4567",
-    orders: 8,
-    status: "فعال",
-  },
-  {
-    id: 2,
-    name: "علی رضایی",
-    phone: "0912 222 3344",
-    orders: 5,
-    status: "فعال",
-  },
-  {
-    id: 3,
-    name: "رضا احمدی",
-    phone: "0912 555 7788",
-    orders: 12,
-    status: "فعال",
-  },
-  {
-    id: 4,
-    name: "محمد کریمی",
-    phone: "0912 111 2233",
-    orders: 2,
-    status: "فعال",
-  },
-];
+import { getAllUsers } from "../../services/adminServices";
+import { useEffect, useState } from "react";
+import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
 
 export default function AdminUsersPage() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const data = await getAllUsers();
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -77,23 +64,21 @@ export default function AdminUsersPage() {
                       </div>
 
                       <span className="text-[15px] text-white/70">
-                        {user.name}
+                        {user.UserName}
                       </span>
                     </div>
                   </td>
 
                   <td className="py-4 text-[15px] text-white/45">
-                    {user.phone}
+                    {user.phoneNumber.toLocaleString("fa-IR")}
                   </td>
 
                   <td className="py-4 text-[15px] text-white/55">
-                    {user.orders}
+                    {user.OrderCount.toLocaleString("fa-IR")}
                   </td>
 
                   <td className="py-4">
-                    <span className="rounded-full bg-green-400/10 px-2.5 py-1 text-[12px] text-green-300">
-                      {user.status}
-                    </span>
+                    <AdminStatsChip order={user} />
                   </td>
 
                   <td className="py-4">
