@@ -42,10 +42,26 @@ export async function getCategories() {
   return response.data;
 }
 
+// PUT UPDATE CATEGORIES
+export async function updateCategories(categoryId, categoryData) {
+  const response = await api.put(`/categories/${categoryId}`, categoryData);
+  return response.data;
+}
+
+// POST CREATE CATEGORY
+export async function createCategory(categoryData) {
+  const response = await api.post("/categories", categoryData);
+  return response.data;
+}
+
+// DELETE DELETE CATEGORY
+export async function deleteCategory(categoryId) {
+  const response = await api.delete(`/categories/${categoryId}`);
+  return response.data;
+}
+
 // GET food comments
 export async function getFoodsComments(id) {
-  const response = await api.get(
-    `/comments?foodId=${encodeURIComponent(id)}`
-  );
+  const response = await api.get(`/comments?foodId=${encodeURIComponent(id)}`);
   return response.data;
 }

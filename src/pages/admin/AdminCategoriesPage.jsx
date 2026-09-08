@@ -1,27 +1,81 @@
 import { Edit3, Plus, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
-import { getCategories } from "../../services/foodServices";
+import {
+  getCategories,
+  updateCategories,
+  createCategory,
+  deleteCategory,
+} from "../../services/foodServices";
 import { useState, useEffect } from "react";
 import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
+import CategoryModal from "../../components/admin/categories/CategoryModal";
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const fetchCategories = async () => {
+    try {
+      const data = await getCategories();
+
+      const adminCategories = data.filter((category) => category.id !== "");
+
+      setCategories(adminCategories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await getCategories();
-
-        const adminCategories = data.filter((category) => category.id !== "");
-
-        setCategories(adminCategories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
     fetchCategories();
   }, []);
+
+  const handleCreateCategory = () => {
+    setSelectedCategory(null);
+    setOpenDialog(true);
+  };
+
+  const handleEditCategory = (category) => {
+    setSelectedCategory(category);
+    setOpenDialog(true);
+  };
+
+  const isCreate = () => {
+    return selectedCategory === null;
+  };
+
+  const handleSubmit = async (categoryData) => {
+    try {
+      if (isCreate()) {
+        await createCategory({
+          ...categoryData,
+          quantity: 0,
+        });
+      } else {
+        await updateCategories(selectedCategory.id, {
+          ...categoryData,
+          quantity: selectedCategory.quantity,
+        });
+      }
+
+      await fetchCategories();
+      setOpenDialog(false);
+      setSelectedCategory(null);
+    } catch (error) {
+      console.error("خطا در ذخیره دسته‌بندی:", error);
+    }
+  };
+
+  const handleDeleteCategory = async (categoryId) => {
+    try {
+      await deleteCategory(categoryId);
+
+      await fetchCategories();
+    } catch (error) {
+      console.error("خطا در حذف دسته‌بندی:", error);
+    }
+  };
 
   return (
     <motion.div
@@ -30,22 +84,16 @@ export default function AdminCategoriesPage() {
       className="space-y-5"
     >
       <div className="flex flex-col justify-end gap-4 sm:flex-row sm:items-center">
-        {/* <div>
-          <h1 className="text-xl font-medium text-white">دسته‌بندی‌ها</h1>
-
-          <p className="mt-2 text-[10px] text-white/35">
-            مدیریت دسته‌بندی‌های غذا
-          </p>
-        </div> */}
-
         <button
           type="button"
+          onClick={handleCreateCategory}
           className="flex h-[42px] items-center justify-center gap-2 rounded-full bg-gold-gradient px-5 text-[13px] font-bold text-somak-950 transition hover:brightness-105"
         >
           <Plus size={20} />
           دسته‌بندی جدید
         </button>
       </div>
+
       <section className="overflow-hidden rounded-[16px] border border-[#6f2826] bg-[#27090c]">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[650px] text-right">
@@ -105,6 +153,7 @@ export default function AdminCategoriesPage() {
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
+                        onClick={() => handleEditCategory(category)}
                         className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
                       >
                         <Edit3 size={20} />
@@ -112,6 +161,7 @@ export default function AdminCategoriesPage() {
 
                       <button
                         type="button"
+                        onClick={() => handleDeleteCategory(category.id)}
                         className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
                       >
                         <Trash2 size={20} />
@@ -124,6 +174,16 @@ export default function AdminCategoriesPage() {
           </table>
         </div>
       </section>
+
+      <CategoryModal
+        open={openDialog}
+        onClose={() => {
+          setOpenDialog(false);
+          setSelectedCategory(null);
+        }}
+        onSubmit={handleSubmit}
+        initialData={selectedCategory}
+      />
     </motion.div>
   );
 }
