@@ -59,7 +59,7 @@ export default function AdminProductsPage() {
   }));
 
   const foodCategoryOptions = categories
-    .filter((cat) => cat.id !== "")
+    .filter((cat) => cat.id !== "" && cat.status === "Active")
     .map((cat) => ({
       value: cat.id,
       label: cat.Name,
