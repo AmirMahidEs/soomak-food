@@ -103,14 +103,22 @@ export default function AdminProductsPage() {
   const handleSubmit = async (foodData) => {
     try {
       if (isCreate()) {
-        await createFood(foodData);
+        const selectedCategory = categories.find(
+          (category) => Number(category.id) === Number(foodData.categoryId),
+        );
+
+        const newFood = {
+          ...foodData,
+          category: selectedCategory?.Name || "",
+        };
+
+        await createFood(newFood);
       } else {
         await updateFood(selectedFood.id, foodData);
       }
 
       const updatedFoods = await getFoods();
       setFoods(updatedFoods);
-
       setOpenDialog(false);
       setSelectedFood(null);
     } catch (error) {
