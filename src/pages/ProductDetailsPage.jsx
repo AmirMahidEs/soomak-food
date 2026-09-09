@@ -154,7 +154,7 @@ export default function ProductDetailsPage() {
                   <Meta
                     icon={Clock3}
                     title="زمان آماده‌سازی"
-                    value={`${product.prep.toLocaleString("fa-IR")} دقیقه`}
+                    value={`${product.takeTime.toLocaleString("fa-IR")} دقیقه`}
                   />
                   <Meta
                     icon={Weight}
