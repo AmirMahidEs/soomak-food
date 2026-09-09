@@ -99,7 +99,12 @@ export default function ProductsPage() {
     const fetchCategories = async () => {
       try {
         const data = await getCategories();
-        setCategories(data);
+
+        const productCategories = data.filter(
+          (category) => category.status === "Active",
+        );
+
+        setCategories(productCategories);
       } catch (error) {
         setLoading(false);
         console.error("Error fetching categories:", error);
@@ -133,21 +138,20 @@ export default function ProductsPage() {
   ======================================================= */
 
   const filtered = useMemo(() => {
+    // فقط غذاهایی که دسته‌بندی فعال دارند
+    const activeFoods = foods.filter((food) =>
+      categories.some((cat) => Number(cat.id) === Number(food.categoryId)),
+    );
+
     let result =
       category === "همه محصولات"
-        ? [...foods]
-        : foods.filter((food) => food.category === category);
+        ? [...activeFoods]
+        : activeFoods.filter((food) => food.category === category);
 
-    /* -------------------------------------------------------
-       PRICE FILTER
-    ------------------------------------------------------- */
-
+    // PRICE FILTER
     result = result.filter((food) => Number(food.price) <= Number(maxPrice));
 
-    /* -------------------------------------------------------
-       SORT
-    ------------------------------------------------------- */
-
+    // SORT
     if (sort === "price-asc") {
       result.sort((a, b) => Number(a.price) - Number(b.price));
     }
@@ -157,7 +161,7 @@ export default function ProductsPage() {
     }
 
     return result;
-  }, [foods, category, maxPrice, sort]);
+  }, [foods, categories, category, maxPrice, sort]);
 
   /* =======================================================
      FORMAT PRICE
