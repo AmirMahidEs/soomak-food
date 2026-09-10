@@ -9,6 +9,7 @@ import AdminProductsPage from "../../pages/admin/AdminProductsPage";
 import AdminOrdersPage from "../../pages/admin/AdminOrdersPage";
 import AdminCategoriesPage from "../../pages/admin/AdminCategoriesPage";
 import AdminUsersPage from "../../pages/admin/AdminUserPage";
+import AdminSettingPage from "../../pages/admin/AdminSettingPage";
 
 export default function AdminLayout() {
   const dispatch = useDispatch();
@@ -31,6 +32,9 @@ export default function AdminLayout() {
 
       case "users":
         return <AdminUsersPage />;
+
+      case "settings":
+        return <AdminSettingPage />;
 
       default:
         return <AdminPage />;

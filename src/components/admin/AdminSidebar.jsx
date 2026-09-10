@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   ShoppingBag,
   Users,
+  Settings,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
@@ -35,6 +36,11 @@ const menuItems = [
     id: "users",
     label: "کاربران",
     icon: Users,
+  },
+  {
+    id: "settings",
+    label: "تنظیمات",
+    icon: Settings,
   },
 ];
 

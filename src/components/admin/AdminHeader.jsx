@@ -26,6 +26,10 @@ const titles = {
     title: "کاربران",
     // description: "مشاهده و مدیریت کاربران فروشگاه",
   },
+  settings: {
+    title: "تنظیمات",
+    // description: "مشاهده و مدیریت کاربران فروشگاه",
+  },
 };
 
 export default function AdminHeader({ activeTab }) {
