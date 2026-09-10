@@ -16,6 +16,9 @@ const AdminSettingPage = () => {
             className="h-[50px] w-full rounded-lg border border-somak-500 bg-somak-900 px-5 outline-none transition focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
           />
         </div>
+        <p className="m-5 font-light text-white/50">
+          شماره تلفن پنل پیامکی خود را از این قسمت ویرایش کنید.
+        </p>
       </section>
       {/* Comment Section */}
       <section className="overflow-hidden rounded-[16px] border border-[#6f2826] bg-[#27090c]">
