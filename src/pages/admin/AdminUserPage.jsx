@@ -32,7 +32,7 @@ export default function AdminUsersPage() {
       {/* <div>
         <h1 className="text-xl font-medium text-white">کاربران</h1>
 
-        <p className="mt-2 text-[10px] text-white/35">
+        <p className="mt-2 text-[10px] text-white/35">  
           لیست کاربران ثبت‌نام شده در فروشگاه
         </p>
       </div> */}
