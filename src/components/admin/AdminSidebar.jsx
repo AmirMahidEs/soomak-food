@@ -6,6 +6,7 @@ import {
   ShoppingBag,
   Users,
   Settings,
+  MessageCircle,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
@@ -41,6 +42,11 @@ const menuItems = [
     id: "settings",
     label: "تنظیمات",
     icon: Settings,
+  },
+  {
+    id: "comments",
+    label: "نظرات",
+    icon: MessageCircle,
   },
 ];
 

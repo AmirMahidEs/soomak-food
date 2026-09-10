@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Bell } from "lucide-react";
+import { comment } from "postcss";
 
 const titles = {
   dashboard: {
@@ -28,6 +29,10 @@ const titles = {
   },
   settings: {
     title: "تنظیمات",
+    // description: "مشاهده و مدیریت کاربران فروشگاه",
+  },
+  comments: {
+    title: "نظرات",
     // description: "مشاهده و مدیریت کاربران فروشگاه",
   },
 };

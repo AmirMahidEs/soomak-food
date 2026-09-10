@@ -10,6 +10,7 @@ import AdminOrdersPage from "../../pages/admin/AdminOrdersPage";
 import AdminCategoriesPage from "../../pages/admin/AdminCategoriesPage";
 import AdminUsersPage from "../../pages/admin/AdminUserPage";
 import AdminSettingPage from "../../pages/admin/AdminSettingPage";
+import AdminCommentPage from "../../pages/admin/AdminCommentPage";
 
 export default function AdminLayout() {
   const dispatch = useDispatch();
@@ -35,6 +36,9 @@ export default function AdminLayout() {
 
       case "settings":
         return <AdminSettingPage />;
+
+      case "comments":
+        return <AdminCommentPage />;
 
       default:
         return <AdminPage />;
