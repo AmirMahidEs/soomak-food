@@ -24,7 +24,7 @@ function DashboardContent() {
     };
 
     fetchAdminStats();
-  }, [adminStats]);
+  }, []);
 
   return (
     <div>
