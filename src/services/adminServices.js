@@ -32,3 +32,17 @@ export async function getAllUsers() {
   const response = await api.get("/users");
   return response.data;
 }
+
+//GET NOTIF PHONE NUMBER
+export async function getPhoneNumber() {
+  const response = await api.get("/notifications");
+  return response.data;
+}
+
+//PATCH NOTIF PHONE NUMBER
+export async function updatePhoneNumber(notifId, newPhone) {
+  const response = await api.patch(`/notifications/${notifId}`, {
+    phoneNumber: newPhone,
+  });
+  return response.data;
+}
