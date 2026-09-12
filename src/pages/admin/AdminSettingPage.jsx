@@ -45,17 +45,29 @@ const AdminSettingPage = () => {
     return String(value).replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]);
   };
 
+  const formatPhoneNumber = (value) => {
+    const digits = String(value ?? "")
+      .replace(/\D/g, "")
+      .slice(0, 11);
+
+    return digits
+      .replace(/^(\d{4})(\d)/, "$1-$2")
+      .replace(/^(\d{4}-\d{3})(\d)/, "$1-$2");
+  };
+
   // =========================
   // SMS PHONE
   // =========================
 
   const handleSavePhone = async () => {
-    if (newPhone.length === 0) {
+    const rawPhone = newPhone.replace(/\D/g, "");
+
+    if (rawPhone.length !== 11) {
       return;
     }
 
     try {
-      const data = await updatePhoneNumber(phone[0].id, newPhone);
+      const data = await updatePhoneNumber(phone[0].id, rawPhone);
 
       setPhone([data]);
       setNewPhone("");
@@ -112,8 +124,8 @@ const AdminSettingPage = () => {
           <div className="mx-5 flex items-center gap-2 border-b border-somak-600 py-6">
             <p className="text-white/60">
               شماره تلفن فعلی شما :
-              <span className="mr-2 text-somak-gold2">
-                {toPersianDigits(phone[0]?.phoneNumber)}
+              <span className="mr-2 text-somak-gold2" dir="ltr">
+                {toPersianDigits(formatPhoneNumber(phone[0]?.phoneNumber))}
               </span>
             </p>
 
@@ -121,7 +133,7 @@ const AdminSettingPage = () => {
               type="button"
               onClick={() => {
                 setIsEditingPhone((prev) => !prev);
-                setNewPhone(phone[0]?.phoneNumber);
+                setNewPhone(formatPhoneNumber(phone[0]?.phoneNumber));
               }}
               className={`flex h-9 w-9 items-center justify-center rounded-full transition ${
                 isEditingPhone
@@ -163,7 +175,14 @@ const AdminSettingPage = () => {
                   <input
                     placeholder="شماره تلفن پنل پیامکی را وارد کنید"
                     value={newPhone}
-                    onChange={(e) => setNewPhone(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value
+                        .replace(/\D/g, "")
+                        .slice(0, 11);
+
+                      setNewPhone(formatPhoneNumber(value));
+                    }}
+                    maxLength={13}
                     type="tel"
                     dir="ltr"
                     className="h-[50px] w-full rounded-lg border border-somak-500 bg-somak-900 px-5 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
