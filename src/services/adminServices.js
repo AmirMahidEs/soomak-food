@@ -62,3 +62,21 @@ export async function updatePaymentInfo(paymentId, newCardNumber) {
 
   return response.data;
 }
+
+// POST CREATE NOTIF PHONE NUMBER
+export async function createPhoneNumber(phoneNumber) {
+  const response = await api.post("/notifications", {
+    phoneNumber,
+  });
+
+  return response.data;
+}
+
+// POST CREATE PAYMENT INFO
+export async function createPaymentInfo(cardNumber) {
+  const response = await api.post("/paymentInfo", {
+    ShomareKartBeKart: cardNumber,
+  });
+
+  return response.data;
+}
