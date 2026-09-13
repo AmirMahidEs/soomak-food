@@ -1,6 +1,9 @@
-import { Eye, Search } from "lucide-react";
+import { Eye, Search, MessageCircle } from "lucide-react";
+
 import { motion } from "framer-motion";
+
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   selectOrderFilters,
   setOrderSearch,
@@ -10,22 +13,30 @@ import {
 import AdminSelect from "../../components/admin/AdminSelect";
 
 import { getAllOrders, updateOrderStatus } from "../../services/adminServices";
+
 import { useEffect, useState } from "react";
+
 import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
+
 import OrderModal from "../../components/admin/orders/OrderModal";
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [openOrderModal, setOpenOrderModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+        setLoading(true);
+
         const data = await getAllOrders();
         setOrders(data);
       } catch (error) {
         console.error("خطا در دریافت سفارش‌ها:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -33,6 +44,7 @@ export default function AdminOrdersPage() {
   }, []);
 
   const dispatch = useDispatch();
+
   const { search, status } = useSelector(selectOrderFilters);
 
   const statusOptions = [
@@ -45,6 +57,7 @@ export default function AdminOrdersPage() {
 
   const filteredOrders = orders.filter((order) => {
     const query = search.trim().toLowerCase();
+
     const matchesSearch =
       !query ||
       order.id.toLowerCase().includes(query) ||
@@ -84,14 +97,6 @@ export default function AdminOrdersPage() {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-5"
     >
-      {/* <div>
-          <h1 className="text-xl font-medium text-white">سفارش‌ها</h1>
-
-          <p className="mt-2 text-[10px] text-white/35">
-            مشاهده و مدیریت سفارش‌های مشتریان
-          </p>
-        </div> */}
-
       {/* FILTER */}
       <section className="rounded-[16px] border border-[#6f2826] bg-[#27090c] p-4">
         <div className="flex flex-col gap-3 sm:flex-row">
@@ -120,28 +125,51 @@ export default function AdminOrdersPage() {
 
       {/* TABLE */}
       <section className="overflow-hidden rounded-[16px] border border-[#6f2826] bg-[#27090c]">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[850px] text-right">
-            <thead>
-              <tr className="border-b border-[#61221f]/70 text-[15px] text-white/80">
-                <th className="px-5 py-4 font-normal">سفارش</th>
-                <th className="py-4 font-normal">مشتری</th>
-                <th className="py-4 font-normal">اقلام</th>
-                <th className="py-4 font-normal">مبلغ</th>
-                <th className="py-4 font-normal">وضعیت</th>
-                <th className="px-5 py-4 font-normal">جزئیات</th>
-              </tr>
-            </thead>
+        {loading ? (
+          <div className="flex min-h-[250px] items-center justify-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-somak-gold" />
 
-            <tbody>
-              {filteredOrders.length === 0 ? (
-                <tr>
-                  <td colSpan="6" className="py-12 text-center text-white/50">
-                    هیچ سفارشی برای نمایش وجود ندارد.
-                  </td>
+              <p className="text-sm text-white/45">در حال دریافت سفارش‌ها...</p>
+            </div>
+          </div>
+        ) : filteredOrders.length === 0 ? (
+          <div className="flex min-h-[250px] flex-col items-center justify-center gap-4 px-5 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/5 text-white/25">
+              <MessageCircle size={26} />
+            </div>
+
+            <div>
+              <p className="text-[16px] font-medium text-white/70">
+                سفارشی برای نمایش وجود ندارد
+              </p>
+
+              <p className="mt-1 text-sm text-white/35">
+                هیچ سفارشی مطابق فیلترهای انتخاب‌شده پیدا نشد.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[850px] text-right">
+              <thead>
+                <tr className="border-b border-[#61221f]/70 text-[15px] text-white/80">
+                  <th className="px-5 py-4 font-normal">سفارش</th>
+
+                  <th className="py-4 font-normal">مشتری</th>
+
+                  <th className="py-4 font-normal">اقلام</th>
+
+                  <th className="py-4 font-normal">مبلغ</th>
+
+                  <th className="py-4 font-normal">وضعیت</th>
+
+                  <th className="px-5 py-4 font-normal">جزئیات</th>
                 </tr>
-              ) : (
-                filteredOrders.map((order) => (
+              </thead>
+
+              <tbody>
+                {filteredOrders.map((order) => (
                   <tr
                     key={order.id}
                     className="border-b border-[#61221f]/40 last:border-0"
@@ -183,12 +211,13 @@ export default function AdminOrdersPage() {
                       </button>
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
+
       <OrderModal
         open={openOrderModal}
         onClose={() => {

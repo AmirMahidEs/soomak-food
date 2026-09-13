@@ -1,4 +1,5 @@
 import AdminStatCard from "../../components/admin/dashboard/AdminStatCard";
+
 import RecentOrders from "../../components/admin/dashboard/RecentOrders";
 
 import {
@@ -7,20 +8,31 @@ import {
   Package,
   ShoppingBag,
   Users,
+  MessageCircle,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
 
 import { useEffect, useState } from "react";
+
 import { getAdminStats } from "../../services/adminServices";
 
 function DashboardContent() {
   const [adminStats, setAdminStats] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAdminStats = async () => {
-      const stats = await getAdminStats();
-      setAdminStats(stats);
+      try {
+        setLoading(true);
+
+        const stats = await getAdminStats();
+        setAdminStats(stats);
+      } catch (error) {
+        console.error("خطا در دریافت آمار داشبورد:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchAdminStats();
@@ -51,174 +63,80 @@ function DashboardContent() {
       </motion.div>
 
       {/* STATS */}
-      {adminStats.map((stat) => (
-        <div
-          key={stat.id}
-          className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4"
-        >
-          <AdminStatCard
-            title="سفارش‌های امروز"
-            value={stat.totalOrders.toLocaleString("fa-IR")}
-            description={`${stat.newOrders.toLocaleString("fa-IR")} سفارش جدید`}
-            icon={ShoppingBag}
-          />
+      {loading ? (
+        <section className="flex min-h-[250px] items-center justify-center rounded-[16px] border border-[#6f2826] bg-[#27090c]">
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-somak-gold" />
 
-          <AdminStatCard
-            title="فروش امروز"
-            value={stat.totalSales.toLocaleString("fa-IR")}
-            description="تومان"
-            icon={DollarSign}
-          />
+            <p className="text-sm text-white/45">
+              در حال دریافت آمار داشبورد...
+            </p>
+          </div>
+        </section>
+      ) : adminStats.length === 0 ? (
+        <section className="flex min-h-[250px] items-center justify-center rounded-[16px] border border-[#6f2826] bg-[#27090c]">
+          <div className="flex flex-col items-center gap-4 px-5 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/5 text-white/25">
+              <MessageCircle size={26} />
+            </div>
 
-          <AdminStatCard
-            title="غذاها"
-            value={stat.totalFoods.toLocaleString("fa-IR")}
-            description={`${stat.activeFoods.toLocaleString("fa-IR")} غذای فعال`}
-            icon={Package}
-          />
+            <div>
+              <p className="text-[16px] font-medium text-white/70">
+                آماری برای نمایش وجود ندارد
+              </p>
 
-          <AdminStatCard
-            title="کاربران"
-            value={stat.totalUsers.toLocaleString("fa-IR")}
-            description={`${stat.newUsers.toLocaleString("fa-IR")} کاربر جدید`}
-            icon={Users}
-          />
-        </div>
-      ))}
+              <p className="mt-1 text-sm text-white/35">
+                در حال حاضر اطلاعاتی برای نمایش در داشبورد موجود نیست.
+              </p>
+            </div>
+          </div>
+        </section>
+      ) : (
+        adminStats.map((stat) => (
+          <div
+            key={stat.id}
+            className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4"
+          >
+            <AdminStatCard
+              title="سفارش‌های امروز"
+              value={stat.totalOrders.toLocaleString("fa-IR")}
+              description={`${stat.newOrders.toLocaleString("fa-IR")} سفارش جدید`}
+              icon={ShoppingBag}
+            />
+
+            <AdminStatCard
+              title="فروش امروز"
+              value={stat.totalSales.toLocaleString("fa-IR")}
+              description="تومان"
+              icon={DollarSign}
+            />
+
+            <AdminStatCard
+              title="غذاها"
+              value={stat.totalFoods.toLocaleString("fa-IR")}
+              description={`${stat.activeFoods.toLocaleString("fa-IR")} غذای فعال`}
+              icon={Package}
+            />
+
+            <AdminStatCard
+              title="کاربران"
+              value={stat.totalUsers.toLocaleString("fa-IR")}
+              description={`${stat.newUsers.toLocaleString("fa-IR")} کاربر جدید`}
+              icon={Users}
+            />
+          </div>
+        ))
+      )}
 
       {/* RECENT ORDERS */}
-      <div className="mt-5">
-        <RecentOrders />
-      </div>
+      {!loading && adminStats.length > 0 && (
+        <div className="mt-5">
+          <RecentOrders />
+        </div>
+      )}
     </div>
   );
 }
-
-// function UsersContent() {
-//   const users = [
-//     {
-//       id: 1,
-//       name: "امیر محمدی",
-//       phone: "0912 123 4567",
-//       orders: 8,
-//       status: "فعال",
-//     },
-//     {
-//       id: 2,
-//       name: "علی رضایی",
-//       phone: "0912 555 7890",
-//       orders: 5,
-//       status: "فعال",
-//     },
-//     {
-//       id: 3,
-//       name: "رضا احمدی",
-//       phone: "0935 321 6547",
-//       orders: 3,
-//       status: "فعال",
-//     },
-//     {
-//       id: 4,
-//       name: "محمد کریمی",
-//       phone: "0919 444 2266",
-//       orders: 12,
-//       status: "فعال",
-//     },
-//   ];
-
-//   return (
-//     <motion.section
-//       initial={{
-//         opacity: 0,
-//         y: 8,
-//       }}
-//       animate={{
-//         opacity: 1,
-//         y: 0,
-//       }}
-//       transition={{
-//         duration: 0.22,
-//       }}
-//       className="rounded-[16px] border border-[#6f2826] bg-[#27090c] p-5 sm:p-6"
-//     >
-//       {/* HEADER */}
-//       <div className="flex items-center justify-between">
-//         <div>
-//           <h1 className="text-xl font-medium text-white">کاربران</h1>
-
-//           <p className="mt-2 text-[10px] text-white/35">
-//             مدیریت کاربران ثبت‌نام شده در فروشگاه
-//           </p>
-//         </div>
-
-//         <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#e9a92f]/10 text-[#e9a92f]">
-//           <Users size={17} strokeWidth={1.35} />
-//         </div>
-//       </div>
-
-//       {/* TABLE */}
-//       <div className="mt-6 overflow-x-auto">
-//         <table className="w-full min-w-[650px] text-right">
-//           <thead>
-//             <tr className="border-b border-[#61221f]/70 text-[9px] text-white/30">
-//               <th className="pb-3 font-normal">کاربر</th>
-
-//               <th className="pb-3 font-normal">شماره موبایل</th>
-
-//               <th className="pb-3 font-normal">سفارش‌ها</th>
-
-//               <th className="pb-3 font-normal">وضعیت</th>
-
-//               <th className="pb-3 font-normal">عملیات</th>
-//             </tr>
-//           </thead>
-
-//           <tbody>
-//             {users.map((user) => (
-//               <tr
-//                 key={user.id}
-//                 className="border-b border-[#61221f]/40 last:border-0"
-//               >
-//                 <td className="py-4">
-//                   <div className="flex items-center gap-2.5">
-//                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e9a92f]/10 text-[10px] font-medium text-[#e9a92f]">
-//                       {user.name.charAt(0)}
-//                     </div>
-
-//                     <span className="text-[10px] text-white/70">
-//                       {user.name}
-//                     </span>
-//                   </div>
-//                 </td>
-
-//                 <td className="py-4 text-[10px] text-white/45">{user.phone}</td>
-
-//                 <td className="py-4 text-[10px] text-white/55">
-//                   {user.orders}
-//                 </td>
-
-//                 <td className="py-4">
-//                   <span className="rounded-full bg-green-400/10 px-2.5 py-1 text-[8px] text-green-300">
-//                     {user.status}
-//                   </span>
-//                 </td>
-
-//                 <td className="py-4">
-//                   <button
-//                     type="button"
-//                     className="text-[9px] text-[#e9a92f]/75 transition hover:text-[#e9a92f]"
-//                   >
-//                     مشاهده
-//                   </button>
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     </motion.section>
-//   );
-// }
 
 function EmptyAdminContent({ title, description, icon: Icon }) {
   return (

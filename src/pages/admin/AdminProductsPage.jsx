@@ -1,15 +1,19 @@
-import { Edit3, Plus, Search, Trash2 } from "lucide-react";
+import { Edit3, Plus, Search, Trash2, MessageCircle } from "lucide-react";
 
 import { motion } from "framer-motion";
 
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   selectProductFilters,
   setProductCategoryFilter,
   setProductSearch,
 } from "../../features/admin/adminSlice";
+
 import AdminSelect from "../../components/admin/AdminSelect";
+
 import { useEffect, useState } from "react";
+
 import {
   getCategories,
   getFoods,
@@ -17,6 +21,7 @@ import {
   createFood,
   deleteFood,
 } from "../../services/foodServices";
+
 import FoodModal from "../../components/admin/products/FoodModal";
 
 export default function AdminProductsPage() {
@@ -24,33 +29,32 @@ export default function AdminProductsPage() {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFood, setSelectedFood] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getCategories();
-        setCategories(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-    fetchCategories();
-  }, []);
+        setLoading(true);
 
-  useEffect(() => {
-    const fetchFoods = async () => {
-      try {
-        const data = await getFoods();
-        setFoods(data);
+        const [categoriesData, foodsData] = await Promise.all([
+          getCategories(),
+          getFoods(),
+        ]);
+
+        setCategories(categoriesData);
+        setFoods(foodsData);
       } catch (error) {
-        console.error("Error fetching foods:", error);
+        console.error("Error fetching products data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchFoods();
+    fetchData();
   }, []);
 
   const dispatch = useDispatch();
+
   const { search, category } = useSelector(selectProductFilters);
 
   const categoryOptions = categories.map((cat) => ({
@@ -89,6 +93,7 @@ export default function AdminProductsPage() {
   const handleDeleteFood = async (foodId) => {
     try {
       await deleteFood(foodId);
+
       const updatedFoods = await getFoods();
       setFoods(updatedFoods);
     } catch (error) {
@@ -118,6 +123,7 @@ export default function AdminProductsPage() {
       }
 
       const updatedFoods = await getFoods();
+
       setFoods(updatedFoods);
       setOpenDialog(false);
       setSelectedFood(null);
@@ -134,14 +140,6 @@ export default function AdminProductsPage() {
     >
       {/* TITLE */}
       <div className="flex flex-col justify-end gap-4 sm:flex-row sm:items-center">
-        {/* <div>
-          <h1 className="text-xl font-medium text-white">غذاها</h1>
-
-          <p className="mt-2 text-[10px] text-white/35">
-            مدیریت غذاها، قیمت‌ها و وضعیت موجودی
-          </p>
-        </div> */}
-
         <button
           type="button"
           className="flex h-[42px] items-center justify-center gap-2 rounded-full bg-gold-gradient px-5 text-[13px] font-bold text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.12)] transition hover:brightness-105"
@@ -184,26 +182,47 @@ export default function AdminProductsPage() {
 
       {/* TABLE */}
       <section className="overflow-hidden rounded-[16px] border border-[#6f2826] bg-[#27090c]">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[700px] text-right">
-            <thead>
-              <tr className="border-b border-[#61221f]/70 text-[15px] font-bold text-white/80">
-                <th className="px-5 py-4">غذا</th>
-                <th className="py-4">دسته‌بندی</th>
-                <th className="py-4">قیمت</th>
-                <th className="px-5 py-4">عملیات</th>
-              </tr>
-            </thead>
+        {loading ? (
+          <div className="flex min-h-[250px] items-center justify-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-somak-gold" />
 
-            <tbody>
-              {filteredProducts.length === 0 ? (
-                <tr>
-                  <td colSpan="4" className="py-8 text-center text-white/50">
-                    هیچ غذایی برای نمایش وجود ندارد.
-                  </td>
+              <p className="text-sm text-white/45">در حال دریافت غذاها...</p>
+            </div>
+          </div>
+        ) : filteredProducts.length === 0 ? (
+          <div className="flex min-h-[250px] flex-col items-center justify-center gap-4 px-5 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/5 text-white/25">
+              <MessageCircle size={26} />
+            </div>
+
+            <div>
+              <p className="text-[16px] font-medium text-white/70">
+                غذایی برای نمایش وجود ندارد
+              </p>
+
+              <p className="mt-1 text-sm text-white/35">
+                هیچ غذایی مطابق جستجو یا فیلتر انتخاب‌شده پیدا نشد.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[700px] text-right">
+              <thead>
+                <tr className="border-b border-[#61221f]/70 text-[15px] font-bold text-white/80">
+                  <th className="px-5 py-4">غذا</th>
+
+                  <th className="py-4">دسته‌بندی</th>
+
+                  <th className="py-4">قیمت</th>
+
+                  <th className="px-5 py-4">عملیات</th>
                 </tr>
-              ) : (
-                filteredProducts.map((product) => {
+              </thead>
+
+              <tbody>
+                {filteredProducts.map((product) => {
                   const filteredCategoryById = categories.find(
                     (category) =>
                       Number(category.id) === Number(product.categoryId),
@@ -217,6 +236,7 @@ export default function AdminProductsPage() {
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div className="h-10 w-10 rounded-[9px] bg-[#421014]" />
+
                           <span className="text-[15px] text-white/60">
                             {product.FoodName}
                           </span>
@@ -252,12 +272,13 @@ export default function AdminProductsPage() {
                       </td>
                     </tr>
                   );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
+
       <FoodModal
         open={openDialog}
         onClose={() => setOpenDialog(false)}

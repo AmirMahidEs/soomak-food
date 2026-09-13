@@ -1,22 +1,30 @@
-import { Edit3, Plus, Trash2 } from "lucide-react";
+import { Edit3, Plus, Trash2, MessageCircle } from "lucide-react";
+
 import { motion } from "framer-motion";
+
 import {
   getCategories,
   updateCategories,
   createCategory,
   deleteCategory,
 } from "../../services/foodServices";
+
 import { useState, useEffect } from "react";
+
 import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
+
 import CategoryModal from "../../components/admin/categories/CategoryModal";
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchCategories = async () => {
     try {
+      setLoading(true);
+
       const data = await getCategories();
 
       const adminCategories = data.filter((category) => category.id !== "");
@@ -24,6 +32,8 @@ export default function AdminCategoriesPage() {
       setCategories(adminCategories);
     } catch (error) {
       console.error("Error fetching categories:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,6 +70,7 @@ export default function AdminCategoriesPage() {
       }
 
       await fetchCategories();
+
       setOpenDialog(false);
       setSelectedCategory(null);
     } catch (error) {
@@ -70,7 +81,6 @@ export default function AdminCategoriesPage() {
   const handleDeleteCategory = async (categoryId) => {
     try {
       await deleteCategory(categoryId);
-
       await fetchCategories();
     } catch (error) {
       console.error("خطا در حذف دسته‌بندی:", error);
@@ -95,84 +105,114 @@ export default function AdminCategoriesPage() {
       </div>
 
       <section className="overflow-hidden rounded-[16px] border border-[#6f2826] bg-[#27090c]">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[650px] text-right">
-            <thead>
-              <tr className="border-b border-[#61221f]/70 text-[9px] text-white/30">
-                <th className="px-5 py-4 text-sm font-bold text-white/80">
-                  دسته‌بندی
-                </th>
+        {loading ? (
+          <div className="flex min-h-[250px] items-center justify-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-somak-gold" />
 
-                <th className="py-4 text-sm font-bold text-white/80">
-                  توضیحات
-                </th>
+              <p className="text-sm text-white/45">
+                در حال دریافت دسته‌بندی‌ها...
+              </p>
+            </div>
+          </div>
+        ) : categories.length === 0 ? (
+          <div className="flex min-h-[250px] flex-col items-center justify-center gap-4 px-5 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/5 text-white/25">
+              <MessageCircle size={26} />
+            </div>
 
-                <th className="py-4 text-sm font-bold text-white/80">
-                  تعداد غذا
-                </th>
+            <div>
+              <p className="text-[16px] font-medium text-white/70">
+                دسته‌بندی‌ای برای نمایش وجود ندارد
+              </p>
 
-                <th className="py-4 text-sm font-bold text-white/80">وضعیت</th>
+              <p className="mt-1 text-sm text-white/35">
+                در حال حاضر هیچ دسته‌بندی‌ای ثبت نشده است.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[650px] text-right">
+              <thead>
+                <tr className="border-b border-[#61221f]/70 text-[9px] text-white/30">
+                  <th className="px-5 py-4 text-sm font-bold text-white/80">
+                    دسته‌بندی
+                  </th>
 
-                <th className="px-5 py-4 text-sm font-bold text-white/80">
-                  عملیات
-                </th>
-              </tr>
-            </thead>
+                  <th className="py-4 text-sm font-bold text-white/80">
+                    توضیحات
+                  </th>
 
-            <tbody>
-              {categories.map((category) => (
-                <tr
-                  key={category.id}
-                  className="border-b border-[#61221f]/40 last:border-0"
-                >
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-[9px] bg-[#e9a92f]/10 text-[#e9a92f]">
-                        {category.Name.charAt(0)}
-                      </div>
+                  <th className="py-4 text-sm font-bold text-white/80">
+                    تعداد غذا
+                  </th>
 
-                      <span className="text-[15px] text-white/60">
-                        {category.Name}
-                      </span>
-                    </div>
-                  </td>
+                  <th className="py-4 text-sm font-bold text-white/80">
+                    وضعیت
+                  </th>
 
-                  <td className="py-4 text-[15px] text-white/60">
-                    {category.Description}
-                  </td>
-
-                  <td className="py-4 text-[15px] text-white/60">
-                    {category.quantity.toLocaleString("fa-IR")} غذا
-                  </td>
-
-                  <td className="py-4">
-                    <AdminStatsChip order={category} />
-                  </td>
-
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => handleEditCategory(category)}
-                        className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
-                      >
-                        <Edit3 size={20} />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteCategory(category.id)}
-                        className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
-                      >
-                        <Trash2 size={20} />
-                      </button>
-                    </div>
-                  </td>
+                  <th className="px-5 py-4 text-sm font-bold text-white/80">
+                    عملیات
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+
+              <tbody>
+                {categories.map((category) => (
+                  <tr
+                    key={category.id}
+                    className="border-b border-[#61221f]/40 last:border-0"
+                  >
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-[9px] bg-[#e9a92f]/10 text-[#e9a92f]">
+                          {category.Name.charAt(0)}
+                        </div>
+
+                        <span className="text-[15px] text-white/60">
+                          {category.Name}
+                        </span>
+                      </div>
+                    </td>
+
+                    <td className="py-4 text-[15px] text-white/60">
+                      {category.Description}
+                    </td>
+
+                    <td className="py-4 text-[15px] text-white/60">
+                      {category.quantity.toLocaleString("fa-IR")} غذا
+                    </td>
+
+                    <td className="py-4">
+                      <AdminStatsChip order={category} />
+                    </td>
+
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleEditCategory(category)}
+                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
+                        >
+                          <Edit3 size={20} />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteCategory(category.id)}
+                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
+                        >
+                          <Trash2 size={20} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
       <CategoryModal
