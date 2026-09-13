@@ -9,11 +9,15 @@ import {
   updateCommentStatus,
 } from "../../services/adminServices";
 
+import CommentStatsChip from "../../components/admin/comments/CommentStatsChip";
+
 import React from "react";
 
 const AdminCommentPage = () => {
   const [replyOpen, setReplyOpen] = useState(null);
+
   const [comments, setComments] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,6 +55,7 @@ const AdminCommentPage = () => {
       await updateCommentStatus(commentid, "Rejected");
 
       const updatedComments = await getAllComments();
+
       setComments(updatedComments);
     } catch (error) {
       console.error("cant to reject comments", error);
@@ -97,6 +102,8 @@ const AdminCommentPage = () => {
 
                   <th className="px-5 py-4 font-normal">نام کاربری</th>
 
+                  <th className="px-5 py-4 font-normal">وضعیت</th>
+
                   <th className="px-5 py-4 font-normal">عملیات</th>
                 </tr>
               </thead>
@@ -104,8 +111,6 @@ const AdminCommentPage = () => {
               <tbody>
                 {comments.map((comment) => (
                   <React.Fragment key={comment.id}>
-                    {/* Comment Row */}
-
                     <tr className="border-b border-[#61221f]/40">
                       <td className="px-5 py-4 text-[15px] font-medium text-white/60">
                         {comment.comment}
@@ -118,9 +123,12 @@ const AdminCommentPage = () => {
                       </td>
 
                       <td className="px-5 py-4">
+                        <CommentStatsChip comment={comment} />
+                      </td>
+
+                      <td className="px-5 py-4">
                         <div className="flex items-center gap-2">
                           {/* Accept */}
-
                           <button
                             type="button"
                             onClick={() => handleApprove(comment.id)}
@@ -130,7 +138,6 @@ const AdminCommentPage = () => {
                           </button>
 
                           {/* Reject */}
-
                           <button
                             type="button"
                             onClick={() => handleReject(comment.id)}
@@ -140,7 +147,6 @@ const AdminCommentPage = () => {
                           </button>
 
                           {/* Reply Collapse */}
-
                           <button
                             type="button"
                             onClick={() =>
@@ -166,7 +172,6 @@ const AdminCommentPage = () => {
                     </tr>
 
                     {/* Reply Row */}
-
                     <AnimatePresence initial={false}>
                       {replyOpen === comment.id && (
                         <motion.tr
@@ -175,7 +180,7 @@ const AdminCommentPage = () => {
                           exit={{ opacity: 0 }}
                           className="border-b border-[#61221f]/40"
                         >
-                          <td colSpan={3} className="p-0">
+                          <td colSpan={4} className="p-0">
                             <motion.div
                               initial={{ height: 0 }}
                               animate={{ height: "auto" }}
