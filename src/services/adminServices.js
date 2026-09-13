@@ -86,3 +86,11 @@ export async function getAllComments() {
   const response = await api.get("/comments");
   return response.data;
 }
+
+//PATCH COMMENT STATUS
+export async function updateCommentStatus(commentId, newCommentStatus) {
+  const response = await api.patch(`/comments/${commentId}`, {
+    status: newCommentStatus,
+  });
+  return response.data;
+}

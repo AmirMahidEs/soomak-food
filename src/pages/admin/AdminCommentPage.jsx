@@ -4,7 +4,10 @@ import { X, Check, ChevronDown, MessageCircle } from "lucide-react";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import { getAllComments } from "../../services/adminServices";
+import {
+  getAllComments,
+  updateCommentStatus,
+} from "../../services/adminServices";
 
 import React from "react";
 
@@ -30,6 +33,29 @@ const AdminCommentPage = () => {
 
     fetchAllComments();
   }, []);
+
+  const handleApprove = async (commentId) => {
+    try {
+      await updateCommentStatus(commentId, "Approved");
+
+      const updatedComments = await getAllComments();
+
+      setComments(updatedComments);
+    } catch (error) {
+      console.error("خطا در تأیید نظر:", error);
+    }
+  };
+
+  const handleReject = async (commentid) => {
+    try {
+      await updateCommentStatus(commentid, "Rejected");
+
+      const updatedComments = await getAllComments();
+      setComments(updatedComments);
+    } catch (error) {
+      console.error("cant to reject comments", error);
+    }
+  };
 
   return (
     <motion.div
@@ -97,6 +123,7 @@ const AdminCommentPage = () => {
 
                           <button
                             type="button"
+                            onClick={() => handleApprove(comment.id)}
                             className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-green-400/10 hover:text-green-500"
                           >
                             <Check size={20} />
@@ -106,6 +133,7 @@ const AdminCommentPage = () => {
 
                           <button
                             type="button"
+                            onClick={() => handleReject(comment.id)}
                             className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-500"
                           >
                             <X size={20} />
