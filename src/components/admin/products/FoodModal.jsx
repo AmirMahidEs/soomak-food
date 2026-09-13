@@ -38,7 +38,7 @@ const FoodModal = ({
         categoryId:
           initialData.categoryId !== undefined &&
           initialData.categoryId !== null
-            ? String(initialData.categoryId)
+            ? initialData.categoryId
             : "",
         takeTime: initialData.takeTime ?? "",
         weight: initialData.weight ?? "",

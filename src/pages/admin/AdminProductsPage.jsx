@@ -71,7 +71,7 @@ export default function AdminProductsPage() {
     );
 
     const matchesCategory =
-      !category || product.categoryId.toString() === category;
+      !category || Number(product.categoryId) === Number(category);
 
     return matchesSearch && matchesCategory;
   });
@@ -102,19 +102,19 @@ export default function AdminProductsPage() {
 
   const handleSubmit = async (foodData) => {
     try {
+      const selectedCategory = categories.find(
+        (category) => Number(category.id) === Number(foodData.categoryId),
+      );
+
+      const foodToSave = {
+        ...foodData,
+        category: selectedCategory?.Name || "",
+      };
+
       if (isCreate()) {
-        const selectedCategory = categories.find(
-          (category) => Number(category.id) === Number(foodData.categoryId),
-        );
-
-        const newFood = {
-          ...foodData,
-          category: selectedCategory?.Name || "",
-        };
-
-        await createFood(newFood);
+        await createFood(foodToSave);
       } else {
-        await updateFood(selectedFood.id, foodData);
+        await updateFood(selectedFood.id, foodToSave);
       }
 
       const updatedFoods = await getFoods();
@@ -205,7 +205,8 @@ export default function AdminProductsPage() {
               ) : (
                 filteredProducts.map((product) => {
                   const filteredCategoryById = categories.find(
-                    (category) => Number(category.id) === product.categoryId,
+                    (category) =>
+                      Number(category.id) === Number(product.categoryId),
                   );
 
                   return (
