@@ -80,3 +80,9 @@ export async function createPaymentInfo(cardNumber) {
 
   return response.data;
 }
+
+//GET ALL COMMENTS
+export async function getAllComments() {
+  const response = await api.get("/comments");
+  return response.data;
+}
