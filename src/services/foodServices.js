@@ -62,6 +62,6 @@ export async function deleteCategory(categoryId) {
 
 // GET food comments
 export async function getFoodsComments(id) {
-  const response = await api.get(`/comments?foodId=${encodeURIComponent(id)}`);
+  const response = await api.get(`/comments?foodId=${encodeURIComponent(id)}&status=Approved`);
   return response.data;
 }
