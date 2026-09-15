@@ -352,7 +352,10 @@ export default function ProductDetailsPage() {
 
                       <div className="flex flex-col items-center justify-center gap-3 border-r border-[#6d2724] pr-7 text-center">
                         <div className="text-5xl font-bold text-white">
-                          {averageRating.toLocaleString("fa-IR")}
+                          {averageRating.toLocaleString("fa-IR", {
+                            minimumFractionDigits: 1,
+                            maximumFractionDigits: 1,
+                          })}
                         </div>
 
                         <div className="my-2 flex gap-0.5 text-4xl">
