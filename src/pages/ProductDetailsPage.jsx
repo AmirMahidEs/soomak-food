@@ -27,6 +27,8 @@ import {
 } from "../services/foodServices";
 import { useEffect, useState } from "react";
 
+import { formatJalaliDate } from "../utilities/dateFormatter";
+
 const money = (n) => n.toLocaleString("fa-IR");
 
 export default function ProductDetailsPage() {
@@ -109,6 +111,8 @@ export default function ProductDetailsPage() {
         createdAt: new Date().toISOString(),
         status: "Pending",
         reply: "",
+        replyCreatedAt: null,
+        replyUpdatedAt: null,
       };
       await createFoodComment(commentData);
       setCommentSuccess(true);
@@ -345,6 +349,9 @@ export default function ProductDetailsPage() {
                               text={comment.comment}
                               rating={comment.rating}
                               reply={comment.reply}
+                              createdAt={comment.createdAt}
+                              replyCreatedAt={comment.replyCreatedAt}
+                              replyUpdatedAt={comment.replyUpdatedAt}
                             />
                           ))
                         )}
@@ -518,17 +525,28 @@ function InfoColumn({ title, children }) {
   );
 }
 
-function Review({ name, text, rating, reply }) {
+function Review({
+  name,
+  text,
+  rating,
+  reply,
+  createdAt,
+  replyCreatedAt,
+  replyUpdatedAt,
+}) {
   return (
     <div className="mb-3 rounded-xl border border-[#6d2724] bg-[#27090c]/40 px-4 py-4">
       <div className="flex items-start justify-between gap-5">
         <div className="min-w-0 flex-1">
-          <p className="text-base leading-7 text-somak-muted">{text}</p>
+          <p className="text-base leading-7 text-somak-muted"> {text} </p>
+          {createdAt && (
+            <p className="mt-2 text-[15px] text-white/30">
+              ثبت شده در {formatJalaliDate(createdAt)}
+            </p>
+          )}
         </div>
-
         <div className="flex shrink-0 flex-col items-end gap-1.5">
           <p className="text-sm text-white/70">{name}</p>
-
           <div className="flex text-xl">
             {[1, 2, 3, 4, 5].map((current) => (
               <span
@@ -537,26 +555,33 @@ function Review({ name, text, rating, reply }) {
                   current <= rating ? "text-somak-gold2" : "text-somak-gold/30"
                 }
               >
-                {current <= rating ? "★" : "☆"}
+                {current <= rating ? "★" : "☆"}{" "}
               </span>
             ))}
           </div>
         </div>
       </div>
-
       {reply && (
         <div className="mr-2 mt-4 border-r-2 border-somak-gold/30 pr-4">
           <div className="mb-2 flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-somak-gold/10">
               <MessageCircle size={14} className="text-somak-gold2" />
             </div>
-
-            <span className="text-sm font-medium text-somak-gold2">
+            <span className="text-[15px]font-medium text-somak-gold2">
               پاسخ مجموعه سومک
             </span>
           </div>
-
-          <p className="text-sm leading-7 text-white/50">{reply}</p>
+          <p className="text-sm leading-7 text-white/50"> {reply} </p>
+          {replyCreatedAt && (
+            <p className="mt-2 text-[15px] text-white/30">
+              پاسخ داده شده در {formatJalaliDate(replyCreatedAt)}
+            </p>
+          )}
+          {replyUpdatedAt && (
+            <p className="mt-1 text-[15px] text-white/30">
+              ویرایش شده در {formatJalaliDate(replyUpdatedAt)}
+            </p>
+          )}
         </div>
       )}
     </div>

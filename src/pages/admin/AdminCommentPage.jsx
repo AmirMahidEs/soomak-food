@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
+
 import { X, Check, ChevronDown, MessageCircle, Send } from "lucide-react";
+
 import { motion, AnimatePresence } from "framer-motion";
+
 import {
   getAllComments,
   updateCommentStatus,
   updateCommentReply,
 } from "../../services/adminServices";
+
 import CommentStatsChip from "../../components/admin/comments/CommentStatsChip";
+
 import React from "react";
+
+import { formatJalaliDate } from "../../utilities/dateFormatter";
 
 const AdminCommentPage = () => {
   const [replyOpen, setReplyOpen] = useState(null);
@@ -23,6 +30,7 @@ const AdminCommentPage = () => {
         setLoading(true);
 
         const data = await getAllComments();
+
         setComments(data);
       } catch (error) {
         console.log("cant fetch comments", error);
@@ -39,6 +47,7 @@ const AdminCommentPage = () => {
       await updateCommentStatus(commentId, "Approved");
 
       const updatedComments = await getAllComments();
+
       setComments(updatedComments);
     } catch (error) {
       console.error("خطا در تأیید نظر:", error);
@@ -50,6 +59,7 @@ const AdminCommentPage = () => {
       await updateCommentStatus(commentId, "Rejected");
 
       const updatedComments = await getAllComments();
+
       setComments(updatedComments);
     } catch (error) {
       console.error("cant to reject comments", error);
@@ -57,24 +67,47 @@ const AdminCommentPage = () => {
   };
 
   const handleReplyOpen = (commentId) => {
+    const comment = comments.find((comment) => comment.id === commentId);
+
     setReplyOpen((prev) => (prev === commentId ? null : commentId));
-    setReplyText("");
+
+    // اگر پاسخ قبلی وجود دارد، وارد حالت Edit می‌شویم
+    // و متن پاسخ قبلی را داخل input قرار می‌دهیم.
+    setReplyText(comment?.reply || "");
+  };
+
+  const isCreate = () => {
+    const comment = comments.find((comment) => comment.id === replyOpen);
+
+    return !comment?.reply;
   };
 
   const handleReply = async () => {
     if (!replyText.trim()) return;
 
     try {
+      const comment = comments.find((comment) => comment.id === replyOpen);
+
       const replyData = {
         commentId: replyOpen,
         reply: replyText,
+        replyCreatedAt: isCreate()
+          ? new Date().toISOString()
+          : comment.replyCreatedAt,
+        replyUpdatedAt: isCreate() ? null : new Date().toISOString(),
       };
 
-      await updateCommentReply(replyData.commentId, replyData.reply);
+      await updateCommentReply(
+        replyData.commentId,
+        replyData.reply,
+        replyData.replyCreatedAt,
+        replyData.replyUpdatedAt,
+      );
 
       const updatedComments = await getAllComments();
 
       setComments(updatedComments);
+
       setReplyText("");
       setReplyOpen(null);
     } catch (error) {
@@ -134,9 +167,12 @@ const AdminCommentPage = () => {
                           <p className="text-[15px] font-medium leading-7 text-white/60">
                             {comment.comment}
                           </p>
+                          <p className="mt-2 text-[15px] text-white/25">
+                            ثبت شده در {formatJalaliDate(comment.createdAt)}
+                          </p>
 
                           {comment.reply && (
-                            <div className="mt-2 flex items-center gap-2 text-xs text-somak-gold2">
+                            <div className="mt-2 flex items-center gap-2 text-[15px] text-somak-gold2">
                               <MessageCircle size={13} />
                               پاسخ داده شده
                             </div>
@@ -182,7 +218,9 @@ const AdminCommentPage = () => {
                                 ? "bg-somak-gold/10 text-somak-gold2"
                                 : "text-white/35 hover:bg-white/5 hover:text-somak-gold2"
                             }`}
-                            aria-label="پاسخ به نظر"
+                            aria-label={
+                              comment.reply ? "ویرایش پاسخ" : "پاسخ به نظر"
+                            }
                           >
                             <motion.div
                               animate={{
@@ -226,11 +264,15 @@ const AdminCommentPage = () => {
 
                                   <div>
                                     <p className="text-[15px] font-medium text-white/80">
-                                      پاسخ به نظر مشتری
+                                      {comment.reply
+                                        ? "ویرایش پاسخ"
+                                        : "پاسخ به نظر مشتری"}
                                     </p>
 
                                     <p className="mt-0.5 text-[14px] text-white/30">
-                                      پاسخ شما برای مشتری نمایش داده خواهد شد.
+                                      {comment.reply
+                                        ? "پاسخ فعلی را ویرایش کنید."
+                                        : "پاسخ شما برای مشتری نمایش داده خواهد شد."}
                                     </p>
                                   </div>
                                 </div>
@@ -243,7 +285,11 @@ const AdminCommentPage = () => {
                                       onChange={(e) =>
                                         setReplyText(e.target.value)
                                       }
-                                      placeholder="پاسخ خود را بنویسید..."
+                                      placeholder={
+                                        comment.reply
+                                          ? "پاسخ خود را ویرایش کنید..."
+                                          : "پاسخ خود را بنویسید..."
+                                      }
                                       className="w-full bg-transparent text-[15px] text-white outline-none placeholder:text-white/25"
                                     />
                                   </div>
@@ -254,7 +300,10 @@ const AdminCommentPage = () => {
                                     whileTap={{ scale: 0.97 }}
                                     className="flex h-[50px] shrink-0 items-center justify-center gap-2 rounded-xl bg-gold-gradient px-6 text-sm font-semibold text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.12)] transition hover:brightness-105"
                                   >
-                                    ارسال پاسخ
+                                    {comment.reply
+                                      ? "ذخیره تغییرات"
+                                      : "ارسال پاسخ"}
+
                                     <Send size={17} />
                                   </motion.button>
                                 </div>
@@ -264,7 +313,7 @@ const AdminCommentPage = () => {
                                     <div className="mb-2 flex items-center gap-2">
                                       <span className="h-1.5 w-1.5 rounded-full bg-somak-gold" />
 
-                                      <span className="text-xs text-somak-gold2">
+                                      <span className="text-[15px] text-somak-gold2">
                                         پاسخ ثبت‌شده
                                       </span>
                                     </div>
@@ -272,6 +321,24 @@ const AdminCommentPage = () => {
                                     <p className="text-sm leading-7 text-white/55">
                                       {comment.reply}
                                     </p>
+
+                                    {comment.replyCreatedAt && (
+                                      <p className="mt-3 text-[15px] text-white/25">
+                                        پاسخ داده شده در{" "}
+                                        {formatJalaliDate(
+                                          comment.replyCreatedAt,
+                                        )}
+                                      </p>
+                                    )}
+
+                                    {comment.replyUpdatedAt && (
+                                      <p className="mt-1 text-[15px] text-white/20">
+                                        ویرایش شده در{" "}
+                                        {formatJalaliDate(
+                                          comment.replyUpdatedAt,
+                                        )}
+                                      </p>
+                                    )}
                                   </div>
                                 )}
                               </div>

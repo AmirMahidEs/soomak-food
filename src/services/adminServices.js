@@ -96,9 +96,16 @@ export async function updateCommentStatus(commentId, newCommentStatus) {
 }
 
 //PATCH COMMENT REPLY
-export async function updateCommentReply(commentId, newCommentReply) {
+export async function updateCommentReply(
+  commentId,
+  newCommentReply,
+  createReplyTime,
+  updateReplyTime,
+) {
   const response = await api.patch(`/comments/${commentId}`, {
     reply: newCommentReply,
+    replyCreatedAt: createReplyTime,
+    replyUpdatedAt: updateReplyTime,
   });
   return response.data;
 }
