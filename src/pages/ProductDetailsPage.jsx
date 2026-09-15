@@ -6,6 +6,7 @@ import {
   Users,
   Weight,
   Star,
+  MessageCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
@@ -107,6 +108,7 @@ export default function ProductDetailsPage() {
         rating: rating,
         createdAt: new Date().toISOString(),
         status: "Pending",
+        reply: "",
       };
       await createFoodComment(commentData);
       setCommentSuccess(true);
@@ -342,6 +344,7 @@ export default function ProductDetailsPage() {
                               name={comment.user}
                               text={comment.comment}
                               rating={comment.rating}
+                              reply={comment.reply}
                             />
                           ))
                         )}
@@ -512,27 +515,47 @@ function InfoColumn({ title, children }) {
   );
 }
 
-function Review({ name, text, rating }) {
+function Review({ name, text, rating, reply }) {
   return (
-    <div className="mb-3 flex items-center justify-between rounded-xl border border-[#6d2724] px-4 py-3">
-      <p className="text-base leading-7 text-somak-muted">{text}</p>
+    <div className="mb-3 rounded-xl border border-[#6d2724] bg-[#27090c]/40 px-4 py-4">
+      <div className="flex items-start justify-between gap-5">
+        <div className="min-w-0 flex-1">
+          <p className="text-base leading-7 text-somak-muted">{text}</p>
+        </div>
 
-      <div className="mr-5 flex h-full shrink-0 flex-row-reverse items-center gap-3 text-sm text-white">
-        {name}
+        <div className="flex shrink-0 flex-col items-end gap-1.5">
+          <p className="text-sm text-white/70">{name}</p>
 
-        <div className="text-2xl">
-          {[1, 2, 3, 4, 5].map((current) => (
-            <span
-              key={current}
-              className={
-                current <= rating ? "text-somak-gold2" : "text-somak-gold/80"
-              }
-            >
-              {current <= rating ? "★" : "☆"}
-            </span>
-          ))}
+          <div className="flex text-xl">
+            {[1, 2, 3, 4, 5].map((current) => (
+              <span
+                key={current}
+                className={
+                  current <= rating ? "text-somak-gold2" : "text-somak-gold/30"
+                }
+              >
+                {current <= rating ? "★" : "☆"}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
+
+      {reply && (
+        <div className="mr-2 mt-4 border-r-2 border-somak-gold/30 pr-4">
+          <div className="mb-2 flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-somak-gold/10">
+              <MessageCircle size={14} className="text-somak-gold2" />
+            </div>
+
+            <span className="text-sm font-medium text-somak-gold2">
+              پاسخ مجموعه سومک
+            </span>
+          </div>
+
+          <p className="text-sm leading-7 text-white/50">{reply}</p>
+        </div>
+      )}
     </div>
   );
 }

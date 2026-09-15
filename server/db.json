@@ -9,9 +9,7 @@
       "description": "ماهیچه مخصوص با باقالی تازه، برنج ایرانی و عطر زعفران؛ یک انتخاب اصیل و محبوب برای مهمانی‌ها.",
       "price": 330000,
       "image": "/src/assets/baghali-polo.jpg",
-      "ImagesUrls": [
-        "/src/assets/baghali-polo.jpg"
-      ],
+      "ImagesUrls": ["/src/assets/baghali-polo.jpg"],
       "category": "پلوها",
       "categoryId": 2,
       "takeTime": 35,
@@ -70,9 +68,7 @@
       "description": "کباب کوبیده گوسفندی تازه با برنج ایرانی، گوجه کبابی و کره؛ طعمی آشنا و اصیل.",
       "price": 290000,
       "image": "/src/assets/chelo-kabab.jpg",
-      "ImagesUrls": [
-        "/src/assets/chelo-kabab.jpg"
-      ],
+      "ImagesUrls": ["/src/assets/chelo-kabab.jpg"],
       "category": "کباب‌ها",
       "categoryId": 3,
       "takeTime": 30,
@@ -100,9 +96,7 @@
       "description": "قورمه سبزی جاافتاده با گوشت گوسفندی تازه، لوبیا و سبزی‌های معطر ایرانی.",
       "price": 280000,
       "image": "/src/assets/ghorme-sabzi.jpg",
-      "ImagesUrls": [
-        "/src/assets/ghorme-sabzi.jpg"
-      ],
+      "ImagesUrls": ["/src/assets/ghorme-sabzi.jpg"],
       "category": "خورشت‌ها",
       "categoryId": 4,
       "takeTime": 50,
@@ -130,9 +124,7 @@
       "description": "جوجه کباب زعفرانی نرم و آبدار با برنج ایرانی و گوجه تازه.",
       "price": 280000,
       "image": "/src/assets/chelo-jojeh.jpg",
-      "ImagesUrls": [
-        "/src/assets/chelo-jojeh.jpg"
-      ],
+      "ImagesUrls": ["/src/assets/chelo-jojeh.jpg"],
       "category": "کباب‌ها",
       "categoryId": 3,
       "takeTime": 35,
@@ -140,13 +132,7 @@
       "weight": 420,
       "servings": 1,
       "about": "جوجه کباب زعفرانی نرم و آبدار با برنج ایرانی و گوجه تازه.",
-      "ingredients": [
-        "سینه مرغ",
-        "زعفران",
-        "برنج ایرانی",
-        "گوجه",
-        "کره"
-      ],
+      "ingredients": ["سینه مرغ", "زعفران", "برنج ایرانی", "گوجه", "کره"],
       "rating": 4.6,
       "commentCount": 74,
       "isPopular": true
@@ -160,9 +146,7 @@
       "description": "فسنجان خوش‌عطر با مرغ، گردوی تازه و رب انار مخصوص سومک فود.",
       "price": 270000,
       "image": "/src/assets/fesenjan.jpg",
-      "ImagesUrls": [
-        "/src/assets/fesenjan.jpg"
-      ],
+      "ImagesUrls": ["/src/assets/fesenjan.jpg"],
       "category": "خورشت‌ها",
       "categoryId": 4,
       "takeTime": 60,
@@ -170,13 +154,7 @@
       "weight": 400,
       "servings": 1,
       "about": "فسنجان خوش‌عطر با مرغ، گردوی تازه و رب انار مخصوص سومک فود.",
-      "ingredients": [
-        "مرغ",
-        "گردوی تازه",
-        "رب انار",
-        "زعفران",
-        "ادویه"
-      ],
+      "ingredients": ["مرغ", "گردوی تازه", "رب انار", "زعفران", "ادویه"],
       "rating": 4.7,
       "commentCount": 61,
       "isPopular": false
@@ -190,9 +168,7 @@
       "description": "بادمجان کبابی با گوشت و سس مخصوص، همراه با گوجه و ادویه‌های معطر.",
       "price": 240000,
       "image": "/src/assets/khoresht-bademjan.jpg",
-      "ImagesUrls": [
-        "/src/assets/khoresht-bademjan.jpg"
-      ],
+      "ImagesUrls": ["/src/assets/khoresht-bademjan.jpg"],
       "category": "خورشت‌ها",
       "categoryId": 4,
       "takeTime": 45,
@@ -200,13 +176,7 @@
       "weight": 400,
       "servings": 1,
       "about": "بادمجان کبابی با گوشت و سس مخصوص، همراه با گوجه و ادویه‌های معطر.",
-      "ingredients": [
-        "بادمجان",
-        "گوشت",
-        "گوجه",
-        "پیاز",
-        "ادویه"
-      ],
+      "ingredients": ["بادمجان", "گوشت", "گوجه", "پیاز", "ادویه"],
       "rating": 4.5,
       "commentCount": 52,
       "isPopular": false
@@ -220,9 +190,7 @@
       "description": "جوجه کباب زعفرانی تازه، برنج ایرانی و چاشنی مخصوص سومک.",
       "price": 280000,
       "image": "/src/assets/chelo-cheen.jpg",
-      "ImagesUrls": [
-        "/src/assets/chelo-cheen.jpg"
-      ],
+      "ImagesUrls": ["/src/assets/chelo-cheen.jpg"],
       "category": "کباب‌ها",
       "categoryId": 3,
       "takeTime": 35,
@@ -230,13 +198,7 @@
       "weight": 420,
       "servings": 1,
       "about": "جوجه کباب زعفرانی تازه، برنج ایرانی و چاشنی مخصوص سومک.",
-      "ingredients": [
-        "مرغ",
-        "زعفران",
-        "برنج ایرانی",
-        "گوجه",
-        "کره"
-      ],
+      "ingredients": ["مرغ", "زعفران", "برنج ایرانی", "گوجه", "کره"],
       "rating": 4.6,
       "commentCount": 49,
       "isPopular": false
@@ -355,7 +317,8 @@
       "comment": "باقالی پلو خیلی خوشمزه بود و کیفیت ماهیچه عالی بود.",
       "rating": 5,
       "createdAt": "2026-08-20T12:00:00Z",
-      "status": "Approved"
+      "status": "Approved",
+      "reply": ""
     },
     {
       "id": 2,
@@ -364,7 +327,8 @@
       "comment": "طعم غذا خیلی خوب بود و بسته‌بندی هم عالی بود.",
       "rating": 4,
       "createdAt": "2026-08-21T14:30:00Z",
-      "status": "Approved"
+      "status": "Approved",
+      "reply": ""
     },
     {
       "id": 3,
@@ -373,7 +337,8 @@
       "comment": "مرغ نرم و خوش‌طعم بود و زرشک کیفیت خوبی داشت.",
       "rating": 5,
       "createdAt": "2026-08-22T18:00:00Z",
-      "status": "Approved"
+      "status": "Approved",
+      "reply": ""
     },
     {
       "id": 4,
@@ -382,7 +347,8 @@
       "comment": "کباب تازه و خوش‌طعم بود.",
       "rating": 5,
       "createdAt": "2026-08-23T16:20:00Z",
-      "status": "Approved"
+      "status": "Approved",
+      "reply": ""
     }
   ],
   "commentStats": [

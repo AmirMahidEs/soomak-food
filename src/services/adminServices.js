@@ -94,3 +94,11 @@ export async function updateCommentStatus(commentId, newCommentStatus) {
   });
   return response.data;
 }
+
+//PATCH COMMENT REPLY
+export async function updateCommentReply(commentId, newCommentReply) {
+  const response = await api.patch(`/comments/${commentId}`, {
+    reply: newCommentReply,
+  });
+  return response.data;
+}
