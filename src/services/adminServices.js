@@ -109,3 +109,9 @@ export async function updateCommentReply(
   });
   return response.data;
 }
+
+//POST CREATE ORDER
+export async function createOrder(orderData) {
+  const response = await api.post("/orders", orderData);
+  return response.data;
+}
