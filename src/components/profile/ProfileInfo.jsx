@@ -1,4 +1,4 @@
-import { Mail, Phone, UserRound } from "lucide-react";
+import { Check, Mail, Phone, UserRound } from "lucide-react";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectProfileInfo } from "../../features/profile/profileSlice";
@@ -7,11 +7,11 @@ import { selectProfileInfo } from "../../features/profile/profileSlice";
 function ProfileField({ label, value, icon: Icon, type = "text" }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-xs text-white/65">{label}</span>
+      <span className="mb-2 block text-[15px] text-white/65">{label}</span>
 
       <div className="relative">
         <Icon
-          size={16}
+          size={20}
           strokeWidth={1.35}
           className="absolute right-4 top-1/2 -translate-y-1/2 text-[#e9a92f]"
         />
@@ -20,7 +20,7 @@ function ProfileField({ label, value, icon: Icon, type = "text" }) {
           type={type}
           value={value}
           readOnly
-          className="h-[48px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-4 pr-11 text-xs text-white/80 outline-none transition focus:border-[#e9a92f]/60 focus:ring-1 focus:ring-[#e9a92f]/20"
+          className="h-[48px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-4 pr-11 text-[14px] text-white/80 outline-none transition focus:border-[#e9a92f]/60 focus:ring-1 focus:ring-[#e9a92f]/20"
         />
       </div>
     </label>
@@ -49,7 +49,7 @@ export default function ProfileInfo() {
       <div>
         <h1 className="text-xl font-medium text-white">اطلاعات شخصی</h1>
 
-        <p className="mt-2 text-xs text-white/45">
+        <p className="mt-2 text-[12px] text-white/45">
           اطلاعات خود را به‌روز رسانی کنید.
         </p>
       </div>
@@ -80,9 +80,10 @@ export default function ProfileInfo() {
       {/* SAVE */}
       <button
         type="button"
-        className="mt-7 flex h-[48px] w-full items-center justify-center rounded-full bg-gold-gradient text-sm font-medium text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105 sm:w-[220px]"
+        className="mt-7 flex h-[48px] w-full items-center justify-center rounded-full bg-gold-gradient text-base font-bold text-somak-950 shadow-[0_7px_20px_rgba(230,166,46,0.14)] transition hover:brightness-105 sm:w-[220px]"
       >
         ذخیره تغییرات
+        <Check/>
       </button>
     </motion.section>
   );
