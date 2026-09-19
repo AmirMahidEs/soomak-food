@@ -216,72 +216,90 @@ export default function AdminProductsPage() {
           </div>
         ) : (
           <>
-            {/* DESKTOP TABLE */}
-            <div className="hidden overflow-x-auto md:block">
-              <table className="w-full min-w-[700px] text-right">
-                <thead>
-                  <tr className="border-b border-[#61221f]/70 text-[15px] font-bold text-white/80">
-                    <th className="px-5 py-4">غذا</th>
-                    <th className="py-4">دسته‌بندی</th>
-                    <th className="py-4">قیمت</th>
-                    <th className="px-5 py-4">عملیات</th>
-                  </tr>
-                </thead>
+            {/* DESKTOP CARDS */}
+            <div className="hidden space-y-3 p-4 md:block">
+              {filteredProducts.map((product) => {
+                const filteredCategoryById = categories.find(
+                  (category) =>
+                    Number(category.id) === Number(product.categoryId),
+                );
 
-                <tbody>
-                  {filteredProducts.map((product) => {
-                    const filteredCategoryById = categories.find(
-                      (category) =>
-                        Number(category.id) === Number(product.categoryId),
-                    );
+                return (
+                  <motion.article
+                    key={product.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden rounded-[14px] border border-[#61221f]/70 bg-[#25080b] transition-colors hover:border-[#6f2826]"
+                  >
+                    <div className="grid grid-cols-[minmax(0,1fr)_180px_180px_145px] items-center gap-5 p-4">
+                      {/* FOOD */}
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[#421014] text-[#e9a92f]/80">
+                          <Package size={22} strokeWidth={1.4} />
+                        </div>
 
-                    return (
-                      <tr
-                        key={product.id}
-                        className="border-b border-[#61221f]/40 last:border-0"
-                      >
-                        <td className="px-5 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="h-10 w-10 rounded-[9px] bg-[#421014]" />
+                        <div className="min-w-0">
+                          <p className="mt-1 truncate text-[16px] font-bold text-white/80">
+                            {product.FoodName}
+                          </p>
 
-                            <span className="text-[13px] text-white/60">
-                              {product.FoodName}
-                            </span>
-                          </div>
-                        </td>
+                          <span className="mt-1 block text-[13px] text-white/20">
+                            {product.id}#
+                          </span>
+                        </div>
+                      </div>
 
-                        <td className="py-4 text-[13px] text-white/50">
-                          {filteredCategoryById?.Name}
-                        </td>
+                      {/* CATEGORY */}
+                      <div className="rounded-[10px] bg-white/[0.025] p-3">
+                        <span className="text-[12.5px] text-white/35">
+                          دسته‌بندی
+                        </span>
 
-                        <td className="py-4 text-[13px] text-white/50">
+                        <p className="mt-1.5 truncate text-[16px] text-white/65">
+                          {filteredCategoryById?.Name || "بدون دسته‌بندی"}
+                        </p>
+                      </div>
+
+                      {/* PRICE */}
+                      <div className="rounded-[10px] bg-white/[0.025] p-3">
+                        <span className="text-[12.5px] text-white/35">
+                          قیمت
+                        </span>
+
+                        <p className="mt-1.5 text-[16px] font-bold text-[#e9a92f]">
                           {product.price.toLocaleString("fa-IR")} تومان
-                        </td>
+                        </p>
+                      </div>
 
-                        <td className="px-5 py-4">
-                          <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
-                              onClick={() => handleEditFood(product)}
-                            >
-                              <Edit3 size={20} />
-                            </button>
+                      {/* ACTIONS */}
+                      <div className="flex items-center justify-end gap-2 border-r border-[#61221f]/40 pr-4">
+                        <span className="ml-auto text-[13px] text-white/30">
+                          عملیات
+                        </span>
 
-                            <button
-                              type="button"
-                              className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
-                              onClick={() => handleDeleteFood(product.id)}
-                            >
-                              <Trash2 size={20} />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                        <button
+                          type="button"
+                          className="flex h-10 w-10 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
+                          onClick={() => handleEditFood(product)}
+                          aria-label="ویرایش غذا"
+                        >
+                          <Edit3 size={21} />
+                        </button>
+
+                        <button
+                          type="button"
+                          className="flex h-10 w-10 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
+                          onClick={() => handleDeleteFood(product.id)}
+                          aria-label="حذف غذا"
+                        >
+                          <Trash2 size={21} />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.article>
+                );
+              })}
             </div>
 
             {/* MOBILE CARDS */}
@@ -312,8 +330,6 @@ export default function AdminProductsPage() {
                         </div>
 
                         <div className="min-w-0">
-                         
-
                           <p className="truncate text-[14px] font-medium text-white/80">
                             {product.FoodName}
                           </p>
