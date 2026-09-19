@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { X, Check, ChevronDown, MessageCircle, Send } from "lucide-react";
+import {
+  X,
+  Check,
+  ChevronDown,
+  MessageCircle,
+  Send,
+  UserRound,
+} from "lucide-react";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -71,8 +78,6 @@ const AdminCommentPage = () => {
 
     setReplyOpen((prev) => (prev === commentId ? null : commentId));
 
-    // اگر پاسخ قبلی وجود دارد، وارد حالت Edit می‌شویم
-    // و متن پاسخ قبلی را داخل input قرار می‌دهیم.
     setReplyText(comment?.reply || "");
   };
 
@@ -107,7 +112,6 @@ const AdminCommentPage = () => {
       const updatedComments = await getAllComments();
 
       setComments(updatedComments);
-
       setReplyText("");
       setReplyOpen(null);
     } catch (error) {
@@ -127,7 +131,9 @@ const AdminCommentPage = () => {
             <div className="flex flex-col items-center gap-4">
               <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-somak-gold" />
 
-              <p className="text-sm text-white/45">در حال دریافت نظرات...</p>
+              <p className="text-[13px] text-white/45">
+                در حال دریافت نظرات...
+              </p>
             </div>
           </div>
         ) : comments.length === 0 ? (
@@ -137,221 +143,456 @@ const AdminCommentPage = () => {
             </div>
 
             <div>
-              <p className="text-[16px] font-medium text-white/70">
+              <p className="text-[15px] font-medium text-white/70">
                 نظری برای نمایش وجود ندارد
               </p>
 
-              <p className="mt-1 text-sm text-white/35">
+              <p className="mt-1 text-[13px] text-white/35">
                 در حال حاضر هیچ نظری از مشتریان ثبت نشده است.
               </p>
             </div>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[850px] text-right">
-              <thead>
-                <tr className="border-b border-[#61221f]/70 text-[15px] text-white/80">
-                  <th className="px-5 py-4 font-normal">نظر مشتری</th>
-                  <th className="px-5 py-4 font-normal">نام کاربری</th>
-                  <th className="px-5 py-4 font-normal">وضعیت</th>
-                  <th className="px-5 py-4 font-normal">عملیات</th>
-                </tr>
-              </thead>
+          <>
+            {/* DESKTOP TABLE */}
+            <div className="hidden overflow-x-auto md:block">
+              <table className="w-full min-w-[850px] text-right">
+                <thead>
+                  <tr className="border-b border-[#61221f]/70 text-[15px] text-white/80">
+                    <th className="px-5 py-4 font-normal">نظر مشتری</th>
+                    <th className="px-5 py-4 font-normal">نام کاربری</th>
+                    <th className="px-5 py-4 font-normal">وضعیت</th>
+                    <th className="px-5 py-4 font-normal">عملیات</th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {comments.map((comment) => (
-                  <React.Fragment key={comment.id}>
-                    <tr className="border-b border-[#61221f]/40 transition hover:bg-white/[0.015]">
-                      <td className="px-5 py-4">
-                        <div className="max-w-[420px]">
-                          <p className="text-[15px] font-medium leading-7 text-white/60">
-                            {comment.comment}
-                          </p>
-                          <p className="mt-2 text-[15px] text-white/25">
-                            ثبت شده در {formatJalaliDate(comment.createdAt)}
-                          </p>
+                <tbody>
+                  {comments.map((comment) => (
+                    <React.Fragment key={comment.id}>
+                      <tr className="border-b border-[#61221f]/40 transition hover:bg-white/[0.015]">
+                        <td className="px-5 py-4">
+                          <div className="max-w-[420px]">
+                            <p className="text-[15px] font-medium leading-7 text-white/60">
+                              {comment.comment}
+                            </p>
 
-                          {comment.reply && (
-                            <div className="mt-2 flex items-center gap-2 text-[15px] text-somak-gold2">
-                              <MessageCircle size={13} />
-                              پاسخ داده شده
-                            </div>
-                          )}
+                            <p className="mt-2 text-[15px] text-white/25">
+                              ثبت شده در {formatJalaliDate(comment.createdAt)}
+                            </p>
+
+                            {comment.reply && (
+                              <div className="mt-2 flex items-center gap-2 text-[15px] text-somak-gold2">
+                                <MessageCircle size={13} />
+                                پاسخ داده شده
+                              </div>
+                            )}
+                          </div>
+                        </td>
+
+                        <td className="px-5 py-4">
+                          <p className="text-[13px] text-white/60">
+                            {comment.user}
+                          </p>
+                        </td>
+
+                        <td className="px-5 py-4">
+                          <CommentStatsChip comment={comment} />
+                        </td>
+
+                        <td className="px-5 py-4">
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => handleApprove(comment.id)}
+                              className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-green-400/10 hover:text-green-500"
+                              aria-label="تأیید نظر"
+                            >
+                              <Check size={20} />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleReject(comment.id)}
+                              className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-500"
+                              aria-label="رد نظر"
+                            >
+                              <X size={20} />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleReplyOpen(comment.id)}
+                              className={`flex h-9 w-9 items-center justify-center rounded-full transition ${
+                                replyOpen === comment.id
+                                  ? "bg-somak-gold/10 text-somak-gold2"
+                                  : "text-white/35 hover:bg-white/5 hover:text-somak-gold2"
+                              }`}
+                              aria-label={
+                                comment.reply
+                                  ? "ویرایش پاسخ"
+                                  : "پاسخ به نظر"
+                              }
+                            >
+                              <motion.div
+                                animate={{
+                                  rotate:
+                                    replyOpen === comment.id ? 180 : 0,
+                                }}
+                                transition={{
+                                  duration: 0.2,
+                                }}
+                              >
+                                <ChevronDown size={20} />
+                              </motion.div>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <AnimatePresence initial={false}>
+                        {replyOpen === comment.id && (
+                          <motion.tr
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="border-b border-[#61221f]/40"
+                          >
+                            <td colSpan={4} className="p-0">
+                              <motion.div
+                                initial={{ height: 0 }}
+                                animate={{ height: "auto" }}
+                                exit={{ height: 0 }}
+                                transition={{ duration: 0.25 }}
+                                className="overflow-hidden"
+                              >
+                                <div className="bg-[#22070a]/60 px-5 py-5">
+                                  <div className="mb-4 flex items-center gap-2">
+                                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-somak-gold/10">
+                                      <MessageCircle
+                                        size={16}
+                                        className="text-somak-gold2"
+                                      />
+                                    </div>
+
+                                    <div>
+                                      <p className="text-[15px] font-medium text-white/80">
+                                        {comment.reply
+                                          ? "ویرایش پاسخ"
+                                          : "پاسخ به نظر مشتری"}
+                                      </p>
+
+                                      <p className="mt-0.5 text-[14px] text-white/30">
+                                        {comment.reply
+                                          ? "پاسخ فعلی را ویرایش کنید."
+                                          : "پاسخ شما برای مشتری نمایش داده خواهد شد."}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div className="flex items-center gap-3">
+                                    <div className="flex min-h-[50px] flex-1 items-center rounded-xl border border-somak-500 bg-somak-900 px-4 transition focus-within:border-somak-gold focus-within:ring-1 focus-within:ring-somak-gold/20">
+                                      <input
+                                        type="text"
+                                        value={replyText}
+                                        onChange={(e) =>
+                                          setReplyText(e.target.value)
+                                        }
+                                        placeholder={
+                                          comment.reply
+                                            ? "پاسخ خود را ویرایش کنید..."
+                                            : "پاسخ خود را بنویسید..."
+                                        }
+                                        className="w-full bg-transparent text-[15px] text-white outline-none placeholder:text-white/25"
+                                      />
+                                    </div>
+
+                                    <motion.button
+                                      type="button"
+                                      onClick={handleReply}
+                                      whileTap={{ scale: 0.97 }}
+                                      className="flex h-[50px] shrink-0 items-center justify-center gap-2 rounded-xl bg-gold-gradient px-6 text-sm font-semibold text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.12)] transition hover:brightness-105"
+                                    >
+                                      {comment.reply
+                                        ? "ذخیره تغییرات"
+                                        : "ارسال پاسخ"}
+
+                                      <Send size={17} />
+                                    </motion.button>
+                                  </div>
+
+                                  {comment.reply && (
+                                    <div className="mt-4 rounded-xl border border-somak-gold/15 bg-somak-gold/[0.03] p-4">
+                                      <div className="mb-2 flex items-center gap-2">
+                                        <span className="h-1.5 w-1.5 rounded-full bg-somak-gold" />
+
+                                        <span className="text-[15px] text-somak-gold2">
+                                          پاسخ ثبت‌شده
+                                        </span>
+                                      </div>
+
+                                      <p className="text-sm leading-7 text-white/55">
+                                        {comment.reply}
+                                      </p>
+
+                                      {comment.replyCreatedAt && (
+                                        <p className="mt-3 text-[15px] text-white/25">
+                                          پاسخ داده شده در{" "}
+                                          {formatJalaliDate(
+                                            comment.replyCreatedAt,
+                                          )}
+                                        </p>
+                                      )}
+
+                                      {comment.replyUpdatedAt && (
+                                        <p className="mt-1 text-[15px] text-white/20">
+                                          ویرایش شده در{" "}
+                                          {formatJalaliDate(
+                                            comment.replyUpdatedAt,
+                                          )}
+                                        </p>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </motion.div>
+                            </td>
+                          </motion.tr>
+                        )}
+                      </AnimatePresence>
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* MOBILE CARDS */}
+            <div className="space-y-3 p-3 md:hidden">
+              {comments.map((comment) => {
+                const isReplyOpen = replyOpen === comment.id;
+
+                return (
+                  <motion.article
+                    key={comment.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden rounded-[14px] border border-[#61221f]/70 bg-[#25080b]"
+                  >
+                    {/* CARD HEADER */}
+                    <div className="flex items-center justify-between gap-3 border-b border-[#61221f]/50 p-4">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-[#e9a92f]/10 text-[#e9a92f]">
+                          <UserRound size={22} strokeWidth={1.7} />
                         </div>
-                      </td>
 
-                      <td className="px-5 py-4">
-                        <p className="text-[16px] text-white/60">
-                          {comment.user}
+                        <div className="min-w-0">
+                          <span className="block text-[12px] text-white/35">
+                            نام کاربری
+                          </span>
+
+                          <p className="mt-0.5 truncate text-[14px] font-medium text-white/80">
+                            {comment.user}
+                          </p>
+                        </div>
+                      </div>
+
+                      <CommentStatsChip comment={comment} />
+                    </div>
+
+                    {/* COMMENT */}
+                    <div className="p-4">
+                      <div className="rounded-[10px] bg-white/[0.025] p-3">
+                        <div className="flex items-center gap-2">
+                          <MessageCircle
+                            size={16}
+                            strokeWidth={1.7}
+                            className="text-[#e9a92f]/70"
+                          />
+
+                          <span className="text-[12.5px] text-white/35">
+                            نظر مشتری
+                          </span>
+                        </div>
+
+                        <p className="mt-2 text-[15px] leading-7 text-white/70">
+                          {comment.comment}
                         </p>
-                      </td>
 
-                      <td className="px-5 py-4">
-                        <CommentStatsChip comment={comment} />
-                      </td>
+                        <p className="mt-3 text-[13px] text-white/25">
+                          ثبت شده در {formatJalaliDate(comment.createdAt)}
+                        </p>
 
-                      <td className="px-5 py-4">
+                        {comment.reply && (
+                          <div className="mt-3 flex items-center gap-2 text-[13px] text-somak-gold2">
+                            <MessageCircle size={14} />
+                            پاسخ داده شده
+                          </div>
+                        )}
+                      </div>
+
+                      {/* ACTIONS */}
+                      <div className="mt-3 flex items-center justify-between border-t border-[#61221f]/40 pt-3">
+                        <span className="text-[13px] text-white/35">
+                          عملیات نظر
+                        </span>
+
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
                             onClick={() => handleApprove(comment.id)}
-                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-green-400/10 hover:text-green-500"
+                            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#63221f] bg-[#27090c] text-white/40 transition hover:border-green-400/30 hover:bg-green-400/10 hover:text-green-500"
                             aria-label="تأیید نظر"
                           >
-                            <Check size={20} />
+                            <Check size={22} />
                           </button>
 
                           <button
                             type="button"
                             onClick={() => handleReject(comment.id)}
-                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-500"
+                            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#63221f] bg-[#27090c] text-white/40 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-500"
                             aria-label="رد نظر"
                           >
-                            <X size={20} />
+                            <X size={22} />
                           </button>
 
                           <button
                             type="button"
                             onClick={() => handleReplyOpen(comment.id)}
-                            className={`flex h-9 w-9 items-center justify-center rounded-full transition ${
-                              replyOpen === comment.id
-                                ? "bg-somak-gold/10 text-somak-gold2"
-                                : "text-white/35 hover:bg-white/5 hover:text-somak-gold2"
+                            className={`flex h-10 w-10 items-center justify-center rounded-full border transition ${
+                              isReplyOpen
+                                ? "border-[#e9a92f]/40 bg-somak-gold/10 text-somak-gold2"
+                                : "border-[#63221f] bg-[#27090c] text-white/40 hover:bg-white/5 hover:text-somak-gold2"
                             }`}
                             aria-label={
-                              comment.reply ? "ویرایش پاسخ" : "پاسخ به نظر"
+                              comment.reply
+                                ? "ویرایش پاسخ"
+                                : "پاسخ به نظر"
                             }
                           >
                             <motion.div
                               animate={{
-                                rotate: replyOpen === comment.id ? 180 : 0,
+                                rotate: isReplyOpen ? 180 : 0,
                               }}
                               transition={{
                                 duration: 0.2,
                               }}
                             >
-                              <ChevronDown size={20} />
+                              <ChevronDown size={22} />
                             </motion.div>
                           </button>
                         </div>
-                      </td>
-                    </tr>
+                      </div>
+                    </div>
 
+                    {/* MOBILE REPLY */}
                     <AnimatePresence initial={false}>
-                      {replyOpen === comment.id && (
-                        <motion.tr
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          className="border-b border-[#61221f]/40"
+                      {isReplyOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="overflow-hidden border-t border-[#61221f]/40"
                         >
-                          <td colSpan={4} className="p-0">
-                            <motion.div
-                              initial={{ height: 0 }}
-                              animate={{ height: "auto" }}
-                              exit={{ height: 0 }}
-                              transition={{ duration: 0.25 }}
-                              className="overflow-hidden"
-                            >
-                              <div className="bg-[#22070a]/60 px-5 py-5">
-                                <div className="mb-4 flex items-center gap-2">
-                                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-somak-gold/10">
-                                    <MessageCircle
-                                      size={16}
-                                      className="text-somak-gold2"
-                                    />
-                                  </div>
+                          <div className="bg-[#22070a]/60 p-4">
+                            <div className="mb-4 flex items-center gap-2">
+                              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-somak-gold/10">
+                                <MessageCircle
+                                  size={16}
+                                  className="text-somak-gold2"
+                                />
+                              </div>
 
-                                  <div>
-                                    <p className="text-[15px] font-medium text-white/80">
-                                      {comment.reply
-                                        ? "ویرایش پاسخ"
-                                        : "پاسخ به نظر مشتری"}
-                                    </p>
+                              <div className="min-w-0">
+                                <p className="text-[15px] font-medium text-white/80">
+                                  {comment.reply
+                                    ? "ویرایش پاسخ"
+                                    : "پاسخ به نظر مشتری"}
+                                </p>
 
-                                    <p className="mt-0.5 text-[14px] text-white/30">
-                                      {comment.reply
-                                        ? "پاسخ فعلی را ویرایش کنید."
-                                        : "پاسخ شما برای مشتری نمایش داده خواهد شد."}
-                                    </p>
-                                  </div>
+                                <p className="mt-0.5 text-[13px] leading-5 text-white/30">
+                                  {comment.reply
+                                    ? "پاسخ فعلی را ویرایش کنید."
+                                    : "پاسخ شما برای مشتری نمایش داده خواهد شد."}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* REPLY INPUT */}
+                            <div className="space-y-3">
+                              <div className="flex min-h-[50px] items-center rounded-xl border border-somak-500 bg-somak-900 px-4 transition focus-within:border-somak-gold focus-within:ring-1 focus-within:ring-somak-gold/20">
+                                <input
+                                  type="text"
+                                  value={replyText}
+                                  onChange={(e) =>
+                                    setReplyText(e.target.value)
+                                  }
+                                  placeholder={
+                                    comment.reply
+                                      ? "پاسخ خود را ویرایش کنید..."
+                                      : "پاسخ خود را بنویسید..."
+                                  }
+                                  className="w-full bg-transparent text-[15px] text-white outline-none placeholder:text-white/25"
+                                />
+                              </div>
+
+                              <motion.button
+                                type="button"
+                                onClick={handleReply}
+                                whileTap={{ scale: 0.97 }}
+                                className="flex h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-gold-gradient px-4 text-[14px] font-semibold text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.12)] transition hover:brightness-105"
+                              >
+                                {comment.reply
+                                  ? "ذخیره تغییرات"
+                                  : "ارسال پاسخ"}
+
+                                <Send size={17} />
+                              </motion.button>
+                            </div>
+
+                            {/* EXISTING REPLY */}
+                            {comment.reply && (
+                              <div className="mt-4 rounded-xl border border-somak-gold/15 bg-somak-gold/[0.03] p-4">
+                                <div className="mb-2 flex items-center gap-2">
+                                  <span className="h-1.5 w-1.5 rounded-full bg-somak-gold" />
+
+                                  <span className="text-[15px] text-somak-gold2">
+                                    پاسخ ثبت‌شده
+                                  </span>
                                 </div>
 
-                                <div className="flex items-center gap-3">
-                                  <div className="flex min-h-[50px] flex-1 items-center rounded-xl border border-somak-500 bg-somak-900 px-4 transition focus-within:border-somak-gold focus-within:ring-1 focus-within:ring-somak-gold/20">
-                                    <input
-                                      type="text"
-                                      value={replyText}
-                                      onChange={(e) =>
-                                        setReplyText(e.target.value)
-                                      }
-                                      placeholder={
-                                        comment.reply
-                                          ? "پاسخ خود را ویرایش کنید..."
-                                          : "پاسخ خود را بنویسید..."
-                                      }
-                                      className="w-full bg-transparent text-[15px] text-white outline-none placeholder:text-white/25"
-                                    />
-                                  </div>
+                                <p className="text-[14px] leading-7 text-white/55">
+                                  {comment.reply}
+                                </p>
 
-                                  <motion.button
-                                    type="button"
-                                    onClick={handleReply}
-                                    whileTap={{ scale: 0.97 }}
-                                    className="flex h-[50px] shrink-0 items-center justify-center gap-2 rounded-xl bg-gold-gradient px-6 text-sm font-semibold text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.12)] transition hover:brightness-105"
-                                  >
-                                    {comment.reply
-                                      ? "ذخیره تغییرات"
-                                      : "ارسال پاسخ"}
-
-                                    <Send size={17} />
-                                  </motion.button>
-                                </div>
-
-                                {comment.reply && (
-                                  <div className="mt-4 rounded-xl border border-somak-gold/15 bg-somak-gold/[0.03] p-4">
-                                    <div className="mb-2 flex items-center gap-2">
-                                      <span className="h-1.5 w-1.5 rounded-full bg-somak-gold" />
-
-                                      <span className="text-[15px] text-somak-gold2">
-                                        پاسخ ثبت‌شده
-                                      </span>
-                                    </div>
-
-                                    <p className="text-sm leading-7 text-white/55">
-                                      {comment.reply}
-                                    </p>
-
-                                    {comment.replyCreatedAt && (
-                                      <p className="mt-3 text-[15px] text-white/25">
-                                        پاسخ داده شده در{" "}
-                                        {formatJalaliDate(
-                                          comment.replyCreatedAt,
-                                        )}
-                                      </p>
+                                {comment.replyCreatedAt && (
+                                  <p className="mt-3 text-[13px] text-white/25">
+                                    پاسخ داده شده در{" "}
+                                    {formatJalaliDate(
+                                      comment.replyCreatedAt,
                                     )}
+                                  </p>
+                                )}
 
-                                    {comment.replyUpdatedAt && (
-                                      <p className="mt-1 text-[15px] text-white/20">
-                                        ویرایش شده در{" "}
-                                        {formatJalaliDate(
-                                          comment.replyUpdatedAt,
-                                        )}
-                                      </p>
+                                {comment.replyUpdatedAt && (
+                                  <p className="mt-1 text-[13px] text-white/20">
+                                    ویرایش شده در{" "}
+                                    {formatJalaliDate(
+                                      comment.replyUpdatedAt,
                                     )}
-                                  </div>
+                                  </p>
                                 )}
                               </div>
-                            </motion.div>
-                          </td>
-                        </motion.tr>
+                            )}
+                          </div>
+                        </motion.div>
                       )}
                     </AnimatePresence>
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                  </motion.article>
+                );
+              })}
+            </div>
+          </>
         )}
       </section>
     </motion.div>
