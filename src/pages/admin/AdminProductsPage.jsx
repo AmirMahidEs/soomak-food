@@ -1,4 +1,11 @@
-import { Edit3, Plus, Search, Trash2, MessageCircle } from "lucide-react";
+import {
+  Edit3,
+  Plus,
+  Search,
+  Trash2,
+  MessageCircle,
+  Package,
+} from "lucide-react";
 
 import { motion } from "framer-motion";
 
@@ -95,6 +102,7 @@ export default function AdminProductsPage() {
       await deleteFood(foodId);
 
       const updatedFoods = await getFoods();
+
       setFoods(updatedFoods);
     } catch (error) {
       console.error("خطا در حذف غذا:", error);
@@ -167,7 +175,7 @@ export default function AdminProductsPage() {
                 dispatch(setProductSearch(event.target.value))
               }
               placeholder="جستجوی غذا..."
-              className="h-[42px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-3 pr-10 text-[15px] text-white/70 outline-none transition placeholder:text-white/25 focus:border-[#e9a92f]/50"
+              className="h-[42px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-3 pr-10 text-[13px] text-white/70 outline-none transition placeholder:text-white/25 focus:border-[#e9a92f]/50"
             />
           </div>
 
@@ -180,7 +188,7 @@ export default function AdminProductsPage() {
         </div>
       </section>
 
-      {/* TABLE */}
+      {/* PRODUCTS */}
       <section className="overflow-hidden rounded-[16px] border border-[#6f2826] bg-[#27090c]">
         {loading ? (
           <div className="flex min-h-[250px] items-center justify-center">
@@ -197,85 +205,174 @@ export default function AdminProductsPage() {
             </div>
 
             <div>
-              <p className="text-[16px] font-medium text-white/70">
+              <p className="text-[15px] font-medium text-white/70">
                 غذایی برای نمایش وجود ندارد
               </p>
 
-              <p className="mt-1 text-sm text-white/35">
+              <p className="mt-1 text-[13px] text-white/35">
                 هیچ غذایی مطابق جستجو یا فیلتر انتخاب‌شده پیدا نشد.
               </p>
             </div>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[700px] text-right">
-              <thead>
-                <tr className="border-b border-[#61221f]/70 text-[15px] font-bold text-white/80">
-                  <th className="px-5 py-4">غذا</th>
+          <>
+            {/* DESKTOP TABLE */}
+            <div className="hidden overflow-x-auto md:block">
+              <table className="w-full min-w-[700px] text-right">
+                <thead>
+                  <tr className="border-b border-[#61221f]/70 text-[15px] font-bold text-white/80">
+                    <th className="px-5 py-4">غذا</th>
+                    <th className="py-4">دسته‌بندی</th>
+                    <th className="py-4">قیمت</th>
+                    <th className="px-5 py-4">عملیات</th>
+                  </tr>
+                </thead>
 
-                  <th className="py-4">دسته‌بندی</th>
+                <tbody>
+                  {filteredProducts.map((product) => {
+                    const filteredCategoryById = categories.find(
+                      (category) =>
+                        Number(category.id) === Number(product.categoryId),
+                    );
 
-                  <th className="py-4">قیمت</th>
+                    return (
+                      <tr
+                        key={product.id}
+                        className="border-b border-[#61221f]/40 last:border-0"
+                      >
+                        <td className="px-5 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="h-10 w-10 rounded-[9px] bg-[#421014]" />
 
-                  <th className="px-5 py-4">عملیات</th>
-                </tr>
-              </thead>
+                            <span className="text-[13px] text-white/60">
+                              {product.FoodName}
+                            </span>
+                          </div>
+                        </td>
 
-              <tbody>
-                {filteredProducts.map((product) => {
-                  const filteredCategoryById = categories.find(
-                    (category) =>
-                      Number(category.id) === Number(product.categoryId),
-                  );
+                        <td className="py-4 text-[13px] text-white/50">
+                          {filteredCategoryById?.Name}
+                        </td>
 
-                  return (
-                    <tr
-                      key={product.id}
-                      className="border-b border-[#61221f]/40 last:border-0"
-                    >
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-[9px] bg-[#421014]" />
+                        <td className="py-4 text-[13px] text-white/50">
+                          {product.price.toLocaleString("fa-IR")} تومان
+                        </td>
 
-                          <span className="text-[15px] text-white/60">
+                        <td className="px-5 py-4">
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
+                              onClick={() => handleEditFood(product)}
+                            >
+                              <Edit3 size={20} />
+                            </button>
+
+                            <button
+                              type="button"
+                              className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
+                              onClick={() => handleDeleteFood(product.id)}
+                            >
+                              <Trash2 size={20} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* MOBILE CARDS */}
+            <div className="space-y-3 p-3 md:hidden">
+              {filteredProducts.map((product) => {
+                const filteredCategoryById = categories.find(
+                  (category) =>
+                    Number(category.id) === Number(product.categoryId),
+                );
+
+                return (
+                  <motion.article
+                    key={product.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="rounded-[14px] border border-[#61221f]/70 bg-[#25080b] p-4"
+                  >
+                    {/* HEADER */}
+                    <div className="flex items-center justify-between gap-3 border-b border-[#61221f]/50 pb-3">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-[#421014]">
+                          <Package
+                            size={22}
+                            strokeWidth={1.4}
+                            className="text-[#e9a92f]/80"
+                          />
+                        </div>
+
+                        <div className="min-w-0">
+                         
+
+                          <p className="truncate text-[14px] font-medium text-white/80">
                             {product.FoodName}
-                          </span>
+                          </p>
                         </div>
-                      </td>
+                      </div>
 
-                      <td className="py-4 text-[15px] text-white/50">
-                        {filteredCategoryById?.Name}
-                      </td>
+                      <span className="shrink-0 text-[14px] text-white/30">
+                        {product.id}#
+                      </span>
+                    </div>
 
-                      <td className="py-4 text-[15px] text-white/50">
-                        {product.price.toLocaleString("fa-IR")} تومان
-                      </td>
+                    {/* INFO */}
+                    <div className="mt-3 grid grid-cols-2 gap-3">
+                      <div className="rounded-[10px] bg-white/[0.025] p-3">
+                        <span className="text-[12.5px] text-white/35">
+                          دسته‌بندی
+                        </span>
 
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
-                            onClick={() => handleEditFood(product)}
-                          >
-                            <Edit3 size={20} />
-                          </button>
+                        <p className="mt-1.5 text-[16px] text-white/70">
+                          {filteredCategoryById?.Name || "بدون دسته‌بندی"}
+                        </p>
+                      </div>
 
-                          <button
-                            type="button"
-                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
-                            onClick={() => handleDeleteFood(product.id)}
-                          >
-                            <Trash2 size={20} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                      <div className="rounded-[10px] bg-white/[0.025] p-3">
+                        <span className="text-[13px] text-white/35">قیمت</span>
+
+                        <p className="mt-1.5 text-[16px] font-bold text-[#e9a92f]">
+                          {product.price.toLocaleString("fa-IR")} تومان
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* ACTIONS */}
+                    <div className="mt-3 flex items-center justify-end gap-2 border-t border-[#61221f]/40 pt-3">
+                      <span className="ml-auto text-[14px] text-white/35">
+                        عملیات
+                      </span>
+
+                      <button
+                        type="button"
+                        className="flex h-10 w-10 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
+                        onClick={() => handleEditFood(product)}
+                      >
+                        <Edit3 size={22} />
+                      </button>
+
+                      <button
+                        type="button"
+                        className="flex h-10 w-10 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
+                        onClick={() => handleDeleteFood(product.id)}
+                      >
+                        <Trash2 size={22} />
+                      </button>
+                    </div>
+                  </motion.article>
+                );
+              })}
+            </div>
+          </>
         )}
       </section>
 
