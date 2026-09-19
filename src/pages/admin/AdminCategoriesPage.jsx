@@ -1,4 +1,4 @@
-import { Edit3, Plus, Trash2, MessageCircle } from "lucide-react";
+import { Edit3, Plus, Trash2, MessageCircle, Tags } from "lucide-react";
 
 import { motion } from "framer-motion";
 
@@ -12,7 +12,6 @@ import {
 import { useState, useEffect } from "react";
 
 import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
-
 import CategoryModal from "../../components/admin/categories/CategoryModal";
 
 export default function AdminCategoriesPage() {
@@ -93,6 +92,7 @@ export default function AdminCategoriesPage() {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-5"
     >
+      {/* HEADER */}
       <div className="flex flex-col justify-end gap-4 sm:flex-row sm:items-center">
         <button
           type="button"
@@ -110,7 +110,7 @@ export default function AdminCategoriesPage() {
             <div className="flex flex-col items-center gap-4">
               <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-somak-gold" />
 
-              <p className="text-sm text-white/45">
+              <p className="text-[13px] text-white/45">
                 در حال دریافت دسته‌بندی‌ها...
               </p>
             </div>
@@ -122,96 +122,198 @@ export default function AdminCategoriesPage() {
             </div>
 
             <div>
-              <p className="text-[16px] font-medium text-white/70">
+              <p className="text-[15px] font-medium text-white/70">
                 دسته‌بندی‌ای برای نمایش وجود ندارد
               </p>
 
-              <p className="mt-1 text-sm text-white/35">
+              <p className="mt-1 text-[13px] text-white/35">
                 در حال حاضر هیچ دسته‌بندی‌ای ثبت نشده است.
               </p>
             </div>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[650px] text-right">
-              <thead>
-                <tr className="border-b border-[#61221f]/70 text-[9px] text-white/30">
-                  <th className="px-5 py-4 text-sm font-bold text-white/80">
-                    دسته‌بندی
-                  </th>
+          <>
+            {/* DESKTOP TABLE */}
+            <div className="hidden overflow-x-auto md:block">
+              <table className="w-full min-w-[650px] text-right">
+                <thead>
+                  <tr className="border-b border-[#61221f]/70 text-white/30">
+                    <th className="px-5 py-4 text-[15px] font-bold text-white/80">
+                      دسته‌بندی
+                    </th>
 
-                  <th className="py-4 text-sm font-bold text-white/80">
-                    توضیحات
-                  </th>
+                    <th className="py-4 text-[15px] font-bold text-white/80">
+                      توضیحات
+                    </th>
 
-                  <th className="py-4 text-sm font-bold text-white/80">
-                    تعداد غذا
-                  </th>
+                    <th className="py-4 text-[15px] font-bold text-white/80">
+                      تعداد غذا
+                    </th>
 
-                  <th className="py-4 text-sm font-bold text-white/80">
-                    وضعیت
-                  </th>
+                    <th className="py-4 text-[15px] font-bold text-white/80">
+                      وضعیت
+                    </th>
 
-                  <th className="px-5 py-4 text-sm font-bold text-white/80">
-                    عملیات
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {categories.map((category) => (
-                  <tr
-                    key={category.id}
-                    className="border-b border-[#61221f]/40 last:border-0"
-                  >
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-[9px] bg-[#e9a92f]/10 text-[#e9a92f]">
-                          {category.Name.charAt(0)}
-                        </div>
-
-                        <span className="text-[15px] text-white/60">
-                          {category.Name}
-                        </span>
-                      </div>
-                    </td>
-
-                    <td className="py-4 text-[15px] text-white/60">
-                      {category.Description}
-                    </td>
-
-                    <td className="py-4 text-[15px] text-white/60">
-                      {category.quantity.toLocaleString("fa-IR")} غذا
-                    </td>
-
-                    <td className="py-4">
-                      <AdminStatsChip order={category} />
-                    </td>
-
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => handleEditCategory(category)}
-                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
-                        >
-                          <Edit3 size={20} />
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteCategory(category.id)}
-                          className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
-                        >
-                          <Trash2 size={20} />
-                        </button>
-                      </div>
-                    </td>
+                    <th className="px-5 py-4 text-[15px] font-bold text-white/80">
+                      عملیات
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+
+                <tbody>
+                  {categories.map((category) => (
+                    <tr
+                      key={category.id}
+                      className="border-b border-[#61221f]/40 last:border-0"
+                    >
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-11 w-11 items-center justify-center rounded-[9px] bg-[#e9a92f]/10 text-[#e9a92f]">
+                            {category.Name.charAt(0)}
+                          </div>
+
+                          <span className="text-[13px] text-white/60">
+                            {category.Name}
+                          </span>
+                        </div>
+                      </td>
+
+                      <td className="py-4 text-[13px] text-white/60">
+                        {category.Description}
+                      </td>
+
+                      <td className="py-4 text-[13px] text-white/60">
+                        {category.quantity.toLocaleString("fa-IR")} غذا
+                      </td>
+
+                      <td className="py-4">
+                        <AdminStatsChip order={category} />
+                      </td>
+
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleEditCategory(category)}
+                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
+                          >
+                            <Edit3 size={20} />
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleDeleteCategory(category.id)
+                            }
+                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
+                          >
+                            <Trash2 size={20} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* MOBILE CARDS */}
+            <div className="space-y-3 p-3 md:hidden">
+              {categories.map((category) => (
+                <motion.article
+                  key={category.id}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="rounded-[14px] border border-[#61221f]/70 bg-[#25080b] p-4"
+                >
+                  {/* CARD HEADER */}
+                  <div className="flex items-center justify-between gap-3 border-b border-[#61221f]/50 pb-3">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-[#e9a92f]/10 text-[#e9a92f]">
+                        <Tags size={22} strokeWidth={1.7} />
+                      </div>
+
+                      <div className="min-w-0">
+                        <span className="block text-[12px] text-white/35">
+                          دسته‌بندی
+                        </span>
+
+                        <p className="mt-0.5 truncate text-[14px] font-medium text-white/80">
+                          {category.Name}
+                        </p>
+                      </div>
+                    </div>
+
+                    <AdminStatsChip order={category} />
+                  </div>
+
+                  {/* CATEGORY INFO */}
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div className="rounded-[10px] bg-white/[0.025] p-3">
+                      <span className="text-[12.5px] text-white/35">
+                        تعداد غذا
+                      </span>
+
+                      <p className="mt-2 text-[16px] text-white/70">
+                        {category.quantity.toLocaleString("fa-IR")} غذا
+                      </p>
+                    </div>
+
+                    <div className="rounded-[10px] bg-white/[0.025] p-3">
+                      <span className="text-[12.5px] text-white/35">
+                        شناسه
+                      </span>
+
+                      <p className="mt-2 text-[16px] text-white/70">
+                        #{category.id}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* DESCRIPTION */}
+                  <div className="mt-3 rounded-[10px] bg-white/[0.025] p-3">
+                    <span className="text-[12.5px] text-white/35">
+                      توضیحات
+                    </span>
+
+                    <p className="mt-2 text-[15px] leading-6 text-white/70">
+                      {category.Description || "بدون توضیحات"}
+                    </p>
+                  </div>
+
+                  {/* ACTIONS */}
+                  <div className="mt-3 flex items-center justify-between border-t border-[#61221f]/40 pt-3">
+                    <span className="text-[13px] text-white/35">
+                      عملیات دسته‌بندی
+                    </span>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleEditCategory(category)}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-[#63221f] bg-[#27090c] text-white/40 transition hover:border-[#e9a92f]/40 hover:bg-[#421014] hover:text-[#e9a92f]"
+                        aria-label="ویرایش دسته‌بندی"
+                      >
+                        <Edit3 size={22} />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleDeleteCategory(category.id)
+                        }
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-[#63221f] bg-[#27090c] text-white/40 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300"
+                        aria-label="حذف دسته‌بندی"
+                      >
+                        <Trash2 size={22} />
+                      </button>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </>
         )}
       </section>
 
