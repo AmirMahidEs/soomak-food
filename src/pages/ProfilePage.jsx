@@ -46,7 +46,7 @@ export default function ProfilePage() {
   return (
     <main
       dir="rtl"
-      className="min-h-[calc(100vh-74px)] bg-somak-950 px-4 pb-20 pt-10 sm:px-6 sm:pt-14"
+      className="min-h-[calc(100vh-74px)] bg-somak-950 px-4 pb-28 pt-10 sm:px-6 sm:pt-14 lg:pb-20"
     >
       {/* PAGE TITLE */}
       <div className="mx-auto mb-8 max-w-[900px]">

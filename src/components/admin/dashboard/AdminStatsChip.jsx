@@ -25,7 +25,7 @@ const AdminStatsChip = ({ order }) => {
       className: "text-green-400 bg-green-400/10",
       label: "فعال",
     },
-     {
+    {
       status: "Deactive",
       className: "text-[#f87171] bg-[#f87171]/10",
       label: "غیرفعال",
@@ -36,7 +36,7 @@ const AdminStatsChip = ({ order }) => {
   return (
     <div>
       <span
-        className={`rounded-full px-2.5 py-1 text-[13.5px] ${statsFind?.className}`}
+        className={`inline-flex w-fit shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-[13.5px] ${statsFind?.className}`}
       >
         {statsFind?.label}
       </span>
