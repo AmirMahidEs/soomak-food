@@ -1,4 +1,11 @@
-import { Eye, Search, MessageCircle } from "lucide-react";
+import {
+  Eye,
+  Search,
+  MessageCircle,
+  ShoppingBag,
+  UserRound,
+  Phone,
+} from "lucide-react";
 
 import { motion } from "framer-motion";
 
@@ -32,6 +39,7 @@ export default function AdminOrdersPage() {
         setLoading(true);
 
         const data = await getAllOrders();
+
         setOrders(data);
       } catch (error) {
         console.error("خطا در دریافت سفارش‌ها:", error);
@@ -110,7 +118,7 @@ export default function AdminOrdersPage() {
               value={search}
               onChange={(event) => dispatch(setOrderSearch(event.target.value))}
               placeholder="جستجوی شماره سفارش یا مشتری..."
-              className="h-[42px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-3 pr-10 text-[15px] text-white/70 outline-none placeholder:text-white/25 focus:border-[#e9a92f]/50"
+              className="h-[42px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-3 pr-10 text-[13px] text-white/70 outline-none placeholder:text-white/25 focus:border-[#e9a92f]/50"
             />
           </div>
 
@@ -123,7 +131,7 @@ export default function AdminOrdersPage() {
         </div>
       </section>
 
-      {/* TABLE */}
+      {/* ORDERS */}
       <section className="overflow-hidden rounded-[16px] border border-[#6f2826] bg-[#27090c]">
         {loading ? (
           <div className="flex min-h-[250px] items-center justify-center">
@@ -140,81 +148,210 @@ export default function AdminOrdersPage() {
             </div>
 
             <div>
-              <p className="text-[16px] font-medium text-white/70">
+              <p className="text-[15px] font-medium text-white/70">
                 سفارشی برای نمایش وجود ندارد
               </p>
 
-              <p className="mt-1 text-sm text-white/35">
+              <p className="mt-1 text-[13px] text-white/35">
                 هیچ سفارشی مطابق فیلترهای انتخاب‌شده پیدا نشد.
               </p>
             </div>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[850px] text-right">
-              <thead>
-                <tr className="border-b border-[#61221f]/70 text-[15px] text-white/80">
-                  <th className="px-5 py-4 font-normal">سفارش</th>
+          <>
+            {/* DESKTOP TABLE */}
+            <div className="hidden overflow-x-auto md:block">
+              <table className="w-full min-w-[850px] text-right">
+                <thead>
+                  <tr className="border-b border-[#61221f]/70 text-[15px] text-white/80">
+                    <th className="px-5 py-4 font-normal">سفارش</th>
 
-                  <th className="py-4 font-normal">مشتری</th>
+                    <th className="py-4 font-normal">مشتری</th>
 
-                  <th className="py-4 font-normal">اقلام</th>
+                    <th className="py-4 font-normal">اقلام</th>
 
-                  <th className="py-4 font-normal">مبلغ</th>
+                    <th className="py-4 font-normal">مبلغ</th>
 
-                  <th className="py-4 font-normal">وضعیت</th>
+                    <th className="py-4 font-normal">وضعیت</th>
 
-                  <th className="px-5 py-4 font-normal">جزئیات</th>
-                </tr>
-              </thead>
+                    <th className="px-5 py-4 font-normal">جزئیات</th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {filteredOrders.map((order) => (
-                  <tr
-                    key={order.id}
-                    className="border-b border-[#61221f]/40 last:border-0"
-                  >
-                    <td className="px-5 py-4 text-[15px] font-medium text-white/60">
-                      {order.id}#
-                    </td>
+                <tbody>
+                  {filteredOrders.map((order) => (
+                    <tr
+                      key={order.id}
+                      className="border-b border-[#61221f]/40 last:border-0"
+                    >
+                      <td className="px-5 py-4 text-[15px] font-medium text-white/60">
+                        #{order.id}
+                      </td>
 
-                    <td className="py-4">
-                      <p className="text-[16px] text-white/60">
+                      <td className="py-4">
+                        <p className="text-[16px] text-white/60">
+                          {order.userName}
+                        </p>
+
+                        <p className="mt-1 text-[16px] text-white/25">
+                          {toPersianDigits(order.userphone)}
+                        </p>
+                      </td>
+
+                      <td className="py-4 text-[15px] text-white/40">
+                        {order.items}
+                      </td>
+
+                      <td className="py-4 text-[15px] text-white/60">
+                        {order.totalPrice.toLocaleString("fa-IR")} تومان
+                      </td>
+
+                      <td className="py-4">
+                        <AdminStatsChip order={order} />
+                      </td>
+
+                      <td className="px-5 py-4">
+                        <button
+                          type="button"
+                          onClick={() => handleViewOrder(order)}
+                          className="flex h-8 items-center gap-1.5 rounded-full border border-[#63221f] bg-[#25080b] px-3 text-[12px] text-white/50 transition hover:border-[#e9a92f]/40 hover:text-[#e9a92f]"
+                        >
+                          <Eye size={20} />
+                          مشاهده
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* MOBILE CARDS */}
+            <div className="space-y-3 p-3 md:hidden">
+              {filteredOrders.map((order) => (
+                <motion.article
+                  key={order.id}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="rounded-[14px] border border-[#61221f]/70 bg-[#25080b] p-4"
+                >
+                  {/* HEADER */}
+                  <div className="flex items-center justify-between gap-3 border-b border-[#61221f]/50 pb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-[#421014]">
+                        <ShoppingBag
+                          size={22}
+                          strokeWidth={1.4}
+                          className="text-[#e9a92f]/80"
+                        />
+                      </div>
+
+                      <div>
+                        <span className="block text-[12px] text-white/35">
+                          شماره سفارش
+                        </span>
+
+                        <p className="mt-0.5 text-[14px] font-medium text-white/80">
+                          #{order.id}
+                        </p>
+                      </div>
+                    </div>
+
+                    <AdminStatsChip order={order} />
+                  </div>
+
+                  {/* CUSTOMER */}
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div className="rounded-[10px] bg-white/[0.025] p-3">
+                      <div className="flex items-center gap-2">
+                        <UserRound
+                          size={16}
+                          strokeWidth={1.4}
+                          className="text-[#e9a92f]/80"
+                        />
+
+                        <span className="text-[12.5px] text-white/35">
+                          مشتری
+                        </span>
+                      </div>
+
+                      <p className="mt-2 text-[16px] text-white/70">
                         {order.userName}
                       </p>
+                    </div>
 
-                      <p className="mt-1 text-[16px] text-white/25">
+                    <div className="rounded-[10px] bg-white/[0.025] p-3">
+                      <div className="flex items-center gap-2">
+                        <Phone
+                          size={16}
+                          strokeWidth={1.4}
+                          className="text-[#e9a92f]/80"
+                        />
+
+                        <span className="text-[12.5px] text-white/35">
+                          شماره تماس
+                        </span>
+                      </div>
+
+                      <p
+                        dir="ltr"
+                        className="mt-2 text-right text-[16px] text-white/70"
+                      >
                         {toPersianDigits(order.userphone)}
                       </p>
-                    </td>
+                    </div>
+                  </div>
 
-                    <td className="py-4 text-[15px] text-white/40">
+                  {/* ITEMS */}
+                  <div className="mt-3 rounded-[10px] bg-white/[0.025] p-3">
+                    <div className="flex items-center gap-2">
+                      <ShoppingBag
+                        size={16}
+                        strokeWidth={1.4}
+                        className="text-[#e9a92f]/80"
+                      />
+
+                      <span className="text-[12.5px] text-white/35">
+                        اقلام سفارش
+                      </span>
+                    </div>
+
+                    <p className="mt-2 text-[15px] leading-6 text-white/70">
                       {order.items}
-                    </td>
+                    </p>
+                  </div>
 
-                    <td className="py-4 text-[15px] text-white/60">
+                  {/* TOTAL */}
+                  <div className="mt-3 flex items-center justify-between rounded-[10px] bg-[#e9a92f]/[0.06] px-3 py-3">
+                    <span className="text-[13px] text-white/35">
+                      مبلغ سفارش
+                    </span>
+
+                    <span className="text-[16px] font-bold text-[#e9a92f]">
                       {order.totalPrice.toLocaleString("fa-IR")} تومان
-                    </td>
+                    </span>
+                  </div>
 
-                    <td className="py-4">
-                      <AdminStatsChip order={order} />
-                    </td>
+                  {/* DETAILS */}
+                  <div className="mt-3 flex items-center justify-between border-t border-[#61221f]/40 pt-3">
+                    <span className="text-[13px] text-white/35">
+                      جزئیات سفارش
+                    </span>
 
-                    <td className="px-5 py-4">
-                      <button
-                        type="button"
-                        onClick={() => handleViewOrder(order)}
-                        className="flex h-8 items-center gap-1.5 rounded-full border border-[#63221f] bg-[#25080b] px-3 text-[12px] text-white/50 transition hover:border-[#e9a92f]/40 hover:text-[#e9a92f]"
-                      >
-                        <Eye size={20} />
-                        مشاهده
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    <button
+                      type="button"
+                      onClick={() => handleViewOrder(order)}
+                      className="flex h-9 items-center gap-1.5 rounded-full border border-[#63221f] bg-[#27090c] px-3 text-[12px] text-white/50 transition hover:border-[#e9a92f]/40 hover:text-[#e9a92f]"
+                    >
+                      <Eye size={19} />
+                      مشاهده
+                    </button>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </>
         )}
       </section>
 
