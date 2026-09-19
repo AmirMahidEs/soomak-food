@@ -12,6 +12,7 @@ import {
 import { useState, useEffect } from "react";
 
 import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
+
 import CategoryModal from "../../components/admin/categories/CategoryModal";
 
 export default function AdminCategoriesPage() {
@@ -80,6 +81,7 @@ export default function AdminCategoriesPage() {
   const handleDeleteCategory = async (categoryId) => {
     try {
       await deleteCategory(categoryId);
+
       await fetchCategories();
     } catch (error) {
       console.error("خطا در حذف دسته‌بندی:", error);
@@ -104,6 +106,7 @@ export default function AdminCategoriesPage() {
         </button>
       </div>
 
+      {/* CATEGORIES */}
       <section className="overflow-hidden rounded-[16px] border border-[#6f2826] bg-[#27090c]">
         {loading ? (
           <div className="flex min-h-[250px] items-center justify-center">
@@ -133,88 +136,99 @@ export default function AdminCategoriesPage() {
           </div>
         ) : (
           <>
-            {/* DESKTOP TABLE */}
-            <div className="hidden overflow-x-auto md:block">
-              <table className="w-full min-w-[650px] text-right">
-                <thead>
-                  <tr className="border-b border-[#61221f]/70 text-white/30">
-                    <th className="px-5 py-4 text-[15px] font-bold text-white/80">
-                      دسته‌بندی
-                    </th>
+            {/* DESKTOP CARDS */}
+            <div className="hidden space-y-3 p-4 md:block">
+              {categories.map((category) => (
+                <motion.article
+                  key={category.id}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden rounded-[14px] border border-[#61221f]/70 bg-[#25080b] transition-colors hover:border-[#6f2826]"
+                >
+                  {/* HEADER */}
+                  <div className="flex items-center justify-between gap-4 border-b border-[#61221f]/50 px-4 py-3.5">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[#e9a92f]/10 text-[#e9a92f]">
+                        <Tags size={22} strokeWidth={1.6} />
+                      </div>
 
-                    <th className="py-4 text-[15px] font-bold text-white/80">
-                      توضیحات
-                    </th>
+                      <div className="min-w-0">
+                        <span className="block text-[12px] text-white/30">
+                          دسته‌بندی
+                        </span>
 
-                    <th className="py-4 text-[15px] font-bold text-white/80">
-                      تعداد غذا
-                    </th>
+                        <p className="mt-1 truncate text-[15px] font-medium text-white/80">
+                          {category.Name}
+                        </p>
+                      </div>
+                    </div>
 
-                    <th className="py-4 text-[15px] font-bold text-white/80">
-                      وضعیت
-                    </th>
+                    <AdminStatsChip order={category} />
+                  </div>
 
-                    <th className="px-5 py-4 text-[15px] font-bold text-white/80">
-                      عملیات
-                    </th>
-                  </tr>
-                </thead>
+                  {/* INFO */}
+                  <div className="grid grid-cols-[1.2fr_1fr_1fr] gap-3 p-4">
+                    {/* DESCRIPTION */}
+                    <div className="rounded-[10px] bg-white/[0.025] p-3">
+                      <span className="text-[12.5px] text-white/35">
+                        توضیحات
+                      </span>
 
-                <tbody>
-                  {categories.map((category) => (
-                    <tr
-                      key={category.id}
-                      className="border-b border-[#61221f]/40 last:border-0"
-                    >
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-11 w-11 items-center justify-center rounded-[9px] bg-[#e9a92f]/10 text-[#e9a92f]">
-                            {category.Name.charAt(0)}
-                          </div>
+                      <p className="mt-2 truncate text-[15px] leading-6 text-white/70">
+                        {category.Description || "بدون توضیحات"}
+                      </p>
+                    </div>
 
-                          <span className="text-[13px] text-white/60">
-                            {category.Name}
-                          </span>
-                        </div>
-                      </td>
+                    {/* QUANTITY */}
+                    <div className="rounded-[10px] bg-white/[0.025] p-3">
+                      <span className="text-[12.5px] text-white/35">
+                        تعداد غذا
+                      </span>
 
-                      <td className="py-4 text-[13px] text-white/60">
-                        {category.Description}
-                      </td>
-
-                      <td className="py-4 text-[13px] text-white/60">
+                      <p className="mt-2 text-[16px] text-white/70">
                         {category.quantity.toLocaleString("fa-IR")} غذا
-                      </td>
+                      </p>
+                    </div>
 
-                      <td className="py-4">
-                        <AdminStatsChip order={category} />
-                      </td>
+                    {/* ID */}
+                    <div className="rounded-[10px] bg-white/[0.025] p-3">
+                      <span className="text-[12.5px] text-white/35">شناسه</span>
 
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => handleEditCategory(category)}
-                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-[#421014] hover:text-[#e9a92f]"
-                          >
-                            <Edit3 size={20} />
-                          </button>
+                      <p className="mt-2 text-[16px] text-white/70">
+                        #{category.id}
+                      </p>
+                    </div>
+                  </div>
 
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleDeleteCategory(category.id)
-                            }
-                            className="flex h-9 w-9 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
-                          >
-                            <Trash2 size={20} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                  {/* FOOTER */}
+                  <div className="flex items-center justify-between border-t border-[#61221f]/40 px-4 py-3">
+                    <span className="text-[13px] text-white/30">
+                      عملیات دسته‌بندی
+                    </span>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleEditCategory(category)}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-[#63221f] bg-[#27090c] text-white/40 transition hover:border-[#e9a92f]/40 hover:bg-[#421014] hover:text-[#e9a92f]"
+                        aria-label="ویرایش دسته‌بندی"
+                      >
+                        <Edit3 size={22} />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteCategory(category.id)}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-[#63221f] bg-[#27090c] text-white/40 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300"
+                        aria-label="حذف دسته‌بندی"
+                      >
+                        <Trash2 size={22} />
+                      </button>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
             </div>
 
             {/* MOBILE CARDS */}
@@ -261,9 +275,7 @@ export default function AdminCategoriesPage() {
                     </div>
 
                     <div className="rounded-[10px] bg-white/[0.025] p-3">
-                      <span className="text-[12.5px] text-white/35">
-                        شناسه
-                      </span>
+                      <span className="text-[12.5px] text-white/35">شناسه</span>
 
                       <p className="mt-2 text-[16px] text-white/70">
                         #{category.id}
@@ -273,9 +285,7 @@ export default function AdminCategoriesPage() {
 
                   {/* DESCRIPTION */}
                   <div className="mt-3 rounded-[10px] bg-white/[0.025] p-3">
-                    <span className="text-[12.5px] text-white/35">
-                      توضیحات
-                    </span>
+                    <span className="text-[12.5px] text-white/35">توضیحات</span>
 
                     <p className="mt-2 text-[15px] leading-6 text-white/70">
                       {category.Description || "بدون توضیحات"}
@@ -300,9 +310,7 @@ export default function AdminCategoriesPage() {
 
                       <button
                         type="button"
-                        onClick={() =>
-                          handleDeleteCategory(category.id)
-                        }
+                        onClick={() => handleDeleteCategory(category.id)}
                         className="flex h-10 w-10 items-center justify-center rounded-full border border-[#63221f] bg-[#27090c] text-white/40 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300"
                         aria-label="حذف دسته‌بندی"
                       >
