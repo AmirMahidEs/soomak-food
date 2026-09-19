@@ -56,6 +56,7 @@ export default function AdminUsersPage() {
         animate={{ opacity: 1, y: 0 }}
         className="space-y-5"
       >
+        {/* USERS */}
         <section className="overflow-hidden rounded-[16px] border border-[#6f2826] bg-[#27090c]">
           {loading ? (
             <div className="flex min-h-[250px] items-center justify-center">
@@ -85,65 +86,112 @@ export default function AdminUsersPage() {
             </div>
           ) : (
             <>
-              {/* DESKTOP TABLE */}
-              <div className="hidden overflow-x-auto md:block">
-                <table className="w-full min-w-[650px] text-right">
-                  <thead>
-                    <tr className="border-b border-[#61221f]/70 text-[15px] font-bold text-white/80">
-                      <th className="px-5 py-4">کاربر</th>
-                      <th className="py-4">شماره موبایل</th>
-                      <th className="py-4">تعداد سفارش</th>
-                      <th className="py-4">وضعیت</th>
-                      <th className="py-4">عملیات</th>
-                    </tr>
-                  </thead>
+              {/* DESKTOP CARDS */}
+              <div className="hidden space-y-3 p-4 md:block">
+                {users.map((user) => (
+                  <motion.article
+                    key={user.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden rounded-[14px] border border-[#61221f]/70 bg-[#25080b] transition-colors hover:border-[#6f2826]"
+                  >
+                    {/* HEADER */}
+                    <div className="flex items-center justify-between gap-4 border-b border-[#61221f]/50 px-4 py-3.5">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[#e9a92f]/10 text-[#e9a92f]">
+                          <UserRound size={22} strokeWidth={1.6} />
+                        </div>
 
-                  <tbody>
-                    {users.map((user) => (
-                      <tr
-                        key={user.id}
-                        className="border-b border-[#61221f]/40 last:border-0"
-                      >
-                        <td className="px-5 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e9a92f]/10 text-[#e9a92f]">
-                              <UserRound size={20} />
-                            </div>
+                        <div className="min-w-0">
+                          <span className="block text-[12px] text-white/30">
+                            کاربر
+                          </span>
 
-                            <span className="text-[13px] text-white/70">
-                              {user.UserName}
-                            </span>
-                          </div>
-                        </td>
+                          <p className="mt-1 truncate text-[15px] font-medium text-white/80">
+                            {user.UserName}
+                          </p>
+                        </div>
+                      </div>
 
-                        <td className="py-4 text-[13px] text-white/45">
+                      <AdminStatsChip order={user} />
+                    </div>
+
+                    {/* INFO */}
+                    <div className="grid grid-cols-[1fr_1fr_1fr] gap-3 p-4">
+                      {/* PHONE */}
+                      <div className="rounded-[10px] bg-white/[0.025] p-3">
+                        <div className="flex items-center gap-2">
+                          <Phone
+                            size={16}
+                            strokeWidth={1.7}
+                            className="text-[#e9a92f]/70"
+                          />
+
+                          <span className="text-[12.5px] text-white/35">
+                            شماره موبایل
+                          </span>
+                        </div>
+
+                        <p
+                          dir="ltr"
+                          className="mt-2 text-right text-[16px] text-white/70"
+                        >
                           {toPersianDigits(user.phoneNumber)}
-                        </td>
+                        </p>
+                      </div>
 
-                        <td className="py-4 text-[16px] text-white/55">
+                      {/* ORDERS */}
+                      <div className="rounded-[10px] bg-white/[0.025] p-3">
+                        <div className="flex items-center gap-2">
+                          <ShoppingBag
+                            size={16}
+                            strokeWidth={1.7}
+                            className="text-[#e9a92f]/70"
+                          />
+
+                          <span className="text-[12.5px] text-white/35">
+                            تعداد سفارش
+                          </span>
+                        </div>
+
+                        <p className="mt-2 text-[16px] text-white/70">
                           {user.OrderCount.toLocaleString("fa-IR")}
-                        </td>
+                        </p>
+                      </div>
 
-                        <td className="py-4">
-                          <AdminStatsChip order={user} />
-                        </td>
+                      {/* USER ID */}
+                      <div className="rounded-[10px] bg-white/[0.025] p-3">
+                        <span className="text-[12.5px] text-white/35">
+                          شناسه کاربر
+                        </span>
 
-                        <td className="py-4">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setSelectedUser(user);
-                              setManualOrderOpen(true);
-                            }}
-                            className="text-[12px] text-[#e9a92f]/75 transition hover:text-[#e9a92f]"
-                          >
-                            ثبت سفارش برای کاربر
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        <p className="mt-2 text-[16px] text-white/70">
+                          #{user.id}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* FOOTER */}
+                    <div className="flex items-center justify-between border-t border-[#61221f]/40 px-4 py-3">
+                      <span className="text-[13px] text-white/30">
+                        ثبت سفارش برای کاربر
+                      </span>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setManualOrderOpen(true);
+                        }}
+                        className="flex h-10 items-center gap-2 rounded-full border border-[#63221f] bg-[#27090c] px-4 text-[13px] text-white/50 transition hover:border-[#e9a92f]/40 hover:bg-[#421014] hover:text-[#e9a92f]"
+                      >
+                        <ShoppingBag size={20} />
+                        ثبت سفارش
+                      </button>
+                    </div>
+                  </motion.article>
+                ))}
               </div>
 
               {/* MOBILE CARDS */}
@@ -179,6 +227,7 @@ export default function AdminUsersPage() {
 
                     {/* USER INFO */}
                     <div className="mt-3 grid grid-cols-2 gap-3">
+                      {/* PHONE */}
                       <div className="rounded-[10px] bg-white/[0.025] p-3">
                         <div className="flex items-center gap-2">
                           <Phone
@@ -200,6 +249,7 @@ export default function AdminUsersPage() {
                         </p>
                       </div>
 
+                      {/* ORDERS */}
                       <div className="rounded-[10px] bg-white/[0.025] p-3">
                         <div className="flex items-center gap-2">
                           <ShoppingBag
