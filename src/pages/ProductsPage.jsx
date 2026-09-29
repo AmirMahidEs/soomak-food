@@ -446,7 +446,7 @@ export default function ProductsPage() {
               فیلتر بر اساس
             </h3>
 
-            <label className="mb-3 block text-xs text-white">قیمت</label>
+            <label className="mb-3 block text-[13.5px] text-white">قیمت</label>
 
             <input
               type="range"
@@ -460,9 +460,9 @@ export default function ProductsPage() {
             />
 
             <div className="mt-2 flex justify-between text-[10px] text-somak-muted">
-              <span>{formatPrice(priceRange.min)} تومان</span>
+              <span className="text-[12px]">{formatPrice(maxPrice)} تومان</span>
 
-              <span>{formatPrice(maxPrice)} تومان</span>
+              <span className="text-[12px]">{formatPrice(priceRange.min)} تومان</span>
             </div>
 
             {/* Reset */}
