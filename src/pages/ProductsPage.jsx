@@ -378,9 +378,9 @@ export default function ProductsPage() {
               />
 
               <div className="mt-2 flex justify-between text-[10px] text-somak-muted">
-                <span>{formatPrice(priceRange.min)} تومان</span>
+                <span className="text-[15px]">{formatPrice(maxPrice)} تومان</span>
 
-                <span>{formatPrice(maxPrice)} تومان</span>
+                <span className="text-[15px]">{formatPrice(priceRange.min)} تومان</span>
               </div>
 
               {/* Reset */}
@@ -462,7 +462,9 @@ export default function ProductsPage() {
             <div className="mt-2 flex justify-between text-[10px] text-somak-muted">
               <span className="text-[12px]">{formatPrice(maxPrice)} تومان</span>
 
-              <span className="text-[12px]">{formatPrice(priceRange.min)} تومان</span>
+              <span className="text-[12px]">
+                {formatPrice(priceRange.min)} تومان
+              </span>
             </div>
 
             {/* Reset */}
