@@ -25,6 +25,7 @@ body {
   margin: 0;
   min-width: 320px;
   background: #120304;
+  overflow-x: hidden;
 }
 
 button,
