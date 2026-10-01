@@ -2,7 +2,7 @@
 
 2-slider for favorite foods in homepage
 2.1- https://swiperjs.com/demos#centered-auto
-
+2.2- https://swiperjs.com/demos#freemode
 4-improve ui UX for food information secction in food detail page in Mobile 
 
 5-change posstin of comment summery and move it  top in mobile view
