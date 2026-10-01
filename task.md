@@ -2,14 +2,12 @@
 
 2-slider for favorite foods in homepage
 
-3-edit footer grid in tablet view
+4-improve ui UX for food information secction in food detail page in Mobile 
 
-4-edit layout of wight and.... for mobile view
+5-change posstin of comment summery and move it  top in mobile view
 
-5-add summery on top of comment section on mobile view
-
-6- more contrast  on admin pannel casrds
+6-improve color UX in admin panel
 
 7-add date for orders on admin pannel and user pannel
 
-8-add edit rule in admin pannel and user can review rules of the shop
+8-add terms page and feature for edit terms content
