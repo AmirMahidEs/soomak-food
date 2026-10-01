@@ -80,7 +80,7 @@ export default function HomePage() {
                 مشاهده منو
               </Link>
             </div>
-            <div className="mt-12 flex flex-wrap gap-8 text-sm text-white/90">
+            <div className="my-12 flex flex-col items-center justify-center gap-8 text-sm text-white/90 sm:flex-row sm:justify-start">
               <Feature icon={Leaf} text="مواد اولیه تازه" />
               <Feature icon={Soup} text="پخت روزانه" />
               <Feature icon={PackageCheck} text="بسته‌بندی بهداشتی" />
@@ -127,7 +127,7 @@ export default function HomePage() {
 }
 function Feature({ icon: Icon, text }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex w-full items-center justify-center gap-3 rounded-full border border-somak-gold/70 bg-[#2a090c]/70 px-4 py-2 text-sm text-white/90 shadow-[0_10px_25px_rgba(230,166,46,0.12)] sm:w-max">
       <Icon size={28} className="text-somak-gold" strokeWidth={1.4} />
       <span>{text}</span>
     </div>
