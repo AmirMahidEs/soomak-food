@@ -63,9 +63,9 @@ export default function App() {
     },
   ]);
 
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+  // useLayoutEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, [location.pathname]);
 
   const isAuthPage =
     location.pathname === "/login" ||
@@ -73,7 +73,16 @@ export default function App() {
     location.pathname === "/forgot-password";
 
   const animatedPage = (
-    <AnimatePresence mode="popLayout">
+    <AnimatePresence
+      mode="wait"
+      onExitComplete={() => {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "instant",
+        });
+      }}
+    >
       <div key={location.pathname}>{element}</div>
     </AnimatePresence>
   );
