@@ -210,7 +210,7 @@ export default function ProductDetailsPage() {
                     animated
                   />
 
-                  <div className="flex items-center justify-center gap-3 text-center">
+                  <div className="flex flex-col items-center justify-center gap-1 text-center sm:flex-row sm:gap-3">
                     <AnimatedShoppingBagIcon />
                     <div>
                       <p className="text-xs text-somak-muted">وزن هر پرس</p>
@@ -525,17 +525,31 @@ export default function ProductDetailsPage() {
 
 function AnimatedShoppingBagIcon() {
   const iconRef = useRef(null);
+  const iconContainerRef = useRef(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      iconRef.current?.startAnimation();
-    }, 500);
+    if (!iconContainerRef.current) return;
 
-    return () => clearTimeout(timer);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          iconRef.current?.startAnimation();
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.5,
+      },
+    );
+
+    observer.observe(iconContainerRef.current);
+
+    return () => observer.disconnect();
   }, []);
 
   return (
     <div
+      ref={iconContainerRef}
       onMouseEnter={() => iconRef.current?.startAnimation()}
       onMouseLeave={() => iconRef.current?.stopAnimation()}
     >
@@ -546,40 +560,50 @@ function AnimatedShoppingBagIcon() {
 
 function Meta({ icon: Icon, title, value, animated = false }) {
   const iconRef = useRef(null);
+  const metaRef = useRef(null);
 
   useEffect(() => {
-    if (!animated) return;
+    if (!animated || !metaRef.current) return;
 
-    const timer = setTimeout(() => {
-      iconRef.current?.startAnimation();
-    }, 500);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          iconRef.current?.startAnimation();
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.5,
+      },
+    );
 
-    return () => clearTimeout(timer);
+    observer.observe(metaRef.current);
+
+    return () => observer.disconnect();
   }, [animated]);
 
   return (
     <div
-      className="flex items-center justify-center gap-3 text-center"
+      ref={metaRef}
+      className="flex flex-col items-center justify-center gap-1 text-center sm:flex-row sm:gap-3"
       onMouseEnter={() => {
-        if (animated) {
-          iconRef.current?.startAnimation();
-        }
+        if (animated) iconRef.current?.startAnimation();
       }}
       onMouseLeave={() => {
-        if (animated) {
-          iconRef.current?.stopAnimation();
-        }
+        if (animated) iconRef.current?.stopAnimation();
       }}
     >
-      <Icon
-        ref={animated ? iconRef : undefined}
-        size={28}
-        color="#e6a62e"
-        duration={1}
-        isAnimated={animated}
-      />
+      <div className="shrink-0">
+        <Icon
+          ref={animated ? iconRef : undefined}
+          size={28}
+          color="#e6a62e"
+          duration={1}
+          isAnimated={animated}
+        />
+      </div>
 
-      <div>
+      <div className="min-w-0">
         <p className="text-xs text-somak-muted">{title}</p>
 
         <p className="mt-1 text-sm text-white">{value}</p>
@@ -587,7 +611,6 @@ function Meta({ icon: Icon, title, value, animated = false }) {
     </div>
   );
 }
-
 function InfoColumn({ title, children }) {
   return (
     <div>
