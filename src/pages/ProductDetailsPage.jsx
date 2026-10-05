@@ -1,6 +1,5 @@
 import {
   CheckCircle2,
-  Clock3,
   Heart,
   ShoppingCart,
   Users,
@@ -25,9 +24,12 @@ import {
   getFoodsComments,
   createFoodComment,
 } from "../services/foodServices";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { formatJalaliDate } from "../utilities/dateFormatter";
+
+import { ClockIcon, UsersRoundIcon } from "@animateicons/react/lucide";
+import { ShoppingBag01Icon } from "@animateicons/react/huge";
 
 const money = (n) => n.toLocaleString("fa-IR");
 
@@ -114,7 +116,9 @@ export default function ProductDetailsPage() {
         replyCreatedAt: null,
         replyUpdatedAt: null,
       };
+
       await createFoodComment(commentData);
+
       setCommentSuccess(true);
       setCommentText("");
     } catch (error) {
@@ -200,21 +204,25 @@ export default function ProductDetailsPage() {
 
                 <div className="my-7 grid grid-cols-3 border-b border-[#6d2724] pb-7">
                   <Meta
-                    icon={Clock3}
+                    icon={ClockIcon}
                     title="زمان آماده‌سازی"
                     value={`${product.takeTime.toLocaleString("fa-IR")} دقیقه`}
+                    animated
                   />
 
-                  <Meta
-                    icon={Weight}
-                    title="وزن هر پرس"
-                    value={`${product.weight.toLocaleString("fa-IR")} گرم`}
-                  />
+                  <div className="flex items-center justify-center gap-3 text-center">
+                    <AnimatedShoppingBagIcon />
+                    <div>
+                      <p className="text-xs text-somak-muted">وزن هر پرس</p>
+                      <p className="mt-1 text-sm text-white">{`${product.weight.toLocaleString("fa-IR")} گرم`}</p>
+                    </div>
+                  </div>
 
                   <Meta
-                    icon={Users}
+                    icon={UsersRoundIcon}
                     title="مناسب برای"
                     value={`${product.servings.toLocaleString("fa-IR")} نفر`}
+                    animated
                   />
                 </div>
 
@@ -393,6 +401,7 @@ export default function ProductDetailsPage() {
                         </p>
                       </div>
                     </div>
+
                     {/* Comment Form UI */}
                     <div className="mt-8 border-t border-[#6d2724] pt-8">
                       {commentSuccess ? (
@@ -404,9 +413,11 @@ export default function ProductDetailsPage() {
                               strokeWidth={1.7}
                             />
                           </div>
+
                           <h3 className="text-lg font-semibold text-white">
                             نظر شما با موفقیت ثبت شد
                           </h3>
+
                           <p className="mt-2 max-w-md text-sm leading-7 text-somak-muted">
                             نظر شما پس از بررسی و تأیید منتشر خواهد شد.
                           </p>
@@ -418,11 +429,13 @@ export default function ProductDetailsPage() {
                               نظر شما درباره این غذا چیست؟
                             </h3>
                           </div>
+
                           <div className="grid gap-6 lg:grid-cols-[180px_1fr]">
                             <div className="flex flex-col items-center justify-center rounded-xl border border-[#6d2724] bg-[#27090c]/60">
                               <span className="mb-3 text-lg text-somak-muted">
                                 امتیاز شما
                               </span>
+
                               <div
                                 className="flex flex-row-reverse gap-1"
                                 dir="ltr"
@@ -434,17 +447,23 @@ export default function ProductDetailsPage() {
                                     onMouseLeave={() => setHoverRating(0)}
                                     key={star}
                                     type="button"
-                                    className={`text-3xl transition hover:scale-110 ${star <= displayRating ? "text-somak-gold hover:text-somak-gold2" : "text-somak-gold/50 hover:text-somak-gold2"}`}
+                                    className={`text-3xl transition hover:scale-110 ${
+                                      star <= displayRating
+                                        ? "text-somak-gold hover:text-somak-gold2"
+                                        : "text-somak-gold/50 hover:text-somak-gold2"
+                                    }`}
                                     aria-label={`امتیاز ${star} از ۵`}
                                   >
                                     ★
                                   </button>
                                 ))}
                               </div>
+
                               <span className="mt-3 text-lg text-white/30">
                                 انتخاب امتیاز
                               </span>
                             </div>
+
                             <div>
                               <label
                                 htmlFor="comment"
@@ -452,6 +471,7 @@ export default function ProductDetailsPage() {
                               >
                                 متن نظر
                               </label>
+
                               <textarea
                                 value={commentText}
                                 onChange={(e) => setCommentText(e.target.value)}
@@ -460,10 +480,12 @@ export default function ProductDetailsPage() {
                                 placeholder="تجربه شما از این غذا چطور بود؟"
                                 className="w-full resize-none rounded-xl border border-somak-500 bg-somak-900 px-5 py-4 text-[15px] leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
                               />
+
                               <div className="mt-4 flex items-center justify-between gap-4">
                                 <p className="text-base leading-6 text-white/30">
                                   نظر شما پس از بررسی منتشر خواهد شد.
                                 </p>
+
                                 <motion.button
                                   type="button"
                                   whileTap={{ scale: 0.98 }}
@@ -501,10 +523,61 @@ export default function ProductDetailsPage() {
   );
 }
 
-function Meta({ icon: Icon, title, value }) {
+function AnimatedShoppingBagIcon() {
+  const iconRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      iconRef.current?.startAnimation();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="flex items-center justify-center gap-3 text-center">
-      <Icon size={28} className="text-somak-gold" strokeWidth={1.4} />
+    <div
+      onMouseEnter={() => iconRef.current?.startAnimation()}
+      onMouseLeave={() => iconRef.current?.stopAnimation()}
+    >
+      <ShoppingBag01Icon ref={iconRef} size={28} duration={1} color="#e6a62e" />
+    </div>
+  );
+}
+
+function Meta({ icon: Icon, title, value, animated = false }) {
+  const iconRef = useRef(null);
+
+  useEffect(() => {
+    if (!animated) return;
+
+    const timer = setTimeout(() => {
+      iconRef.current?.startAnimation();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [animated]);
+
+  return (
+    <div
+      className="flex items-center justify-center gap-3 text-center"
+      onMouseEnter={() => {
+        if (animated) {
+          iconRef.current?.startAnimation();
+        }
+      }}
+      onMouseLeave={() => {
+        if (animated) {
+          iconRef.current?.stopAnimation();
+        }
+      }}
+    >
+      <Icon
+        ref={animated ? iconRef : undefined}
+        size={28}
+        color="#e6a62e"
+        duration={1}
+        isAnimated={animated}
+      />
 
       <div>
         <p className="text-xs text-somak-muted">{title}</p>
@@ -538,15 +611,18 @@ function Review({
     <div className="mb-3 rounded-xl border border-[#6d2724] bg-[#27090c]/40 px-4 py-4">
       <div className="flex items-start justify-between gap-5">
         <div className="min-w-0 flex-1">
-          <p className="text-base leading-7 text-somak-muted"> {text} </p>
+          <p className="text-base leading-7 text-somak-muted">{text}</p>
+
           {createdAt && (
             <p className="mt-2 text-[15px] text-white/30">
               ثبت شده در {formatJalaliDate(createdAt)}
             </p>
           )}
         </div>
+
         <div className="flex shrink-0 flex-col items-end gap-1.5">
           <p className="text-sm text-white/70">{name}</p>
+
           <div className="flex text-xl">
             {[1, 2, 3, 4, 5].map((current) => (
               <span
@@ -561,22 +637,27 @@ function Review({
           </div>
         </div>
       </div>
+
       {reply && (
         <div className="mr-2 mt-4 border-r-2 border-somak-gold/30 pr-4">
           <div className="mb-2 flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-somak-gold/10">
               <MessageCircle size={14} className="text-somak-gold2" />
             </div>
+
             <span className="text-[15px]font-medium text-somak-gold2">
               پاسخ مجموعه سومک
             </span>
           </div>
-          <p className="text-sm leading-7 text-white/50"> {reply} </p>
+
+          <p className="text-sm leading-7 text-white/50">{reply}</p>
+
           {replyCreatedAt && (
             <p className="mt-2 text-[15px] text-white/30">
               پاسخ داده شده در {formatJalaliDate(replyCreatedAt)}
             </p>
           )}
+
           {replyUpdatedAt && (
             <p className="mt-1 text-[15px] text-white/30">
               ویرایش شده در {formatJalaliDate(replyUpdatedAt)}
