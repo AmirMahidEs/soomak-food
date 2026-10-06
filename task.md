@@ -6,7 +6,7 @@
 
 4-improve ui UX for food information secction in food detail page in Mobile : DONE!
 
-5-change posstin of comment summery and move it  top in mobile view
+5-change posstin of comment summery and move it  top in mobile view : DONE!
 5.1- collapse comment form
 
 6-improve color UX in admin panel

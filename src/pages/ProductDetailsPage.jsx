@@ -18,6 +18,12 @@ import {
 } from "../features/cart/cartSlice";
 import PageMotion from "../components/PageMotion";
 import ProductCard from "../components/ProductCard";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+
 import { products } from "../data/products";
 import {
   getFoodsById,
@@ -331,10 +337,10 @@ export default function ProductDetailsPage() {
                   </div>
                 ) : (
                   <div>
-                    <div className="grid gap-7 lg:grid-cols-[1fr_220px]">
+                    <div className="flex flex-col-reverse gap-7 lg:grid lg:grid-cols-[1fr_220px]">
                       <div>
                         <div className="mb-4 flex items-center justify-between">
-                          <h2 className="text-xl font-semibold text-somak-gold2">
+                          <h2 className="text-sm font-semibold text-somak-gold2 md:text-lg">
                             نظرات مشتریان
                           </h2>
 
@@ -365,7 +371,7 @@ export default function ProductDetailsPage() {
                         )}
                       </div>
 
-                      <div className="flex flex-col items-center justify-center gap-3 border-r border-[#6d2724] pr-7 text-center">
+                      <div className="flex flex-col items-center justify-center gap-3 border-[#6d2724] text-center lg:border-r lg:pr-7">
                         <div className="text-5xl font-bold text-white">
                           {averageRating.toLocaleString("fa-IR", {
                             minimumFractionDigits: 1,
@@ -425,7 +431,7 @@ export default function ProductDetailsPage() {
                       ) : (
                         <>
                           <div className="mb-6">
-                            <h3 className="text-xl font-semibold text-white">
+                            <h3 className="text-[17.3px] font-semibold text-white md:text-xl">
                               نظر شما درباره این غذا چیست؟
                             </h3>
                           </div>
@@ -459,7 +465,7 @@ export default function ProductDetailsPage() {
                                 ))}
                               </div>
 
-                              <span className="mt-3 text-lg text-white/30">
+                              <span className="mt-3 text-base text-white/30 md:text-lg">
                                 انتخاب امتیاز
                               </span>
                             </div>
@@ -481,8 +487,8 @@ export default function ProductDetailsPage() {
                                 className="w-full resize-none rounded-xl border border-somak-500 bg-somak-900 px-5 py-4 text-[15px] leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
                               />
 
-                              <div className="mt-4 flex items-center justify-between gap-4">
-                                <p className="text-base leading-6 text-white/30">
+                              <div className="mt-4 flex flex-col items-center justify-between gap-4 md:flex-row">
+                                <p className="text-sm leading-6 text-white/30 md:text-base">
                                   نظر شما پس از بررسی منتشر خواهد شد.
                                 </p>
 
@@ -490,7 +496,7 @@ export default function ProductDetailsPage() {
                                   type="button"
                                   whileTap={{ scale: 0.98 }}
                                   onClick={handleSubmit}
-                                  className="shrink-0 rounded-full bg-gold-gradient px-7 py-3 text-sm font-bold text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105"
+                                  className="w-full shrink-0 rounded-full bg-gold-gradient px-7 py-3 text-sm font-bold text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105 md:w-auto"
                                 >
                                   ثبت نظر
                                 </motion.button>
@@ -510,7 +516,28 @@ export default function ProductDetailsPage() {
                 محصولات مرتبط
               </h2>
 
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {/* Mobile Slider */}
+              <div className="md:hidden">
+                <Swiper
+                  modules={[Navigation]}
+                  navigation
+                  spaceBetween={10}
+                  centeredSlides
+                  slidesPerView={1.2}
+                  speed={450}
+                  className="popular-foods-swiper w-full"
+                  loop={true}
+                >
+                  {related.map((p) => (
+                    <SwiperSlide key={p.id}>
+                      <ProductCard product={p} compact />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+
+                {/* Desktop Suggestion */}
+              </div>
+              <div className="hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
                 {related.map((p) => (
                   <ProductCard key={p.id} product={p} compact />
                 ))}
@@ -632,18 +659,20 @@ function Review({
 }) {
   return (
     <div className="mb-3 rounded-xl border border-[#6d2724] bg-[#27090c]/40 px-4 py-4">
-      <div className="flex items-start justify-between gap-5">
+      <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <div className="min-w-0 flex-1">
-          <p className="text-base leading-7 text-somak-muted">{text}</p>
+          <p className="text-[13px] leading-7 text-somak-muted md:text-base">
+            {text}
+          </p>
 
           {createdAt && (
-            <p className="mt-2 text-[15px] text-white/30">
+            <p className="mt-2 text-[12.5px] text-white/30 md:text-[15px]">
               ثبت شده در {formatJalaliDate(createdAt)}
             </p>
           )}
         </div>
 
-        <div className="flex shrink-0 flex-col items-end gap-1.5">
+        <div className="flex w-full shrink-0 items-center justify-between gap-1.5 md:w-auto md:flex-col md:items-start">
           <p className="text-sm text-white/70">{name}</p>
 
           <div className="flex text-xl">
