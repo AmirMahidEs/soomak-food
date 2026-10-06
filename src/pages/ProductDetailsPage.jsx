@@ -484,11 +484,11 @@ export default function ProductDetailsPage() {
                                 id="comment"
                                 rows={5}
                                 placeholder="تجربه شما از این غذا چطور بود؟"
-                                className="w-full resize-none rounded-xl border border-somak-500 bg-somak-900 px-5 py-4 text-[15px] leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
+                                className="w-full resize-none rounded-xl border border-somak-500 bg-somak-900 px-5 py-4 text-[13.9px] md:text-[16px] leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
                               />
 
                               <div className="mt-4 flex flex-col items-center justify-between gap-4 md:flex-row">
-                                <p className="text-sm leading-6 text-white/30 md:text-base">
+                                <p className="text-[13.4px] leading-6 text-white/30 md:text-base">
                                   نظر شما پس از بررسی منتشر خواهد شد.
                                 </p>
 
@@ -698,7 +698,7 @@ function Review({
             </div>
 
             <span className="text-[15px]font-medium text-somak-gold2">
-              پاسخ مجموعه سومک
+              پاسخ مجموعه سوماک
             </span>
           </div>
 
