@@ -352,7 +352,7 @@ export default function ProductDetailsPage() {
 
                         {comments.length === 0 ? (
                           <div className="flex min-h-[160px] items-center justify-center rounded-xl border border-[#6d2724]/70 bg-[#27090c]/50">
-                            <p className="text-sm text-somak-muted">
+                            <p className="text-[12.3px] md:text-sm text-somak-muted">
                               هنوز نظری برای این غذا ثبت نشده است.
                             </p>
                           </div>
