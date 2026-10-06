@@ -46,9 +46,9 @@ export default function ProductCard({ product, compact = false }) {
           <h3 className="truncate text-[16px] font-semibold text-white">
             {product.title}
           </h3>
-          <p className="mt-2 min-h-10 text-xs leading-6 text-somak-muted">
+          {/* <p className="mt-2 min-h-10 text-xs leading-6 text-somak-muted">
             {product.short}
-          </p>
+          </p> */}
           <div className="mt-3 flex items-center justify-between">
             <span className="text-sm font-semibold text-somak-gold2">
               {formatPrice(product.price)} تومان
