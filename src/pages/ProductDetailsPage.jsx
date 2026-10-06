@@ -526,7 +526,7 @@ export default function ProductDetailsPage() {
                   slidesPerView={1.2}
                   speed={450}
                   className="popular-foods-swiper w-full"
-                  loop={true}
+                  // loop={true}
                 >
                   {related.map((p) => (
                     <SwiperSlide key={p.id}>

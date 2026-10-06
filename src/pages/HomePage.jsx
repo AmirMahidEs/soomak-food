@@ -108,7 +108,7 @@ export default function HomePage() {
             slidesPerView={1.2}
             speed={450}
             className="popular-foods-swiper w-full"
-            loop={true}
+            // loop={true}
           >
             {popular.map((p, i) => (
               <SwiperSlide key={p.id}>
