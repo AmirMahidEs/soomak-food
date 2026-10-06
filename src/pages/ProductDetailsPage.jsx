@@ -36,6 +36,7 @@ import { formatJalaliDate } from "../utilities/dateFormatter";
 
 import { ClockIcon, UsersRoundIcon } from "@animateicons/react/lucide";
 import { ShoppingBag01Icon } from "@animateicons/react/huge";
+import SectionTitle from "../components/SectionTitle";
 
 const money = (n) => n.toLocaleString("fa-IR");
 
@@ -484,7 +485,7 @@ export default function ProductDetailsPage() {
                                 id="comment"
                                 rows={5}
                                 placeholder="تجربه شما از این غذا چطور بود؟"
-                                className="w-full resize-none rounded-xl border border-somak-500 bg-somak-900 px-5 py-4 text-[13.9px] md:text-[16px] leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30"
+                                className="w-full resize-none rounded-xl border border-somak-500 bg-somak-900 px-5 py-4 text-[13.9px] leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30 md:text-[16px]"
                               />
 
                               <div className="mt-4 flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -512,9 +513,7 @@ export default function ProductDetailsPage() {
             )}
 
             <section className="py-12">
-              <h2 className="mb-7 text-center text-2xl font-semibold text-white">
-                محصولات مرتبط
-              </h2>
+              <SectionTitle> محصولات مرتبط</SectionTitle>
 
               {/* Mobile Slider */}
               <div className="md:hidden">
