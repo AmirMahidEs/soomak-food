@@ -1,6 +1,6 @@
 1-layout of homepage for mobile view : DONE!
 
-2-slider for favorite foods in homepage
+2-slider for favorite foods in homepage : DONE!
 2.1- https://swiperjs.com/demos#centered-auto
 2.2- https://swiperjs.com/demos#freemode
 

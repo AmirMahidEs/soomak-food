@@ -19,6 +19,8 @@ html {
 
   /* عرض scrollbar در باز و بسته شدن تغییر نکند */
   scrollbar-gutter: stable;
+
+  overflow-x: hidden;
 }
 
 body {
@@ -70,4 +72,47 @@ input[type="number"]::-webkit-outer-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+/* Popular Foods - Swiper Navigation */
+.popular-foods-swiper {
+  --swiper-navigation-size: 5px;
+  --swiper-navigation-color: #e6a62e;
+}
+
+.popular-foods-swiper .swiper-button-prev,
+.popular-foods-swiper .swiper-button-next {
+  width: 40px;
+  height: 40px;
+  margin-top: 0;
+  padding: 9px;
+  transform: translateY(-50%);
+
+  border: 1px solid #6f2826;
+  border-radius: 9999px;
+  /* background: rgba(39, 9, 12, 0.9); */
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(60px);
+
+  transition:
+    background-color 200ms ease,
+    transform 200ms ease,
+    border-color 200ms ease;
+}
+
+.popular-foods-swiper .swiper-button-prev:hover,
+.popular-foods-swiper .swiper-button-next:hover {
+  background: #3c0d10;
+  border-color: #e6a62e;
+}
+
+.popular-foods-swiper .swiper-button-prev {
+  right: 8px;
+  left: auto;
+}
+
+.popular-foods-swiper .swiper-button-next {
+  left: 8px;
+  right: auto;
 }

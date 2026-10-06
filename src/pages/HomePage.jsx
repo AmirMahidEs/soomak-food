@@ -1,5 +1,7 @@
 import {
   ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
   Leaf,
   PackageCheck,
   Soup,
@@ -15,6 +17,11 @@ import ProductCard from "../components/ProductCard";
 import CorporateBanner from "../components/CorporateBanner";
 import { products } from "../data/products";
 import { useEffect, useState } from "react";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 
 import { getPopularFoods } from "../services/foodServices";
 export default function HomePage() {
@@ -90,7 +97,29 @@ export default function HomePage() {
       </section>
       <section id="menu" className="mx-auto max-w-[1200px] px-6 py-16">
         <SectionTitle>محبوب‌ترین غذاها</SectionTitle>
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+
+        {/* Mobile */}
+        <div className="md:hidden">
+          <Swiper
+            modules={[Navigation]}
+            navigation
+            spaceBetween={10}
+            centeredSlides
+            slidesPerView={1.2}
+            speed={450}
+            className="popular-foods-swiper w-full"
+            loop={true}
+          >
+            {popular.map((p, i) => (
+              <SwiperSlide key={p.id}>
+                <ProductCard product={p} compact />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
+        {/* Desktop */}
+        <div className="hidden gap-5 md:grid md:grid-cols-2 lg:grid-cols-4">
           {popular.map((p, i) => (
             <motion.div
               key={p.id}
