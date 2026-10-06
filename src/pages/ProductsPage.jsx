@@ -29,6 +29,7 @@ import AdminSelect from "../components/admin/AdminSelect";
 import zereshkHero from "../assets/zereshk-polo.jpg";
 
 import { getFoods, getCategories } from "../services/foodServices";
+import CorporateBanner from "../components/CorporateBanner";
 
 /* =========================================================
    SORT OPTIONS
@@ -378,9 +379,13 @@ export default function ProductsPage() {
               />
 
               <div className="mt-2 flex justify-between text-[10px] text-somak-muted">
-                <span className="text-[15px]">{formatPrice(maxPrice)} تومان</span>
+                <span className="text-[15px]">
+                  {formatPrice(maxPrice)} تومان
+                </span>
 
-                <span className="text-[15px]">{formatPrice(priceRange.min)} تومان</span>
+                <span className="text-[15px]">
+                  {formatPrice(priceRange.min)} تومان
+                </span>
               </div>
 
               {/* Reset */}
@@ -543,26 +548,8 @@ export default function ProductsPage() {
       {/* =================================================
           CORPORATE ORDER
       ================================================== */}
-
-      <div className="mx-auto max-w-[1200px] px-6 pb-12">
-        <Link
-          to="/products"
-          className="flex items-center justify-between rounded-2xl border border-[#6d2724] bg-[#320b0e]/70 px-8 py-7"
-        >
-          <span className="rounded-full bg-[#6d1d1c] px-6 py-3 text-sm">
-            سفارش سازمانی ←
-          </span>
-
-          <div className="text-right">
-            <h2 className="text-xl font-semibold text-white">
-              سفارش برای مهمانی‌ها و مجالس
-            </h2>
-
-            <p className="mt-2 text-sm text-somak-muted">
-              ارائه خدمات ویژه برای شرکت‌ها، ادارات و مجالس شما
-            </p>
-          </div>
-        </Link>
+      <div className="mb-8">
+        <CorporateBanner />
       </div>
     </PageMotion>
   );
