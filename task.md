@@ -11,6 +11,6 @@
 
 6-improve color UX in admin panel
 
-7-add date for orders on admin pannel and user pannel
+7-add date for orders on admin pannel and user pannel : DONE! for Admin Only . Because userpannel is still hardcod
 
 8-add terms page and feature for edit terms content

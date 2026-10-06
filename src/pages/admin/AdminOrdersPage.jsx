@@ -27,6 +27,8 @@ import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
 
 import OrderModal from "../../components/admin/orders/OrderModal";
 
+import { formatJalaliDate } from "../../utilities/dateFormatter";
+
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -117,9 +119,7 @@ export default function AdminOrdersPage() {
 
             <input
               value={search}
-              onChange={(event) =>
-                dispatch(setOrderSearch(event.target.value))
-              }
+              onChange={(event) => dispatch(setOrderSearch(event.target.value))}
               placeholder="جستجوی شماره سفارش یا مشتری..."
               className="h-[42px] w-full rounded-[10px] border border-[#63221f] bg-[#25080b] pl-3 pr-10 text-[13px] text-white/70 outline-none transition placeholder:text-white/25 focus:border-[#e9a92f]/50"
             />
@@ -141,9 +141,7 @@ export default function AdminOrdersPage() {
             <div className="flex flex-col items-center gap-4">
               <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-somak-gold" />
 
-              <p className="text-sm text-white/45">
-                در حال دریافت سفارش‌ها...
-              </p>
+              <p className="text-sm text-white/45">در حال دریافت سفارش‌ها...</p>
             </div>
           </div>
         ) : filteredOrders.length === 0 ? (
@@ -192,6 +190,12 @@ export default function AdminOrdersPage() {
 
                         <p className="mt-1 text-[15px] font-medium text-white/80">
                           #{order.id}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-[15px] text-white/85">
+                          ثبت شده در {formatJalaliDate(order.orderDate)}
                         </p>
                       </div>
                     </div>
