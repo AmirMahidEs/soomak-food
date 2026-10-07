@@ -30,6 +30,7 @@ import {
 } from "../../services/foodServices";
 
 import FoodModal from "../../components/admin/products/FoodModal";
+import ConfirmModal from "../../components/admin/common/ConfirmModal";
 
 export default function AdminProductsPage() {
   const [foods, setFoods] = useState([]);
@@ -37,6 +38,8 @@ export default function AdminProductsPage() {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFood, setSelectedFood] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedFoodToDelete, setSelectedFoodToDelete] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,6 +109,15 @@ export default function AdminProductsPage() {
       setFoods(updatedFoods);
     } catch (error) {
       console.error("خطا در حذف غذا:", error);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (selectedFoodToDelete) {
+      await handleDeleteFood(selectedFoodToDelete.id);
+
+      setIsDeleteModalOpen(false);
+      setSelectedFoodToDelete(null);
     }
   };
 
@@ -290,7 +302,10 @@ export default function AdminProductsPage() {
                         <button
                           type="button"
                           className="flex h-10 w-10 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
-                          onClick={() => handleDeleteFood(product.id)}
+                          onClick={() => {
+                            setIsDeleteModalOpen(true);
+                            setSelectedFoodToDelete(product);
+                          }}
                           aria-label="حذف غذا"
                         >
                           <Trash2 size={21} />
@@ -364,7 +379,7 @@ export default function AdminProductsPage() {
 
                     {/* ACTIONS */}
                     <div className="mt-3 flex items-center justify-end gap-2 border-t border-[#61221f]/40 pt-3">
-                      <span className="ml-auto text-[14px] text-white/35">
+                      <span className="ml-auto text-[14px] text-white/85">
                         عملیات
                       </span>
 
@@ -379,7 +394,10 @@ export default function AdminProductsPage() {
                       <button
                         type="button"
                         className="flex h-10 w-10 items-center justify-center rounded-full text-white/35 transition hover:bg-red-400/10 hover:text-red-300"
-                        onClick={() => handleDeleteFood(product.id)}
+                        onClick={() => {
+                          setIsDeleteModalOpen(true);
+                          setSelectedFoodToDelete(product);
+                        }}
                       >
                         <Trash2 size={22} />
                       </button>
@@ -398,6 +416,14 @@ export default function AdminProductsPage() {
         onSubmit={(foodData) => handleSubmit(foodData)}
         initialData={selectedFood}
         categoryOptions={foodCategoryOptions}
+      />
+      <ConfirmModal
+        open={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        message={`آیا از حذف «${selectedFoodToDelete?.title}» مطمئن هستید؟`}
+        title="تأیید حذف غذا"
+        confirmText="حذف"
+        onConfirm={handleConfirmDelete}
       />
     </motion.div>
   );

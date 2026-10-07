@@ -14,3 +14,9 @@
 7-add date for orders on admin pannel and user pannel : DONE! for Admin Only . Because userpannel is still hardcod
 
 8-add terms page and feature for edit terms content
+
+9-pop for new users in first view
+
+10-banner for homepage
+
+11- edit footer details in admin pannel
