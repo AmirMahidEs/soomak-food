@@ -244,10 +244,10 @@ export default function AdminProductsPage() {
                     transition={{ duration: 0.2 }}
                     className="overflow-hidden rounded-[14px] border border-[#61221f]/70 bg-[#25080b] transition-colors hover:border-[#6f2826]"
                   >
-                    <div className="grid grid-cols-[minmax(0,1fr)_180px_180px_145px] items-center gap-5 p-4">
+                    <div className="grid grid-cols-[minmax(0,1fr)_180px_180px_100px] items-center gap-5 p-4 xl:grid-cols-[minmax(0,1fr)_180px_180px_145px]">
                       {/* FOOD */}
                       <div className="flex min-w-0 items-center gap-3">
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[#421014] text-[#e9a92f]/80">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[#421014] text-[#e9a92f]/80 md:hidden lg:flex">
                           <Package size={22} strokeWidth={1.4} />
                         </div>
 
@@ -286,7 +286,7 @@ export default function AdminProductsPage() {
 
                       {/* ACTIONS */}
                       <div className="flex items-center justify-end gap-2 border-r border-[#61221f]/40 pr-4">
-                        <span className="ml-auto text-[13px] text-white/30">
+                        <span className="ml-auto hidden text-[13px] text-white/30 xl:block">
                           عملیات
                         </span>
 
@@ -334,7 +334,7 @@ export default function AdminProductsPage() {
                     className="rounded-[14px] border border-[#61221f]/70 bg-[#25080b] p-4"
                   >
                     {/* HEADER */}
-                    <div className="flex flex-col items-start justify-between gap-3 border-b border-[#61221f]/50 pb-3 min-[400px]:flex-row">
+                    <div className="flex flex-col items-start justify-between gap-3 border-b border-[#61221f]/50 pb-3 min-[400px]:flex-row min-[400px]:items-center">
                       <div className="flex min-w-0 items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-[#421014]">
                           <Package
