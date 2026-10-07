@@ -134,7 +134,7 @@ export default function AdminSidebar({ activeTab, onTabChange }) {
       </aside>
 
       {/* MOBILE FLOATING BOTTOM DOCK */}
-      <div className="fixed inset-x-0 bottom-0 z-40 px-2 pb-[max(10px,env(safe-area-inset-bottom))] lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40  pb-[max(10px,env(safe-area-inset-bottom))] lg:hidden">
         <motion.nav
           layout
           transition={{
