@@ -334,7 +334,7 @@ export default function AdminProductsPage() {
                     className="rounded-[14px] border border-[#61221f]/70 bg-[#25080b] p-4"
                   >
                     {/* HEADER */}
-                    <div className="flex items-center justify-between gap-3 border-b border-[#61221f]/50 pb-3">
+                    <div className="flex flex-col items-start justify-between gap-3 border-b border-[#61221f]/50 pb-3 min-[400px]:flex-row">
                       <div className="flex min-w-0 items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-[#421014]">
                           <Package
@@ -350,7 +350,6 @@ export default function AdminProductsPage() {
                           </p>
                         </div>
                       </div>
-
                       <span className="shrink-0 text-[14px] text-white/30">
                         {product.id}#
                       </span>
