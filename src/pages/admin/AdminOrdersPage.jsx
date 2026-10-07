@@ -359,14 +359,14 @@ export default function AdminOrdersPage() {
                           className="text-[#e9a92f]/80"
                         />
 
-                        <span className="text-[12.5px] text-white/35">
+                        <span className="text-[12.1px] text-white/35">
                           شماره تماس
                         </span>
                       </div>
 
                       <p
                         dir="ltr"
-                        className="mt-2 text-right text-[16px] text-white/70"
+                        className="mt-2 text-right text-[14px] text-white/70"
                       >
                         {toPersianDigits(order.userphone)}
                       </p>
@@ -405,9 +405,11 @@ export default function AdminOrdersPage() {
 
                   {/* DETAILS */}
                   <div className="mt-3 flex items-center justify-between border-t border-[#61221f]/40 pt-3">
-                    <span className="text-[13px] text-white/35">
-                      جزئیات سفارش
-                    </span>
+                    <div>
+                      <p className="text-[13px] text-white/85">
+                        ثبت شده در {formatJalaliDate(order.orderDate)}
+                      </p>
+                    </div>
 
                     <button
                       type="button"
