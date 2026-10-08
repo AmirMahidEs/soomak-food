@@ -404,66 +404,78 @@ export default function ProductDetailsPage() {
                     </div>
 
                     {/* Comment Form UI */}
-                    <div className="mt-8 border-t border-[#6d2724] pt-8">
-                      <div className="flex flex-col sm:flex-row sm:justify-start">
-                        <motion.button
-                          type="button"
-                          onClick={() => setIsCommentFormOpen((prev) => !prev)}
-                          whileTap={{ scale: 0.96 }}
-                          className="relative flex min-w-[190px] items-center justify-center overflow-hidden rounded-full border border-somak-gold/50 px-5 py-2.5 text-sm font-medium text-somak-gold transition-colors duration-300 hover:bg-somak-gold/10"
-                        >
-                          <AnimatePresence mode="wait" initial={false}>
-                            {isCommentFormOpen ? (
-                              <motion.span
-                                key="close"
-                                initial={{
-                                  opacity: 0,
-                                  y: 10,
-                                  filter: "blur(4px)",
-                                }}
-                                animate={{
-                                  opacity: 1,
-                                  y: 0,
-                                  filter: "blur(0px)",
-                                }}
-                                exit={{
-                                  opacity: 0,
-                                  y: -10,
-                                  filter: "blur(4px)",
-                                }}
-                                transition={{ duration: 0.22, ease: "easeOut" }}
-                                className="flex items-center gap-2"
-                              >
-                                <span>بستن فرم ثبت نظر</span>
-                              </motion.span>
-                            ) : (
-                              <motion.span
-                                key="open"
-                                initial={{
-                                  opacity: 0,
-                                  y: -10,
-                                  filter: "blur(4px)",
-                                }}
-                                animate={{
-                                  opacity: 1,
-                                  y: 0,
-                                  filter: "blur(0px)",
-                                }}
-                                exit={{
-                                  opacity: 0,
-                                  y: 10,
-                                  filter: "blur(4px)",
-                                }}
-                                transition={{ duration: 0.22, ease: "easeOut" }}
-                                className="flex items-center gap-2"
-                              >
-                                <span>ثبت نظر درباره این غذا</span>
-                              </motion.span>
-                            )}
-                          </AnimatePresence>
-                        </motion.button>
+                    <div className="mt-8 border-t border-[#6d2724] pt-6">
+                      <div className="flex flex-col gap-5 justify-between items-center sm:flex-row">
+                        <h3 className="text-[17.3px] font-semibold text-white md:text-xl">
+                          نظر شما درباره این غذا چیست؟
+                        </h3>
+                        <div className="flex flex-col sm:flex-row sm:justify-start">
+                          <motion.button
+                            type="button"
+                            onClick={() =>
+                              setIsCommentFormOpen((prev) => !prev)
+                            }
+                            whileTap={{ scale: 0.96 }}
+                            className="relative flex min-w-[190px] items-center justify-center overflow-hidden rounded-full border border-somak-gold/50 px-5 py-2.5 text-sm font-medium text-somak-gold transition-colors duration-300 hover:bg-somak-gold/10"
+                          >
+                            <AnimatePresence mode="wait" initial={false}>
+                              {isCommentFormOpen ? (
+                                <motion.span
+                                  key="close"
+                                  initial={{
+                                    opacity: 0,
+                                    y: 10,
+                                    filter: "blur(4px)",
+                                  }}
+                                  animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                    filter: "blur(0px)",
+                                  }}
+                                  exit={{
+                                    opacity: 0,
+                                    y: -10,
+                                    filter: "blur(4px)",
+                                  }}
+                                  transition={{
+                                    duration: 0.22,
+                                    ease: "easeOut",
+                                  }}
+                                  className="flex items-center gap-2"
+                                >
+                                  <span>بستن فرم ثبت نظر</span>
+                                </motion.span>
+                              ) : (
+                                <motion.span
+                                  key="open"
+                                  initial={{
+                                    opacity: 0,
+                                    y: -10,
+                                    filter: "blur(4px)",
+                                  }}
+                                  animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                    filter: "blur(0px)",
+                                  }}
+                                  exit={{
+                                    opacity: 0,
+                                    y: 10,
+                                    filter: "blur(4px)",
+                                  }}
+                                  transition={{
+                                    duration: 0.22,
+                                    ease: "easeOut",
+                                  }}
+                                  className="flex items-center gap-2"
+                                >
+                                  <span>ثبت نظر درباره این غذا</span>
+                                </motion.span>
+                              )}
+                            </AnimatePresence>
+                          </motion.button>
+                        </div>
                       </div>
-
                       <AnimatePresence initial={false}>
                         {isCommentFormOpen && (
                           <motion.div
@@ -509,12 +521,6 @@ export default function ProductDetailsPage() {
                                 </div>
                               ) : (
                                 <>
-                                  <div className="mb-6">
-                                    <h3 className="text-[17.3px] font-semibold text-white md:text-xl">
-                                      نظر شما درباره این غذا چیست؟
-                                    </h3>
-                                  </div>
-
                                   <div className="grid gap-6 lg:grid-cols-[180px_1fr]">
                                     <div className="flex flex-col items-center justify-center rounded-xl border border-[#6d2724] bg-[#27090c]/60">
                                       <span className="mb-3 text-lg text-somak-muted">
