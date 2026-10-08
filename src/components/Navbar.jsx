@@ -3,7 +3,10 @@ import { Link, NavLink } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectCurrentUser, selectIsAuthenticated } from "../features/auth/authSlice";
+import {
+  selectCurrentUser,
+  selectIsAuthenticated,
+} from "../features/auth/authSlice";
 import { selectCartItemCount } from "../features/cart/cartSlice";
 
 import logo from "../assets/logo-placeholder.svg";
@@ -17,6 +20,8 @@ const links = [
   ["#about", "درباره ما"],
   ["#contact", "تماس با ما"],
 ];
+
+import { ShoppingCartIcon } from "@animateicons/react/lucide";
 
 export default function Navbar() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -116,7 +121,7 @@ export default function Navbar() {
         mobile ? "h-10 w-10" : "h-9 w-9"
       }`}
     >
-      <ShoppingCart size={mobile ? 25 : 28} strokeWidth={1.5} />
+      <ShoppingCartIcon size={mobile ? 25 : 28} strokeWidth={1.5} />
 
       {cartCount > 0 && (
         <span className="absolute right-0 top-0 flex h-[19px] min-w-[19px] items-center justify-center rounded-full bg-somak-gold px-[3px] text-[16px] font-bold leading-none text-somak-950">
