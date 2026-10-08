@@ -1,13 +1,5 @@
-import {
-  CheckCircle2,
-  Heart,
-  ShoppingCart,
-  Users,
-  Weight,
-  Star,
-  MessageCircle,
-} from "lucide-react";
-import { motion } from "framer-motion";
+import { CheckCircle2, Heart, ShoppingCart, MessageCircle } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -56,6 +48,8 @@ export default function ProductDetailsPage() {
   const [commentText, setCommentText] = useState("");
 
   const [commentSuccess, setCommentSuccess] = useState(false);
+
+  const [isCommentFormOpen, setIsCommentFormOpen] = useState(false);
 
   useEffect(() => {
     const fetchFoodsById = async () => {
@@ -352,7 +346,7 @@ export default function ProductDetailsPage() {
 
                         {comments.length === 0 ? (
                           <div className="flex min-h-[160px] items-center justify-center rounded-xl border border-[#6d2724]/70 bg-[#27090c]/50">
-                            <p className="text-[12.3px] md:text-sm text-somak-muted">
+                            <p className="text-[12.3px] text-somak-muted md:text-sm">
                               هنوز نظری برای این غذا ثبت نشده است.
                             </p>
                           </div>
@@ -411,101 +405,195 @@ export default function ProductDetailsPage() {
 
                     {/* Comment Form UI */}
                     <div className="mt-8 border-t border-[#6d2724] pt-8">
-                      {commentSuccess ? (
-                        <div className="flex min-h-[220px] flex-col items-center justify-center rounded-xl border border-somak-gold/20 bg-somak-gold/[0.03] px-6 text-center">
-                          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-somak-gold/10">
-                            <CheckCircle2
-                              size={30}
-                              className="text-somak-gold"
-                              strokeWidth={1.7}
-                            />
-                          </div>
-
-                          <h3 className="text-lg font-semibold text-white">
-                            نظر شما با موفقیت ثبت شد
-                          </h3>
-
-                          <p className="mt-2 max-w-md text-sm leading-7 text-somak-muted">
-                            نظر شما پس از بررسی و تأیید منتشر خواهد شد.
-                          </p>
-                        </div>
-                      ) : (
-                        <>
-                          <div className="mb-6">
-                            <h3 className="text-[17.3px] font-semibold text-white md:text-xl">
-                              نظر شما درباره این غذا چیست؟
-                            </h3>
-                          </div>
-
-                          <div className="grid gap-6 lg:grid-cols-[180px_1fr]">
-                            <div className="flex flex-col items-center justify-center rounded-xl border border-[#6d2724] bg-[#27090c]/60">
-                              <span className="mb-3 text-lg text-somak-muted">
-                                امتیاز شما
-                              </span>
-
-                              <div
-                                className="flex flex-row-reverse gap-1"
-                                dir="ltr"
+                      <div className="flex flex-col sm:flex-row sm:justify-start">
+                        <motion.button
+                          type="button"
+                          onClick={() => setIsCommentFormOpen((prev) => !prev)}
+                          whileTap={{ scale: 0.96 }}
+                          className="relative flex min-w-[190px] items-center justify-center overflow-hidden rounded-full border border-somak-gold/50 px-5 py-2.5 text-sm font-medium text-somak-gold transition-colors duration-300 hover:bg-somak-gold/10"
+                        >
+                          <AnimatePresence mode="wait" initial={false}>
+                            {isCommentFormOpen ? (
+                              <motion.span
+                                key="close"
+                                initial={{
+                                  opacity: 0,
+                                  y: 10,
+                                  filter: "blur(4px)",
+                                }}
+                                animate={{
+                                  opacity: 1,
+                                  y: 0,
+                                  filter: "blur(0px)",
+                                }}
+                                exit={{
+                                  opacity: 0,
+                                  y: -10,
+                                  filter: "blur(4px)",
+                                }}
+                                transition={{ duration: 0.22, ease: "easeOut" }}
+                                className="flex items-center gap-2"
                               >
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                  <button
-                                    onMouseEnter={() => setHoverRating(star)}
-                                    onClick={() => setRating(star)}
-                                    onMouseLeave={() => setHoverRating(0)}
-                                    key={star}
-                                    type="button"
-                                    className={`text-3xl transition hover:scale-110 ${
-                                      star <= displayRating
-                                        ? "text-somak-gold hover:text-somak-gold2"
-                                        : "text-somak-gold/50 hover:text-somak-gold2"
-                                    }`}
-                                    aria-label={`امتیاز ${star} از ۵`}
-                                  >
-                                    ★
-                                  </button>
-                                ))}
-                              </div>
-
-                              <span className="mt-3 text-base text-white/30 md:text-lg">
-                                انتخاب امتیاز
-                              </span>
-                            </div>
-
-                            <div>
-                              <label
-                                htmlFor="comment"
-                                className="mb-2 block text-lg text-white/70"
+                                <span>بستن فرم ثبت نظر</span>
+                              </motion.span>
+                            ) : (
+                              <motion.span
+                                key="open"
+                                initial={{
+                                  opacity: 0,
+                                  y: -10,
+                                  filter: "blur(4px)",
+                                }}
+                                animate={{
+                                  opacity: 1,
+                                  y: 0,
+                                  filter: "blur(0px)",
+                                }}
+                                exit={{
+                                  opacity: 0,
+                                  y: 10,
+                                  filter: "blur(4px)",
+                                }}
+                                transition={{ duration: 0.22, ease: "easeOut" }}
+                                className="flex items-center gap-2"
                               >
-                                متن نظر
-                              </label>
+                                <span>ثبت نظر درباره این غذا</span>
+                              </motion.span>
+                            )}
+                          </AnimatePresence>
+                        </motion.button>
+                      </div>
 
-                              <textarea
-                                value={commentText}
-                                onChange={(e) => setCommentText(e.target.value)}
-                                id="comment"
-                                rows={5}
-                                placeholder="تجربه شما از این غذا چطور بود؟"
-                                className="w-full resize-none rounded-xl border border-somak-500 bg-somak-900 px-5 py-4 text-[13.9px] leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30 md:text-[16px]"
-                              />
+                      <AnimatePresence initial={false}>
+                        {isCommentFormOpen && (
+                          <motion.div
+                            initial={{
+                              height: 0,
+                              opacity: 0,
+                              y: -8,
+                            }}
+                            animate={{
+                              height: "auto",
+                              opacity: 1,
+                              y: 0,
+                            }}
+                            exit={{
+                              height: 0,
+                              opacity: 0,
+                              y: -8,
+                            }}
+                            transition={{
+                              duration: 0.35,
+                              ease: "easeInOut",
+                            }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pt-8">
+                              {commentSuccess ? (
+                                <div className="flex min-h-[220px] flex-col items-center justify-center rounded-xl border border-somak-gold/20 bg-somak-gold/[0.03] px-6 text-center">
+                                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-somak-gold/10">
+                                    <CheckCircle2
+                                      size={30}
+                                      className="text-somak-gold"
+                                      strokeWidth={1.7}
+                                    />
+                                  </div>
 
-                              <div className="mt-4 flex flex-col items-center justify-between gap-4 md:flex-row">
-                                <p className="text-[13.4px] leading-6 text-white/30 md:text-base">
-                                  نظر شما پس از بررسی منتشر خواهد شد.
-                                </p>
+                                  <h3 className="text-lg font-semibold text-white">
+                                    نظر شما با موفقیت ثبت شد
+                                  </h3>
 
-                                <motion.button
-                                  type="button"
-                                  whileTap={{ scale: 0.98 }}
-                                  onClick={handleSubmit}
-                                  className="w-full shrink-0 rounded-full bg-gold-gradient px-7 py-3 text-sm font-bold text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105 md:w-auto"
-                                >
-                                  ثبت نظر
-                                </motion.button>
-                              </div>
+                                  <p className="mt-2 max-w-md text-sm leading-7 text-somak-muted">
+                                    نظر شما پس از بررسی و تأیید منتشر خواهد شد.
+                                  </p>
+                                </div>
+                              ) : (
+                                <>
+                                  <div className="mb-6">
+                                    <h3 className="text-[17.3px] font-semibold text-white md:text-xl">
+                                      نظر شما درباره این غذا چیست؟
+                                    </h3>
+                                  </div>
+
+                                  <div className="grid gap-6 lg:grid-cols-[180px_1fr]">
+                                    <div className="flex flex-col items-center justify-center rounded-xl border border-[#6d2724] bg-[#27090c]/60">
+                                      <span className="mb-3 text-lg text-somak-muted">
+                                        امتیاز شما
+                                      </span>
+
+                                      <div
+                                        className="flex flex-row-reverse gap-1"
+                                        dir="ltr"
+                                      >
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                          <button
+                                            onMouseEnter={() =>
+                                              setHoverRating(star)
+                                            }
+                                            onClick={() => setRating(star)}
+                                            onMouseLeave={() =>
+                                              setHoverRating(0)
+                                            }
+                                            key={star}
+                                            type="button"
+                                            className={`text-3xl transition hover:scale-110 ${
+                                              star <= displayRating
+                                                ? "text-somak-gold hover:text-somak-gold2"
+                                                : "text-somak-gold/50 hover:text-somak-gold2"
+                                            }`}
+                                            aria-label={`امتیاز ${star} از ۵`}
+                                          >
+                                            ★
+                                          </button>
+                                        ))}
+                                      </div>
+
+                                      <span className="mt-3 text-base text-white/30 md:text-lg">
+                                        انتخاب امتیاز
+                                      </span>
+                                    </div>
+
+                                    <div>
+                                      <label
+                                        htmlFor="comment"
+                                        className="mb-2 block text-lg text-white/70"
+                                      >
+                                        متن نظر
+                                      </label>
+
+                                      <textarea
+                                        value={commentText}
+                                        onChange={(e) =>
+                                          setCommentText(e.target.value)
+                                        }
+                                        id="comment"
+                                        rows={5}
+                                        placeholder="تجربه شما از این غذا چطور بود؟"
+                                        className="w-full resize-none rounded-xl border border-somak-500 bg-somak-900 px-5 py-4 text-[13.9px] leading-7 text-white outline-none transition placeholder:text-white/25 focus:border-somak-gold focus:ring-1 focus:ring-somak-gold/30 md:text-[16px]"
+                                      />
+
+                                      <div className="mt-4 flex flex-col items-center justify-between gap-4 md:flex-row">
+                                        <p className="text-[13.4px] leading-6 text-white/30 md:text-base">
+                                          نظر شما پس از بررسی منتشر خواهد شد.
+                                        </p>
+
+                                        <motion.button
+                                          type="button"
+                                          whileTap={{ scale: 0.98 }}
+                                          onClick={handleSubmit}
+                                          className="w-full shrink-0 rounded-full bg-gold-gradient px-7 py-3 text-sm font-bold text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105 md:w-auto"
+                                        >
+                                          ثبت نظر
+                                        </motion.button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
                             </div>
-                          </div>
-                        </>
-                      )}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
                 )}
@@ -658,7 +746,7 @@ function Review({
 }) {
   return (
     <div className="mb-3 rounded-xl border border-[#6d2724] bg-[#27090c]/40 px-4 py-4">
-      <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
+      <div className="flex flex-col-reverse items-start justify-between gap-5 md:flex-row">
         <div className="min-w-0 flex-1">
           <p className="text-[13px] leading-7 text-somak-muted md:text-base">
             {text}
