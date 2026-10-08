@@ -15,11 +15,16 @@ import AdminStatsChip from "../../components/admin/dashboard/AdminStatsChip";
 
 import CategoryModal from "../../components/admin/categories/CategoryModal";
 
+import ConfirmModal from "../../components/admin/common/ConfirmModal";
+
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedCategoryToDelete, setSelectedCategoryToDelete] =
+    useState(null);
 
   const fetchCategories = async () => {
     try {
@@ -85,6 +90,15 @@ export default function AdminCategoriesPage() {
       await fetchCategories();
     } catch (error) {
       console.error("خطا در حذف دسته‌بندی:", error);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (selectedCategoryToDelete) {
+      await handleDeleteCategory(selectedCategoryToDelete.id);
+
+      setIsDeleteModalOpen(false);
+      setSelectedCategoryToDelete(null);
     }
   };
 
@@ -219,7 +233,10 @@ export default function AdminCategoriesPage() {
 
                       <button
                         type="button"
-                        onClick={() => handleDeleteCategory(category.id)}
+                        onClick={() => {
+                          setIsDeleteModalOpen(true);
+                          setSelectedCategoryToDelete(category);
+                        }}
                         className="flex h-10 w-10 items-center justify-center rounded-full border border-[#63221f] bg-[#27090c] text-white/40 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300"
                         aria-label="حذف دسته‌بندی"
                       >
@@ -310,7 +327,10 @@ export default function AdminCategoriesPage() {
 
                       <button
                         type="button"
-                        onClick={() => handleDeleteCategory(category.id)}
+                        onClick={() => {
+                          setIsDeleteModalOpen(true);
+                          setSelectedCategoryToDelete(category);
+                        }}
                         className="flex h-10 w-10 items-center justify-center rounded-full border border-[#63221f] bg-[#27090c] text-white/40 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300"
                         aria-label="حذف دسته‌بندی"
                       >
@@ -333,6 +353,14 @@ export default function AdminCategoriesPage() {
         }}
         onSubmit={handleSubmit}
         initialData={selectedCategory}
+      />
+      <ConfirmModal
+        open={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        message={`آیا از حذف دسته بندی «${selectedCategoryToDelete?.Name}» مطمئن هستید؟`}
+        title="تأیید حذف دسته بندی"
+        confirmText="حذف"
+        onConfirm={handleConfirmDelete}
       />
     </motion.div>
   );
