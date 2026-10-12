@@ -251,7 +251,7 @@ const AdminSettingPage = () => {
                       <button
                         type="button"
                         onClick={handleSavePhone}
-                        className="w-[200px] rounded bg-gold-gradient px-4 py-2 font-medium text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105"
+                        className="w-full rounded bg-gold-gradient px-4 py-2 font-medium text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105 sm:w-[200px]"
                       >
                         ذخیره
                       </button>
@@ -445,7 +445,7 @@ const AdminSettingPage = () => {
                       <button
                         type="button"
                         onClick={handleSaveCardNumber}
-                        className="w-[200px] rounded bg-gold-gradient px-4 py-2 font-medium text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105"
+                        className="w-full rounded bg-gold-gradient px-4 py-2 font-medium text-somak-900 shadow-[0_6px_18px_rgba(230,166,46,0.16)] transition hover:brightness-105 sm:w-[200px]"
                       >
                         ذخیره
                       </button>
