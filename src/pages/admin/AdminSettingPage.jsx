@@ -813,7 +813,7 @@ const AdminSettingPage = () => {
             <button
               type="submit"
               disabled={footerSaving}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold-gradient px-4 py-2.5 text-sm font-medium text-somak-900 transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gold-gradient px-4 py-2.5 text-sm font-medium text-somak-900 transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
             >
               {editingContactId ? <Save size={16} /> : <Plus size={16} />}
               {editingContactId ? "ذخیره تغییرات" : "افزودن اطلاعات تماس"}
@@ -857,7 +857,7 @@ const AdminSettingPage = () => {
                       type="button"
                       onClick={() => startEditContact(contact)}
                       disabled={footerSaving}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/75 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="sm:w-auto w-full inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/75 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <Pencil size={15} />
                       ویرایش
@@ -866,7 +866,7 @@ const AdminSettingPage = () => {
                       type="button"
                       onClick={() => openDeleteModal("contact", contact.id)}
                       disabled={footerSaving}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-2 text-sm text-red-100 transition hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="sm:w-auto w-full inline-flex items-center justify-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-2 text-sm text-red-100 transition hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <Trash2 size={15} className="text-red-600" />
                       حذف
@@ -941,7 +941,7 @@ const AdminSettingPage = () => {
             <button
               type="submit"
               disabled={footerSaving}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold-gradient px-4 py-2.5 text-sm font-medium text-somak-900 transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gold-gradient px-4 py-2.5 text-sm font-medium text-somak-900 transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
             >
               {editingSocialId ? <Save size={16} /> : <Plus size={16} />}
               {editingSocialId ? "ذخیره تغییرات" : "افزودن شبکه اجتماعی"}
@@ -981,7 +981,7 @@ const AdminSettingPage = () => {
                         className="mt-1 inline-flex max-w-full items-center gap-1 break-all text-xs text-[#e9a92f] transition hover:text-[#f5bb4c]"
                         dir="ltr"
                       >
-                        <span>{social.url}</span>
+                        <span >{social.url}</span>
                         <ExternalLink size={13} className="shrink-0" />
                       </a>
                     </div>
@@ -992,7 +992,7 @@ const AdminSettingPage = () => {
                       type="button"
                       onClick={() => startEditSocial(social)}
                       disabled={footerSaving}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/75 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="sm:w-auto w-full inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/75 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <Pencil size={15} />
                       ویرایش
@@ -1001,7 +1001,7 @@ const AdminSettingPage = () => {
                       type="button"
                       onClick={() => openDeleteModal("social", social.id)}
                       disabled={footerSaving}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-2 text-sm text-red-100 transition hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="sm:w-auto w-full inline-flex items-center justify-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-2 text-sm text-red-100 transition hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <Trash2 size={15} className="text-red-600" />
                       حذف
