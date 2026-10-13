@@ -115,3 +115,73 @@ export async function createOrder(orderData) {
   const response = await api.post("/orders", orderData);
   return response.data;
 }
+
+// =========================
+// SITE CONTACTS
+// =========================
+
+// GET SITE CONTACTS
+export async function getSiteContacts() {
+  const response = await api.get("/siteContacts");
+  return response.data;
+}
+
+// POST SITE CONTACT
+export async function createSiteContact(siteContactData) {
+  const response = await api.post("/siteContacts", siteContactData);
+  return response.data;
+}
+
+// PATCH SITE CONTACT VALUE
+export async function updateSiteContactValue(id, newContactValue) {
+  const response = await api.patch(`/siteContacts/${id}`, {
+    value: newContactValue,
+  });
+  return response.data;
+}
+
+// PUT SITE CONTACT
+export async function updateSiteContact(id, newContactData) {
+  const response = await api.put(`/siteContacts/${id}`, newContactData);
+  return response.data;
+}
+
+// DELETE SITE CONTACT
+export async function deleteSiteContact(id) {
+  const response = await api.delete(`/siteContacts/${id}`);
+  return response.data;
+}
+
+// =========================
+// SOCIAL LINKS
+// =========================
+
+// GET SOCIAL LINKS
+export async function getSocialLinks() {
+  const response = await api.get("/socialLinks");
+  return response.data;
+}
+
+// POST SOCIAL LINK
+export async function createSocialLink(socialLinkData) {
+  const response = await api.post("/socialLinks", socialLinkData);
+  return response.data;
+}
+
+// PATCH SOCIAL LINK
+export async function updateSocialLinkValue(id, newSocialLinkData) {
+  const response = await api.patch(`/socialLinks/${id}`, newSocialLinkData);
+  return response.data;
+}
+
+// PUT SOCIAL LINK
+export async function updateSocialLink(id, newSocialLinkData) {
+  const response = await api.put(`/socialLinks/${id}`, newSocialLinkData);
+  return response.data;
+}
+
+// DELETE SOCIAL LINK
+export async function deleteSocialLink(id) {
+  const response = await api.delete(`/socialLinks/${id}`);
+  return response.data;
+}
