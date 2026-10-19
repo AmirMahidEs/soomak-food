@@ -44,7 +44,7 @@ export default function RegisterPage() {
   return (
     <AuthLayout
       title="ثبت نام در سومک فود"
-    //   subtitle="اطلاعات خود را وارد کنید تا ثبت نام شوید"
+      //   subtitle="اطلاعات خود را وارد کنید تا ثبت نام شوید"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <AuthField
@@ -66,26 +66,6 @@ export default function RegisterPage() {
           onChange={handleChange}
           placeholder="۰۹۱۲ ۱۲۳ ۴۵۶۷"
           autoComplete="tel"
-        />
-
-        <AuthField
-          label="رمز عبور"
-          type="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="رمز عبور خود را وارد کنید"
-          autoComplete="new-password"
-        />
-
-        <AuthField
-          label="تکرار رمز عبور"
-          type="password"
-          name="confirmPassword"
-          value={form.confirmPassword}
-          onChange={handleChange}
-          placeholder="رمز عبور را دوباره وارد کنید"
-          autoComplete="new-password"
         />
 
         <label className="flex cursor-pointer items-center gap-2 pt-1 text-xs text-white/60">

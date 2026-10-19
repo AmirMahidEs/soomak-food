@@ -253,7 +253,12 @@ export default function CartModal({ open, onClose }) {
 
                           <div className="h-[68px] w-[68px] shrink-0 overflow-hidden rounded-[11px] border border-[#652522] bg-[#180507]">
                             <img
-                              src={item.image || products.find((product) => product.id === item.id)?.image}
+                              src={
+                                item.image ||
+                                products.find(
+                                  (product) => product.id === item.id,
+                                )?.image
+                              }
                               alt={item.title}
                               className="h-full w-full object-cover"
                             />
@@ -295,7 +300,9 @@ export default function CartModal({ open, onClose }) {
                             >
                               <button
                                 type="button"
-                                onClick={() => dispatch(increaseQuantity(item.id))}
+                                onClick={() =>
+                                  dispatch(increaseQuantity(item.id))
+                                }
                                 className="flex h-[28px] w-[30px] items-center justify-center text-[#e9a92f] transition hover:text-white"
                                 aria-label="افزایش"
                               >
@@ -308,7 +315,9 @@ export default function CartModal({ open, onClose }) {
 
                               <button
                                 type="button"
-                                onClick={() => dispatch(decreaseQuantity(item.id))}
+                                onClick={() =>
+                                  dispatch(decreaseQuantity(item.id))
+                                }
                                 className="flex h-[28px] w-[30px] items-center justify-center text-[#e9a92f] transition hover:text-white"
                                 aria-label="کاهش"
                               >
@@ -374,15 +383,6 @@ export default function CartModal({ open, onClose }) {
 
                     <ArrowLeft size={18} strokeWidth={1.6} />
                   </Link>
-
-                  {/* VIEW CART */}
-
-                  <button
-                    type="button"
-                    className="mx-auto mt-[12px] block text-[11px] text-[#e9a92f] underline decoration-[#e9a92f]/40 underline-offset-4 transition hover:text-[#f2bd4a]"
-                  >
-                    مشاهده سبد خرید
-                  </button>
                 </div>
               )}
             </motion.aside>
