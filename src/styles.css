@@ -116,3 +116,63 @@ input[type="number"] {
   left: 8px;
   right: auto;
 }
+
+@keyframes otp-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes otp-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes otp-success {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.otp-entrance {
+  animation: otp-enter 450ms ease-out both;
+}
+
+.otp-shake {
+  animation: otp-shake 350ms ease-in-out;
+}
+
+.otp-success {
+  animation: otp-success 400ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .otp-entrance,
+  .otp-shake,
+  .otp-success {
+    animation: none;
+  }
+}

@@ -5,13 +5,49 @@ import { useState } from "react";
 import AuthLayout from "../components/auth/AuthLayout";
 import AuthField from "../components/auth/AuthField";
 
+import { requestOtp } from "../services/authServices";
+
 export default function LoginPage() {
   const navigate = useNavigate();
+
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [otpError, setOtpError] = useState("");
 
   const [form, setForm] = useState({
     phone: "",
     password: "",
   });
+
+  const handleOtpLogin = async () => {
+    const phone = form.phone.trim();
+
+    if (!/^09\d{9}$/.test(phone)) {
+      setOtpError("شماره موبایل را به‌صورت صحیح وارد کنید.");
+      return;
+    }
+
+    setOtpLoading(true);
+    setOtpError("");
+
+    try {
+      await requestOtp(phone, 1);
+
+      navigate("/verify-otp", {
+        state: {
+          phone,
+          purpose: 1,
+          flow: "login",
+        },
+      });
+    } catch (error) {
+      console.error("OTP request failed:", error);
+      setOtpError(
+        "ارسال کد انجام نشد. اتصال به سرور و شماره موبایل را بررسی کنید.",
+      );
+    } finally {
+      setOtpLoading(false);
+    }
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -48,16 +84,6 @@ export default function LoginPage() {
           autoComplete="tel"
         />
 
-        <AuthField
-          label="رمز عبور"
-          type="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="رمز عبور خود را وارد کنید"
-          autoComplete="current-password"
-        />
-
         <div className="flex justify-start">
           <Link
             to="/forgot-password"
@@ -68,10 +94,14 @@ export default function LoginPage() {
         </div>
 
         <button
-          type="submit"
+          type="button"
+          onClick={handleOtpLogin}
+          disabled={otpLoading}
           className="group mt-2 flex h-[51px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient font-semibold text-[#120304] shadow-[0_8px_25px_rgba(217,147,30,0.16)] transition-all duration-200 hover:-translate-y-[1px] hover:brightness-105"
         >
-          <span>ورود</span>
+          <span>
+            {otpLoading ? "در حال ارسال کد..." : "ورود با کد یکبار مصرف"}
+          </span>
 
           <ArrowLeft
             size={19}
@@ -80,6 +110,12 @@ export default function LoginPage() {
           />
         </button>
 
+        {otpError && (
+          <p role="alert" className="text-center text-sm text-red-400">
+            {otpError}
+          </p>
+        )}
+
         <div className="flex items-center gap-4 py-1">
           <span className="h-px flex-1 bg-[#6f2826]/60" />
 
@@ -87,17 +123,6 @@ export default function LoginPage() {
 
           <span className="h-px flex-1 bg-[#6f2826]/60" />
         </div>
-
-        <button
-          type="button"
-          onClick={() => {
-            // بعداً می‌توان OTP را به Backend متصل کرد.
-            console.log("OTP login");
-          }}
-          className="flex h-[48px] w-full items-center justify-center gap-2 rounded-full border border-[#71302c] text-sm text-[#e6a62e] transition-all duration-200 hover:border-[#e6a62e]/60 hover:bg-[#e6a62e]/5"
-        >
-          ورود با کد یکبار مصرف
-        </button>
 
         <p className="pt-1 text-center text-sm text-white/45">
           حساب کاربری ندارید؟

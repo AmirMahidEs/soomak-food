@@ -16,6 +16,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
 import AdminLayout from "./components/admin/AdminLayout";
+import OtpVerificationPage from "./pages/OtpVerificationPage";
 
 export default function App() {
   const location = useLocation();
@@ -61,6 +62,10 @@ export default function App() {
       path: "/forgot-password",
       element: <ForgotPasswordPage />,
     },
+    {
+      path: "/verify-otp",
+      element: <OtpVerificationPage />,
+    },
   ]);
 
   // useLayoutEffect(() => {
@@ -70,7 +75,8 @@ export default function App() {
   const isAuthPage =
     location.pathname === "/login" ||
     location.pathname === "/signup" ||
-    location.pathname === "/forgot-password";
+    location.pathname === "/forgot-password" ||
+    location.pathname === "/verify-otp";
 
   const animatedPage = (
     <AnimatePresence
