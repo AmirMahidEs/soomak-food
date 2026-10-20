@@ -1,8 +1,11 @@
 import { Heart, Home, LogOut, MapPin, Package, UserRound } from "lucide-react";
-
 import { AnimatePresence, motion } from "framer-motion";
-
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import ConfirmModal from "../admin/common/ConfirmModal";
+import { logout } from "../../features/auth/authSlice";
 
 const menuItems = [
   {
@@ -37,9 +40,14 @@ const menuItems = [
 ];
 
 const DISCOVERY_STORAGE_KEY = "soomak-profile-dock-discovered";
+const AUTH_STORAGE_KEY = "auth";
 
 export default function ProfileSidebar({ activeTab, onTabChange }) {
   const [isDiscovering, setIsDiscovering] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const hasDiscovered = sessionStorage.getItem(DISCOVERY_STORAGE_KEY);
@@ -57,6 +65,19 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
       window.clearTimeout(timer);
     };
   }, []);
+
+  const handleLogout = () => {
+    dispatch(logout());
+
+    try {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    } catch (error) {
+      console.error("خطا در پاک کردن اطلاعات ورود:", error);
+    }
+
+    setIsLogoutModalOpen(false);
+    navigate("/", { replace: true });
+  };
 
   return (
     <>
@@ -121,9 +142,11 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
 
           <div className="my-2 h-px bg-[#61221f]/70" />
 
+          {/* LOGOUT BUTTON */}
           <button
             type="button"
-            className="flex w-full items-center gap-2.5 rounded-[11px] px-3 py-3 text-right text-xs font-bold text-white transition hover:bg-[#421014] hover:text-white"
+            onClick={() => setIsLogoutModalOpen(true)}
+            className="flex w-full items-center gap-2.5 rounded-[11px] px-3 py-3 text-right text-xs font-bold text-white transition hover:bg-[#421014]"
           >
             <LogOut
               size={17}
@@ -141,9 +164,18 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
         <motion.nav
           layout
           transition={{
-            layout: { type: "spring", stiffness: 280, damping: 30, mass: 0.7 },
+            layout: {
+              type: "spring",
+              stiffness: 280,
+              damping: 30,
+              mass: 0.7,
+            },
           }}
-          className={`mx-auto flex items-center justify-center rounded-[20px] border border-[#6f2826] bg-[#25080b]/95 p-2 shadow-[0_12px_40px_rgba(0,0,0,0.45),0_0_30px_rgba(0,0,0,0.2)] backdrop-blur-xl ${isDiscovering ? "w-full max-w-[520px] gap-0" : "w-fit max-w-full gap-1"}`}
+          className={`mx-auto flex items-center justify-center rounded-[20px] border border-[#6f2826] bg-[#25080b]/95 p-2 shadow-[0_12px_40px_rgba(0,0,0,0.45),0_0_30px_rgba(0,0,0,0.2)] backdrop-blur-xl ${
+            isDiscovering
+              ? "w-full max-w-[520px] gap-0"
+              : "w-fit max-w-full gap-1"
+          }`}
           aria-label="ناوبری پروفایل"
         >
           {menuItems.map((item) => {
@@ -229,6 +261,17 @@ export default function ProfileSidebar({ activeTab, onTabChange }) {
           })}
         </motion.nav>
       </div>
+
+      {/* LOGOUT CONFIRMATION MODAL */}
+      <ConfirmModal
+        open={isLogoutModalOpen}
+        title="خروج از حساب"
+        message="آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟"
+        confirmText="بله، خارج می‌شوم"
+        cancelText="انصراف"
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleLogout}
+      />
     </>
   );
 }
