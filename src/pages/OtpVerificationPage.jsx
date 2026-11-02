@@ -16,6 +16,9 @@ import AuthLayout from "../components/auth/AuthLayout";
 import { loginWithOtp, requestOtp } from "../services/authServices";
 import { setCredentials } from "../features/auth/authSlice";
 
+import handleApiError from "../utilities/handleApiError";
+import handleApiSuccess from "../utilities/handleApiSuccess";
+
 const OTP_LENGTH = 6;
 const RESEND_SECONDS = 60;
 
@@ -143,12 +146,13 @@ export default function OtpVerificationPage() {
     setMessage("");
 
     try {
-      const result = await loginWithOtp(phone, code);
-      const tokens = result?.tokenResult;
+      const response = await loginWithOtp(phone, code);
 
-      if (!tokens?.accessToken) {
-        throw new Error("INVALID_AUTH_RESPONSE");
-      }
+      const result = handleApiSuccess(response, (data) =>
+        Boolean(data?.tokenResult?.accessToken),
+      );
+
+      const tokens = result.tokenResult;
 
       dispatch(
         setCredentials({
@@ -168,14 +172,13 @@ export default function OtpVerificationPage() {
     } catch (error) {
       console.error("OTP verification failed:", error);
 
+      const apiError = handleApiError(error);
+
       setStatus("error");
-      setMessage(
-        error.response
-          ? "کد تأیید نشد. کد را بررسی کنید یا دوباره درخواست بدهید."
-          : "ارتباط با سرور برقرار نشد. دوباره تلاش کنید.",
-      );
+      setMessage(apiError.message);
 
       setOtp(Array(OTP_LENGTH).fill(""));
+
       inputsRef.current[0]?.focus();
     }
   };
@@ -187,18 +190,25 @@ export default function OtpVerificationPage() {
     setMessage("");
 
     try {
-      await requestOtp(phone, purpose);
+      const response = await requestOtp(phone, purpose);
+
+      // فقط Status Code تعیین می‌کند که درخواست موفق بوده است.
+      handleApiSuccess(response);
 
       setSeconds(RESEND_SECONDS);
       setOtp(Array(OTP_LENGTH).fill(""));
       setStatus("idle");
+
       inputsRef.current[0]?.focus();
+
       setMessage("کد جدید ارسال شد.");
     } catch (error) {
       console.error("OTP resend failed:", error);
 
+      const apiError = handleApiError(error);
+
       setStatus("error");
-      setMessage("ارسال مجدد کد موفق نبود. دوباره تلاش کنید.");
+      setMessage(apiError.message);
     } finally {
       setResending(false);
     }

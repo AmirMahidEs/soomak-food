@@ -6,6 +6,7 @@ import AuthLayout from "../components/auth/AuthLayout";
 import AuthField from "../components/auth/AuthField";
 
 import { requestOtp } from "../services/authServices";
+import handleApiError from "../utilities/handleApiError";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -21,16 +22,22 @@ export default function LoginPage() {
   const handleOtpLogin = async () => {
     const phone = form.phone.trim();
 
-    if (!/^09\d{9}$/.test(phone)) {
-      setOtpError("شماره موبایل را به‌صورت صحیح وارد کنید.");
-      return;
-    }
-
     setOtpLoading(true);
     setOtpError("");
 
     try {
-      await requestOtp(phone, 1);
+      const response = await requestOtp(phone, 1);
+
+      if (
+        !response ||
+        typeof response.status !== "number" ||
+        response.status < 200 ||
+        response.status >= 300
+      ) {
+        const error = new Error("INVALID_SUCCESS_STATUS");
+        error.status = response?.status ?? null;
+        throw error;
+      }
 
       navigate("/verify-otp", {
         state: {
@@ -40,10 +47,11 @@ export default function LoginPage() {
         },
       });
     } catch (error) {
-      console.error("OTP request failed:", error);
-      setOtpError(
-        "ارسال کد انجام نشد. اتصال به سرور و شماره موبایل را بررسی کنید.",
-      );
+      const apiError = handleApiError(error);
+
+      setOtpError(apiError.message);
+
+      console.log("API Error:", apiError);
     } finally {
       setOtpLoading(false);
     }
@@ -56,6 +64,10 @@ export default function LoginPage() {
       ...prev,
       [name]: value,
     }));
+
+    if (name === "phone") {
+      setOtpError("");
+    }
   };
 
   const handleSubmit = (event) => {
@@ -63,15 +75,11 @@ export default function LoginPage() {
 
     // فعلاً فقط UI است.
     // بعد از اتصال Backend، درخواست Login اینجا قرار می‌گیرد.
-
     console.log("Login:", form);
   };
 
   return (
-    <AuthLayout
-      title="ورود به حساب کاربری"
-      //   subtitle="خوش آمدید! لطفاً برای ادامه وارد شوید"
-    >
+    <AuthLayout title="ورود به حساب کاربری">
       <form onSubmit={handleSubmit} className="space-y-5">
         <AuthField
           label="شماره موبایل"
@@ -97,7 +105,7 @@ export default function LoginPage() {
           type="button"
           onClick={handleOtpLogin}
           disabled={otpLoading}
-          className="group mt-2 flex h-[51px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient font-semibold text-[#120304] shadow-[0_8px_25px_rgba(217,147,30,0.16)] transition-all duration-200 hover:-translate-y-[1px] hover:brightness-105"
+          className="group mt-2 flex h-[51px] w-full items-center justify-center gap-3 rounded-full bg-gold-gradient font-semibold text-[#120304] shadow-[0_8px_25px_rgba(217,147,30,0.16)] transition-all duration-200 hover:-translate-y-[1px] hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
         >
           <span>
             {otpLoading ? "در حال ارسال کد..." : "ورود با کد یکبار مصرف"}
@@ -111,7 +119,11 @@ export default function LoginPage() {
         </button>
 
         {otpError && (
-          <p role="alert" className="text-center text-sm text-red-400">
+          <p
+            role="alert"
+            aria-live="polite"
+            className="text-center text-sm leading-7 text-red-400"
+          >
             {otpError}
           </p>
         )}
